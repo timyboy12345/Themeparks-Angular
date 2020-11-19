@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {ThemeparkService} from "../themepark.service";
-import {Poi} from "../../_interfaces/poi.interface";
-import {HttpClient} from "@angular/common/http";
+import {ThemeparkService} from '../themepark.service';
+import {Poi} from '../../_interfaces/poi.interface';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'

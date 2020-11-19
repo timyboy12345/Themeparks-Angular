@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {ThemeparksService} from "../../_services/themeparks.service";
-import {Themepark} from "../../_interfaces/themepark.interface";
+import {ThemeparksService} from '../../_services/themeparks.service';
+import {Themepark} from '../../_interfaces/themepark.interface';
 
 @Component({
   selector: 'app-themeparks',
@@ -9,18 +9,18 @@ import {Themepark} from "../../_interfaces/themepark.interface";
 })
 export class ThemeparksComponent implements OnInit {
   public themeparks: Themepark[] = [];
-  public selectedCountryId: string = "";
+  public selectedCountryId = '';
 
   public get selectedParks() {
     return this.themeparks.filter((park) => {
-      return this.selectedCountryId == "" || park.country.id == this.selectedCountryId ? park : null;
-    })
+      return this.selectedCountryId == '' || park.country.id == this.selectedCountryId ? park : null;
+    });
   }
 
   public get countries() {
     return this.themeparks.map((park) => {
       return park.country;
-    })
+    });
   }
 
   constructor(private themeparksService: ThemeparksService) {
@@ -29,6 +29,6 @@ export class ThemeparksComponent implements OnInit {
   ngOnInit() {
     this.themeparksService.getParks().then(value => {
       this.themeparks = value.filter(park => park.enabled);
-    })
+    });
   }
 }

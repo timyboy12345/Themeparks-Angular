@@ -1,5 +1,5 @@
-import {ThemeparkService} from "../_services/themepark.service";
-import {Country} from "./country.interface";
+import {ThemeparkService} from '../_services/themepark.service';
+import {Country} from './country.interface';
 
 export interface Themepark {
   id: string;

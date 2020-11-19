@@ -7,7 +7,7 @@
     "build": "ng build",
     "build:prod": "npm run tailwind:prod && ng build --prod",
     "test": "ng test",
-    "lint": "ng lint",
+    "lint": "tslint -p tsconfig.json -c tslint.json 'src/**/*.ts'",
     "e2e": "ng e2e",
     "tailwind:dev": "npx tailwindcss@2.0.0-alpha.11 build -c tailwindcss-config.js style.scss -o ./src/tailwind.css",
     "tailwind:prod": "NODE_ENV=production npx tailwindcss@2.0.0-alpha.11 build -c tailwindcss-config.js style.scss -o ./src/tailwind.css"

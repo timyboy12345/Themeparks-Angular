@@ -7,8 +7,8 @@ export interface WaitingTimes {
 }
 
 export enum WaitingTimesState {
-  OPEN = "Open",
-  CLOSED = "Closed",
-  MAINTENANCE = "Maintenance",
-  DOWN = "Down",
+  OPEN = 'Open',
+  CLOSED = 'Closed',
+  MAINTENANCE = 'Maintenance',
+  DOWN = 'Down',
 }

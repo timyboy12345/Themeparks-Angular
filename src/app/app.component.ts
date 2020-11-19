@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {NavigationEnd, Router} from "@angular/router";
+import {NavigationEnd, Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +8,7 @@ import {NavigationEnd, Router} from "@angular/router";
 })
 export class AppComponent implements OnInit {
   title = 'Angular-Themeparks';
-  public menuOpen: boolean = false;
+  public menuOpen = false;
 
   constructor(private router: Router) {
   }
@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
       if (!(evt instanceof NavigationEnd)) {
         return;
       }
-      window.scrollTo(0, 0)
+      window.scrollTo(0, 0);
     });
   }
 }

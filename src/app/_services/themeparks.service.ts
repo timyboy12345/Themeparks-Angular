@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Themepark} from "../_interfaces/themepark.interface";
-import {PhantasialandService} from "./phantasialand/phantasialand.service";
-import {ThemeparkService} from "./themepark.service";
-import {Country} from "../_interfaces/country.interface";
-import {EuropaparkService} from "./europapark/europapark.service";
-import {HeidiparkService} from "./heidipark/heidipark.service";
-import {ParcasterixService} from "./parkasterix/parcasterix.service";
-import {EftelingService} from "./efteling/efteling.service";
+import {HttpClient} from '@angular/common/http';
+import {Themepark} from '../_interfaces/themepark.interface';
+import {PhantasialandService} from './phantasialand/phantasialand.service';
+import {ThemeparkService} from './themepark.service';
+import {Country} from '../_interfaces/country.interface';
+import {EuropaparkService} from './europapark/europapark.service';
+import {HeidiparkService} from './heidipark/heidipark.service';
+import {ParcasterixService} from './parkasterix/parcasterix.service';
+import {EftelingService} from './efteling/efteling.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,7 @@ export class ThemeparksService {
     id: 'nl',
     name: 'Nederland',
     flag_url: 'https://flagcdn.com/nl.svg'
-  }]
+  }];
 
   private _themeparks: Themepark[] = [{
     id: 'phantasialand_de',
@@ -34,7 +34,7 @@ export class ThemeparksService {
     service: this.phantasialandService,
     country: this._countries.filter(c => c.id == 'de')[0],
     enabled: true,
-    image_url: "https://static.phlcdn.de/files/uploads/themenpark/images/winter/berlin/wellenflug/ga-winter-wellenflug_05.jpg"
+    image_url: 'https://static.phlcdn.de/files/uploads/themenpark/images/winter/berlin/wellenflug/ga-winter-wellenflug_05.jpg'
   }, {
     id: 'europapark_de',
     name: 'Europapark',
@@ -56,7 +56,7 @@ export class ThemeparksService {
     service: this.parcasterixService,
     country: this._countries.filter(c => c.id == 'fr')[0],
     enabled: true,
-    image_url: "https://www.parcasterix.fr/sites/default/files/images/attractions/teaser/aerolaf_sylvain_cambon_2018-2023_32.jpg"
+    image_url: 'https://www.parcasterix.fr/sites/default/files/images/attractions/teaser/aerolaf_sylvain_cambon_2018-2023_32.jpg'
   }, {
     id: 'efteling_nl',
     name: 'Efteling',
@@ -64,8 +64,8 @@ export class ThemeparksService {
     service: this.eftelingService,
     country: this._countries.filter(c => c.id == 'nl')[0],
     enabled: true,
-    image_url: "https://www.efteling.com/nl/-/media/images/wereld-vol-wonderen/1600x900-en-toen-winter-efteling.jpg?h=900&w=1600&focuspoint=-0.01%2c-0.19&hash=CD8DA332297BA0BF60CE9780C38A94A8"
-  }]
+    image_url: 'https://www.efteling.com/nl/-/media/images/wereld-vol-wonderen/1600x900-en-toen-winter-efteling.jpg?h=900&w=1600&focuspoint=-0.01%2c-0.19&hash=CD8DA332297BA0BF60CE9780C38A94A8'
+  }];
 
   constructor(private httpClient: HttpClient,
               private phantasialandService: PhantasialandService,
@@ -85,7 +85,7 @@ export class ThemeparksService {
 
   public getParkService(parkId: string): Promise<ThemeparkService> {
     return this.findPark(parkId).then(park => {
-      return <ThemeparkService>park.service;
-    })
+      return park.service as ThemeparkService;
+    });
   }
 }

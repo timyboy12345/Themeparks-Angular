@@ -10,33 +10,31 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  lint:
-    runs-on: ubuntu-latest
+#  lint:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - uses: actions/cache@v1
+#        with:
+#          path: ~/.npm
+#          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+#          restore-keys: |
+#            ${{ runner.os }}-node-
+#
+#      - name: Node 12.16.3
+#        uses: actions/setup-node@v1
+#        with:
+#          node-version: 12.16.3
+#
+#      - name: NPM install
+#        run: npm i
+#
+#      - name: Run linter
+#        run: npm run lint
 
-    steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Node 12.16.3
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12.16.3
-
-      - name: NPM install
-        run: npm i
-
-      - name: Run linter
-        run: npm run lint
-
-  build:
-    needs:
-      - lint
+  deploy:
 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest

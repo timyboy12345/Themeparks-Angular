@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Themepark} from "../../_interfaces/themepark.interface";
-import {Poi, PoiCategory} from "../../_interfaces/poi.interface";
-import {ThemeparkService} from "../../_services/themepark.service";
-import {ThemeparksService} from "../../_services/themeparks.service";
-import {ActivatedRoute} from "@angular/router";
-import {WaitingTimes} from "../../_interfaces/waitingtimes.interface";
+import {Themepark} from '../../_interfaces/themepark.interface';
+import {Poi, PoiCategory} from '../../_interfaces/poi.interface';
+import {ThemeparkService} from '../../_services/themepark.service';
+import {ThemeparksService} from '../../_services/themeparks.service';
+import {ActivatedRoute} from '@angular/router';
+import {WaitingTimes} from '../../_interfaces/waitingtimes.interface';
 
 @Component({
   selector: 'app-ride',
@@ -23,14 +23,14 @@ export class RideComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const parkId = this.activatedRoute.snapshot.paramMap.get("park_id");
-    const rideId = this.activatedRoute.snapshot.paramMap.get("ride_id");
+    const parkId = this.activatedRoute.snapshot.paramMap.get('park_id');
+    const rideId = this.activatedRoute.snapshot.paramMap.get('ride_id');
 
-    this.parksService.findPark(<string>parkId).then(park => {
+    this.parksService.findPark(parkId as string).then(park => {
       this.park = park;
-    })
+    });
 
-    this.parksService.getParkService(<string>parkId).then(value => {
+    this.parksService.getParkService(parkId as string).then(value => {
       this.parkService = value;
 
       this.parkService.getPois()
@@ -42,7 +42,7 @@ export class RideComponent implements OnInit {
           if (value.supportsWaitingTimes) {
             value.getWaitingTimes().then(value1 => {
               console.log(value1);
-            })
+            });
 
             value.getWaitingTimesOfRide(this.ride.id)
               .then((wt) => {
@@ -51,20 +51,20 @@ export class RideComponent implements OnInit {
               })
               .catch(reason => {
                 console.error(reason);
-              })
+              });
           }
         })
         .catch(reason => {
           console.error(reason);
           this.ride = {
-            id: "",
+            id: '',
             category: PoiCategory.UNDEFINED,
-            original_category: "",
-            title: "",
+            original_category: '',
+            title: '',
             original: {}
-          }
+          };
           // window.alert("We konden de attractie niet ophalen");
-        })
+        });
     });
   }
 }

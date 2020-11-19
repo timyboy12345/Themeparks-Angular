@@ -6,10 +6,10 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./card.component.scss']
 })
 export class CardComponent implements OnInit {
-  @Input() padding: any = "p-4";
-  @Input() cardTitle: string = "";
-  @Input() cardClasses: string = "";
-  @Input() titleMargin: string = "mt-4 mb-1";
+  @Input() padding: any = 'p-4';
+  @Input() cardTitle = '';
+  @Input() cardClasses = '';
+  @Input() titleMargin = 'mt-4 mb-1';
 
   constructor() { }
 

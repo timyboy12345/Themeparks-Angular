@@ -2,10 +2,10 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RidesComponent} from './rides/rides.component';
 import {HomeComponent} from './home/home.component';
-import {RouterModule, Routes} from "@angular/router";
-import {ComponentsModule} from "../_components/components.module";
-import {LazyLoadImageModule} from "ng-lazyload-image";
-import {FormsModule} from "@angular/forms";
+import {RouterModule, Routes} from '@angular/router';
+import {ComponentsModule} from '../_components/components.module';
+import {LazyLoadImageModule} from 'ng-lazyload-image';
+import {FormsModule} from '@angular/forms';
 import { RideComponent } from './ride/ride.component';
 
 const routes: Routes = [{
@@ -17,7 +17,7 @@ const routes: Routes = [{
 }, {
   path: 'rides/:ride_id',
   component: RideComponent
-}]
+}];
 
 @NgModule({
   declarations: [

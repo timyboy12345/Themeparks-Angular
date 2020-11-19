@@ -12,7 +12,7 @@ export const environment = {
   CACHE_WAITINGTIMES_SECONDS: 60 * 60,
 
   // The shared API for themeparks, to circumvent CORS rules and some other browser issues
-  SHARED_API_URL: "http://127.0.0.1:8000/api",
+  SHARED_API_URL: 'http://127.0.0.1:8000/api',
 };
 
 /*

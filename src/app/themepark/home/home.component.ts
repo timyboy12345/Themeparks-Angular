@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Themepark} from "../../_interfaces/themepark.interface";
-import {ThemeparkService} from "../../_services/themepark.service";
-import {ThemeparksService} from "../../_services/themeparks.service";
-import {ActivatedRoute} from "@angular/router";
-import {Poi, PoiCategory} from "../../_interfaces/poi.interface";
+import {Themepark} from '../../_interfaces/themepark.interface';
+import {ThemeparkService} from '../../_services/themepark.service';
+import {ThemeparksService} from '../../_services/themeparks.service';
+import {ActivatedRoute} from '@angular/router';
+import {Poi, PoiCategory} from '../../_interfaces/poi.interface';
 
 @Component({
   selector: 'app-home',
@@ -29,23 +29,23 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const parkId = this.activatedRoute.snapshot.paramMap.get("park_id");
+    const parkId = this.activatedRoute.snapshot.paramMap.get('park_id');
 
-    this.parksService.findPark(<string>parkId).then(park => {
+    this.parksService.findPark(parkId as string).then(park => {
       this.park = park;
-    })
+    });
 
-    this.parksService.getParkService(<string>parkId)
+    this.parksService.getParkService(parkId as string)
       .then(value => {
         this.parkService = value;
 
         this.parkService.getPois().then(rides => {
           this.pois = rides;
-        })
+        });
 
         this.parkService.getWaitingTimes().then(value => {
           console.log(value);
-        })
+        });
       })
       .catch(reason => {
         this.pois = [];

@@ -10,10 +10,10 @@ export interface EftelingWaitTimesResponse {
     HourFrom: string;
     HourTo: string;
     SpecialEvent: false
-  },
-  AttractionInfo: EftelingAttractionInfo[],
-  MaintenanceInfo: EftelingMaintenanceInfo[],
-  Disclaimer: string
+  };
+  AttractionInfo: EftelingAttractionInfo[];
+  MaintenanceInfo: EftelingMaintenanceInfo[];
+  Disclaimer: string;
 }
 
 export interface EftelingAttractionInfo {
@@ -52,19 +52,19 @@ export interface EftelingMaintenanceInfo {
 }
 
 export interface EftelingTimeslot {
-  AttractionId: number,
-  MaxPersons: number,
-  NextAvailableTimeslot: string,
-  State: "enabled" | "disabled",
-  ReservationType: "person" | "group",
-  MaxDays: number
+  AttractionId: number;
+  MaxPersons: number;
+  NextAvailableTimeslot: string;
+  State: 'enabled' | 'disabled';
+  ReservationType: 'person' | 'group';
+  MaxDays: number;
 }
 
 export enum EftelingAttractionInfoType {
-  "SHOW" = "Show",
-  "MERCHANDISE" = "Merchandise",
-  "HORECA" = "Horeca",
-  "ATTRACTION" = "Attraction",
-  "PARKEVENTLOCATION" = "Parkeventlocation",
-  "TOILETTEN" = "Toiletten"
+  'SHOW' = 'Show',
+  'MERCHANDISE' = 'Merchandise',
+  'HORECA' = 'Horeca',
+  'ATTRACTION' = 'Attraction',
+  'PARKEVENTLOCATION' = 'Parkeventlocation',
+  'TOILETTEN' = 'Toiletten'
 }

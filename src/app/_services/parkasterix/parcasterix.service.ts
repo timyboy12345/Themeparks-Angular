@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {ThemeparkService} from "../themepark.service";
-import {Poi, PoiCategory} from "../../_interfaces/poi.interface";
-import {HttpClient} from "@angular/common/http";
-import {ParcasterixPoi} from "../../_interfaces/parcasterix/parcasterix_poi.interface";
-import {CacheService} from "../cache.service";
-import {environment} from "../../../environments/environment";
+import {ThemeparkService} from '../themepark.service';
+import {Poi, PoiCategory} from '../../_interfaces/poi.interface';
+import {HttpClient} from '@angular/common/http';
+import {ParcasterixPoi} from '../../_interfaces/parcasterix/parcasterix_poi.interface';
+import {CacheService} from '../cache.service';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class ParcasterixService extends ThemeparkService {
   }
 
   private getParcAsterixAttractions(): Promise<ParcasterixPoi[]> {
-    return this.cacheService.remember<ParcasterixPoi[]>("parcasterix_pois", environment.CACHE_POIS_SECONDS, () => {
+    return this.cacheService.remember<ParcasterixPoi[]>('parcasterix_pois', environment.CACHE_POIS_SECONDS, () => {
       const url = `${this.apiUrl}/attractions.json?device=${this.device}&version=${this.appVersion}&lang=${this.apiLang}&apiversion=${this.apiVersion}`;
       return this.httpClient.get<any>(url).toPromise().then((value: any) => {
         return value.result.attractions;
@@ -38,7 +38,7 @@ export class ParcasterixService extends ThemeparkService {
           title: poi.title,
           description: poi.description,
           category: PoiCategory.ATTRACTION,
-          original_category: "",
+          original_category: '',
           image_url: poi.slider_images[0],
           original: poi,
           featured: poi.best,
@@ -47,7 +47,7 @@ export class ParcasterixService extends ThemeparkService {
         };
 
         return p;
-      })
-    })
+      });
+    });
   }
 }

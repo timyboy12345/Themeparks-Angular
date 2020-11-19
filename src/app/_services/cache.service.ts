@@ -17,13 +17,13 @@ export class CacheService {
 
   public get(key: string) {
     const now = Math.round(new Date().getTime() / 1000);
-    const deadline = parseFloat(<string>sessionStorage.getItem(`${key}_time`));
+    const deadline = parseFloat(sessionStorage.getItem(`${key}_time`) as string);
 
     if (!deadline || now > deadline) {
       return null;
     }
 
-    return JSON.parse(<string>sessionStorage.getItem(key));
+    return JSON.parse(sessionStorage.getItem(key) as string);
   }
 
   public async remember<T>(key: string, seconds: number, callback: any): Promise<T> {

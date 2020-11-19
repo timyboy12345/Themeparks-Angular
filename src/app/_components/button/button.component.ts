@@ -6,9 +6,9 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./button.component.scss']
 })
 export class ButtonComponent implements OnInit {
-  @Input() buttonText: string = "";
-  @Input() margin: string = "my-2";
-  @Input() link: string = "";
+  @Input() buttonText = '';
+  @Input() margin = 'my-2';
+  @Input() link = '';
 
   constructor() { }
 

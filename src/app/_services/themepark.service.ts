@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Poi, PoiCategory} from "../_interfaces/poi.interface";
-import {ThemeparkOptions} from "../_interfaces/themepark_options.interface";
-import {WaitingTimes} from "../_interfaces/waitingtimes.interface";
+import {Poi, PoiCategory} from '../_interfaces/poi.interface';
+import {ThemeparkOptions} from '../_interfaces/themepark_options.interface';
+import {WaitingTimes} from '../_interfaces/waitingtimes.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ export class ThemeparkService {
       parkSupportsRideAreas: false,
       parkSupportsPois: false,
       parkSupportsOpeningTimes: false,
-    }
+    };
   }
 
   public setSettings(options: ThemeparkOptions) {
@@ -50,19 +50,19 @@ export class ThemeparkService {
   public getRides(): Promise<Poi[]> {
     return this.getPois().then(value => {
       return value.filter(poi => poi.category == PoiCategory.ATTRACTION);
-    })
+    });
   }
 
   public getShows(): Promise<Poi[]> {
     return this.getPois().then(value => {
       return value.filter(poi => poi.category == PoiCategory.SHOW);
-    })
+    });
   }
 
   public getRestaurants(): Promise<Poi[]> {
     return this.getPois().then(value => {
       return value.filter(poi => poi.category == PoiCategory.RESTAURANT);
-    })
+    });
   }
 
   public getWaitingTimes(): Promise<any[]> {
