@@ -1,0 +1,57 @@
+<div *ngIf="ride && ride.id != ''; else rideLoading" class="flex flex-col">
+  <div class="h-72 relative flex flex-col rounded shadow overflow-hidden">
+    <div *ngIf="ride.image_url" class="h-72 overflow-hidden">
+      <img class="w-full h-full object-center object-cover" [lazyLoad]="ride.image_url">
+    </div>
+
+    <div *ngIf="ride.area" class="absolute right-4 top-4 rounded py-1 px-2 text-sm text-white bg-indigo-700">
+      {{ ride.area }}
+    </div>
+
+    <div class="absolute w-full bottom-0">
+      <div class="p-4 bg-white rounded m-4 shadow m-4">
+        <h2 class="text-indigo-800 font-bold">{{ ride.title }}</h2>
+
+        <div *ngIf="ride.minSizeEscort">Minimaal met begeleiding: {{ ride.minSizeEscort }} cm</div>
+        <div *ngIf="ride.minSize">Zonder begeleiding: {{ ride.minSize }} cm</div>
+        <div *ngIf="ride.maxSize">Maximaal: {{ ride.minSize }} cm</div>
+
+        <div>{{ ride.area }}</div>
+      </div>
+    </div>
+  </div>
+
+  <app-button link="../" buttonText="Terug naar alle attracties" margin="my-4"></app-button>
+
+  <app-card titleMargin="mb-1" *ngIf="ride.description" class="mb-4" cardTitle="Omschrijving">
+    <p [innerHTML]="ride.description"></p>
+  </app-card>
+
+<!--  <app-card cardTitle="Algemene informatie">-->
+<!--    {{ ride | json }}-->
+<!--  </app-card>-->
+
+  <div class="flex flex-row flex-wrap my-4 -mx-2" *ngIf="ride.images">
+    <div *ngFor="let img of ride.images" class="overflow-hidden w-1/2 lg:w-1/3">
+      <div class="m-2 rounded bg-white shadow overflow-hidden h-40">
+        <img class="w-full h-full object-cover object-center" [src]="img" alt="Image of {{ ride.title }}">
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #rideLoading>
+  <div class="progress-materializecss">
+    <div class="indeterminate"></div>
+  </div>
+
+  <app-card>
+    <h2 class="text-indigo-800 text-lg">De attractie wordt geladen...</h2>
+    <p class="text-gray-600">Voordat je dit hebt gelezen zie je hier alle informatie over deze attractie.</p>
+
+    <h3 *ngIf="park" class="text-indigo-800 mt-4">{{ park.name }}</h3>
+    <p *ngIf="park" class="text-gray-600 text-sm">
+      {{ park.description }}
+    </p>
+  </app-card>
+</ng-template>

@@ -1,0 +1,78 @@
+<app-card *ngIf="park" padding="p-0" cardClasses="mb-4 lg:mb-8">
+  <img class="max-h-60 object-center object-cover w-full" *ngIf="park.image_url" [src]="park.image_url" alt="Image of {{ park.name }}">
+
+  <div class="p-4">
+    <h1 class="text-lg text-indigo-800">{{ park.name }}</h1>
+    <p *ngIf="park.description" class="text-gray-600">{{ park.description }}</p>
+  </div>
+</app-card>
+
+<div class="flex flex-col lg:flex-row flex-wrap -mx-4">
+  <div class="flex flex-col lg:w-1/2">
+    <div class="mx-4">
+      <app-card padding="p-0" cardTitle="Populaire attracties">
+        <div *ngIf="popularRides == null">
+          <app-card>
+            <div class="text-indigo-800">Attracties worden geladen</div>
+            <p class="text-gray-600 text-sm">We halen momenteel alle attracties op.</p>
+          </app-card>
+        </div>
+
+        <div *ngIf="popularRides && popularRides.length == 0">
+          <app-card>
+            <div class="text-indigo-800">Geen attracties gevonden</div>
+            <p class="text-gray-600 text-sm">We konden geen attracties ophalen van dit park.</p>
+          </app-card>
+        </div>
+
+        <div *ngFor="let ride of popularRides; let last = last">
+          <div
+            class="border-gray-100 p-3 flex flex-row items-center cursor-pointer hover:bg-gray-100 transition duration-100"
+            [ngClass]="{'border-b': !last}" [routerLink]="['rides', ride.id]">
+            <div class="w-8 h-8 relative bg-indigo-700 rounded-full overflow-hidden mr-2">
+              <img alt="Image of {{ ride.title }}" *ngIf="ride.image_url"
+                   class="w-full h-full absolute left-0 top-0 object-center object-cover" [src]="ride.image_url">
+            </div>
+            <div class="text-indigo-800">{{ ride.title }}</div>
+          </div>
+        </div>
+      </app-card>
+
+      <app-button margin="mb-4 mt-2" link="rides" buttonText="Alle attracties"></app-button>
+    </div>
+  </div>
+
+  <div class="flex flex-col lg:w-1/2">
+    <div class="mx-4">
+      <app-card padding="p-0" cardTitle="Populaire restaurants">
+        <div *ngIf="popularRestaurants == null">
+          <app-card>
+            <div class="text-indigo-800">Restaurants worden geladen</div>
+            <p class="text-gray-600 text-sm">We halen momenteel alle restaurants op.</p>
+          </app-card>
+        </div>
+
+        <div *ngIf="popularRestaurants && popularRestaurants.length == 0">
+          <app-card>
+            <div class="text-indigo-800">Geen restaurants gevonden</div>
+            <p class="text-gray-600 text-sm">We konden geen restaurants ophalen van dit park.</p>
+          </app-card>
+        </div>
+
+        <div *ngFor="let restaurant of popularRestaurants; let last = last">
+          <div
+            class="border-gray-100 p-3 flex flex-row items-center cursor-pointer hover:bg-gray-100 transition duration-100"
+            [ngClass]="{'border-b': !last}">
+            <div class="w-8 h-8 relative bg-indigo-700 rounded-full overflow-hidden mr-2">
+              <img *ngIf="restaurant.image_url" class="w-full h-full absolute left-0 top-0 object-center object-cover"
+                   [src]="restaurant.image_url">
+            </div>
+            <div class="text-indigo-800">{{ restaurant.title }}</div>
+          </div>
+        </div>
+      </app-card>
+
+      <app-button margin="mb-4 mt-2" link="restaurants" buttonText="Alle restaurants"></app-button>
+    </div>
+  </div>
+</div>

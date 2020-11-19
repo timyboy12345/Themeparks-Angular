@@ -5,9 +5,12 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:prod": "npm run tailwind:prod && ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "tailwind:dev": "npx tailwindcss@2.0.0-alpha.11 build -c tailwindcss-config.js style.scss -o ./src/tailwind.css",
+    "tailwind:prod": "NODE_ENV=production npx tailwindcss@2.0.0-alpha.11 build -c tailwindcss-config.js style.scss -o ./src/tailwind.css"
   },
   "private": true,
   "dependencies": {
@@ -19,7 +22,9 @@
     "@angular/platform-browser": "~11.0.0",
     "@angular/platform-browser-dynamic": "~11.0.0",
     "@angular/router": "~11.0.0",
+    "ng-lazyload-image": "^9.1.0",
     "rxjs": "~6.6.0",
+    "themeparks": "^5.1.44",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },
@@ -28,7 +33,7 @@
     "@angular/cli": "~11.0.1",
     "@angular/compiler-cli": "~11.0.0",
     "@types/jasmine": "~3.6.0",
-    "@types/node": "^12.11.1",
+    "@types/node": "^12.19.5",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",

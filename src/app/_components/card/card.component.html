@@ -1,0 +1,5 @@
+<h3 *ngIf="cardTitle" class="text-lg text-indigo-800 {{ titleMargin }}">{{ cardTitle }}</h3>
+
+<div class="rounded overflow-hidden bg-white shadow transition duration-100 break-words {{ cardClasses}} {{ padding }}">
+  <ng-content></ng-content>
+</div>
