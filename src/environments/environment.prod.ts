@@ -3,4 +3,5 @@ export const environment = {
 
   CACHE_POIS_SECONDS: 60 * 60,
   CACHE_WAITINGTIMES_SECONDS: 60 * 60,
+  SHARED_API_URL: "http://themeparks-api.arendz.nl/api",
 };

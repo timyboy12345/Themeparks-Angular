@@ -3,6 +3,7 @@ export interface EftelingWaitTimesResponse {
   AppVersion: number;
   AppPlatform: string;
   TimeStamp: string;
+  Timeslot: EftelingTimeslot;
   OpeningHours: {
     Date: string;
     BusyIndication: string;
@@ -50,11 +51,20 @@ export interface EftelingMaintenanceInfo {
   OpenInWeekend: false;
 }
 
+export interface EftelingTimeslot {
+  AttractionId: number,
+  MaxPersons: number,
+  NextAvailableTimeslot: string,
+  State: "enabled" | "disabled",
+  ReservationType: "person" | "group",
+  MaxDays: number
+}
+
 export enum EftelingAttractionInfoType {
-  "Show" = "SHOW",
-  "Merchandise" = "MERCHANDISE",
-  "Horeca" = "HORECA",
-  "Attraction" = "ATTRACTION",
-  "Parkeventlocation" = "PARKEVENTLOCATION",
-  "Toiletten" = "TOILETEN"
+  "SHOW" = "Show",
+  "MERCHANDISE" = "Merchandise",
+  "HORECA" = "Horeca",
+  "ATTRACTION" = "Attraction",
+  "PARKEVENTLOCATION" = "Parkeventlocation",
+  "TOILETTEN" = "Toiletten"
 }

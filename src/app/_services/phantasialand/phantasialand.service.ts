@@ -10,7 +10,8 @@ import {environment} from "../../../environments/environment";
   providedIn: 'root'
 })
 export class PhantasialandService extends ThemeparkService {
-  private apiBase: string = "https://api.phlsys.de/api";
+  private apiBase: string = `${environment.SHARED_API_URL}/phantasialand`;
+  private apiToken: string = "auiJJnDpbIWrqt2lJBnD8nV9pcBCIprCrCxaWettkBQWAjhDAHtDxXBbiJvCzkUf";
 
   private lngMin: number = 6.878342628;
   private lngMax: number = 6.877570152;
@@ -60,9 +61,17 @@ export class PhantasialandService extends ThemeparkService {
             break;
         }
 
+        const bold = /\*\*(.*?)\*\*/gm;
+        const heading = /---(.*?)---/gm;
+
+        let description = poi.description
+          .replace(heading, "<h3 class='text-lg'>$1</h3>")
+          .replace(bold, "<strong>$1</strong>")
+
         const p: Poi = {
           id: poi.id.toString(),
           title: poi.title,
+          description: description,
           image_url: poi.titleImage.url,
           category: category,
           original_category: poi.category,
@@ -76,14 +85,14 @@ export class PhantasialandService extends ThemeparkService {
 
   public getPhantasialandPois(): Promise<PhantasialandPoi[]> {
     return this.cacheService.remember("phantasialand_pois", environment.CACHE_POIS_SECONDS, () => {
-      const url = `${this.apiBase}/pois?filter[where][seasons][like]=%25SUMMER%25&compact=true&access_token=auiJJnDpbIWrqt2lJBnD8nV9pcBCIprCrCxaWettkBQWAjhDAHtDxXBbiJvCzkUf`;
+      const url = `${this.apiBase}/pois`;
 
       return this.httpClient.get<PhantasialandPoi[]>(url).toPromise();
     });
   }
 
   public getWaitingTimes(): Promise<any[]> {
-    const url = `${this.apiBase}/signage-snapshots`;
+    const url = `${this.apiBase}/waittimes`;
 
     const randomLat = Math.floor(Math.random() * this.latMax) + this.latMin;
     const randomLng = Math.floor(Math.random() * this.lngMax) + this.lngMin;

@@ -4,6 +4,7 @@ import {Poi, PoiCategory} from "../../_interfaces/poi.interface";
 import {ThemeparkService} from "../../_services/themepark.service";
 import {ThemeparksService} from "../../_services/themeparks.service";
 import {ActivatedRoute} from "@angular/router";
+import {WaitingTimes} from "../../_interfaces/waitingtimes.interface";
 
 @Component({
   selector: 'app-ride',
@@ -13,8 +14,9 @@ import {ActivatedRoute} from "@angular/router";
 export class RideComponent implements OnInit {
   public park?: Themepark = undefined;
   public ride?: Poi;
+  public waitingTime?: WaitingTimes;
 
-  private parkService?: ThemeparkService;
+  public parkService?: ThemeparkService;
 
   constructor(private parksService: ThemeparksService,
               private activatedRoute: ActivatedRoute) {
@@ -34,15 +36,23 @@ export class RideComponent implements OnInit {
       this.parkService.getPois()
         .then((rides) => {
           this.ride = rides.filter(ride => ride.id == rideId)[0];
+
           console.log(this.ride);
 
-          value.getWaitingTimesOfRide(this.ride.id)
-            .then((waitingtimes) => {
-              console.log(waitingtimes);
+          if (value.supportsWaitingTimes) {
+            value.getWaitingTimes().then(value1 => {
+              console.log(value1);
             })
-            .catch(reason => {
-              console.error(reason);
-            })
+
+            value.getWaitingTimesOfRide(this.ride.id)
+              .then((wt) => {
+                console.log(wt);
+                this.waitingTime = wt;
+              })
+              .catch(reason => {
+                console.error(reason);
+              })
+          }
         })
         .catch(reason => {
           console.error(reason);
@@ -53,7 +63,7 @@ export class RideComponent implements OnInit {
             title: "",
             original: {}
           }
-          window.alert("We konden de attractie niet ophalen");
+          // window.alert("We konden de attractie niet ophalen");
         })
     });
   }

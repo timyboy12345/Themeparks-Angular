@@ -21,6 +21,14 @@
     </div>
   </div>
 
+  <div *ngIf="(parkService && parkService.supportsWaitingTimes) && waitingTime" class="mt-4 rounded bg-red-600 shadow text-white p-4">
+    {{ waitingTime.state }} / {{ waitingTime.wait }}
+  </div>
+
+  <div *ngIf="(parkService && parkService.supportsWaitingTimes) && !waitingTime" class="mt-4 rounded bg-red-600 shadow text-white p-4">
+    Wachttijd wordt opgehaald...
+  </div>
+
   <app-button link="../" buttonText="Terug naar alle attracties" margin="my-4"></app-button>
 
   <app-card titleMargin="mb-1" *ngIf="ride.description" class="mb-4" cardTitle="Omschrijving">

@@ -9,15 +9,19 @@ import {
   EftelingAttractionInfoType,
   EftelingWaitTimesResponse
 } from "../../_interfaces/efteling/waittimesresponse.interface";
-import {WaitingTimes} from "../../_interfaces/waitingtimes.interface";
+import {WaitingTimes, WaitingTimesState} from "../../_interfaces/waitingtimes.interface";
 
 @Injectable({
   providedIn: 'root'
 })
 export class EftelingService extends ThemeparkService {
-  private apiUrl: string = `https://cors-anywhere.herokuapp.com/http://prd-search-acs.efteling.com/2013-01-01`;
-  private waitTimesUrl: string = "https://cors-anywhere.herokuapp.com/https://api.efteling.com/app/wis/";
+  // private apiUrl: string = `https://cors-anywhere.herokuapp.com/http://prd-search-acs.efteling.com/2013-01-01`;
+  // private waitTimesUrl: string = "https://cors-anywhere.herokuapp.com/https://api.efteling.com/app/wis/";
+
+  private apiUrl: string = `${environment.SHARED_API_URL}/efteling`;
   private apiLang: string = "nl";
+
+  private waitTimesPromise?: Promise<any>;
 
   constructor(private httpClient: HttpClient,
               private cacheService: CacheService) {
@@ -40,7 +44,7 @@ export class EftelingService extends ThemeparkService {
         'X-App-Version': 'v3.5.0'
       })
 
-      return this.httpClient.get<any>(`${this.apiUrl}/search?size=1000&q.parser=structured&q=(phrase field=language '${this.apiLang}')`, {
+      return this.httpClient.get<any>(`${this.apiUrl}/pois`, {
         headers: headers
       })
         .toPromise()
@@ -121,19 +125,40 @@ export class EftelingService extends ThemeparkService {
   }
 
   public getEftelingWaitingTimes(): Promise<EftelingWaitTimesResponse> {
-    return this.cacheService.remember("efteling_waittimes", environment.CACHE_WAITINGTIMES_SECONDS, () => {
-      return this.httpClient.get<EftelingWaitTimesResponse>(`${this.waitTimesUrl}`).toPromise();
+    if (this.waitTimesPromise) {
+      return this.waitTimesPromise;
+    }
+
+    const p = this.cacheService.remember<EftelingWaitTimesResponse>("efteling_waittimes", environment.CACHE_WAITINGTIMES_SECONDS, () => {
+      return this.httpClient.get<EftelingWaitTimesResponse>(`${this.apiUrl}/waittimes`).toPromise();
     });
+
+    this.waitTimesPromise = p;
+
+    return p;
   }
 
   public getWaitingTimes(): Promise<WaitingTimes[]> {
     return this.getEftelingWaitingTimes().then(value => {
-      const rides = value.AttractionInfo.filter(ride => ride.Type == EftelingAttractionInfoType.Attraction);
+      const rides = value.AttractionInfo.filter(ride => ride.Type == EftelingAttractionInfoType.ATTRACTION);
+
       return rides.map(ride => {
+        let state: WaitingTimesState = WaitingTimesState.CLOSED;
+
+        switch (ride.State) {
+          case "open":
+            state = WaitingTimesState.OPEN;
+            break;
+          default:
+            break;
+        }
+
         const wait: WaitingTimes = {
-          date: "",
+          date: Date.now().toString(),
           ride_id: ride.Id,
+          state: state,
           wait: ride.WaitingTime,
+          original: ride,
         }
         return wait;
       })
@@ -142,7 +167,7 @@ export class EftelingService extends ThemeparkService {
 
   public getWaitingTimesOfRide(rideId: string): Promise<WaitingTimes> {
     return this.getWaitingTimes().then(value => {
-      return value.filter(ride => ride.ride_id == rideId)[0];
+      return value.filter(ride => ride.ride_id == rideId.split(`-${this.apiLang}`)[0])[0];
     })
   }
 }
