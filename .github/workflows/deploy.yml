@@ -75,4 +75,4 @@ jobs:
           ftp-server: ${{ secrets.FTP_SERVER }}/laravel_sites/themeparks-angular --insecure
           ftp-username: ${{ secrets.FTP_USERNAME }}
           ftp-password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: dist/GameQuest-Player # This folder is NOT going to upload by default unless you add it to .git-ftp-include
+          local-dir: dist/Angular-Themeparks # This folder is NOT going to upload by default unless you add it to .git-ftp-include
