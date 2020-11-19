@@ -20166,6 +20166,12 @@ video {
   box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
 }
 
+.ring-3 {
+  --ring-width: 3px;
+  --ring-color-default: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
+}
+
 .ring-4 {
   --ring-width: 4px;
   --ring-color-default: rgba(59, 130, 246, 0.5);
@@ -20198,6 +20204,12 @@ video {
 
 .focus\:ring-2:focus {
   --ring-width: 2px;
+  --ring-color-default: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
+}
+
+.focus\:ring-3:focus {
+  --ring-width: 3px;
   --ring-color-default: rgba(59, 130, 246, 0.5);
   box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
 }
@@ -47431,6 +47443,12 @@ video {
     box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
   }
 
+  .sm\:ring-3 {
+    --ring-width: 3px;
+    --ring-color-default: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
+  }
+
   .sm\:ring-4 {
     --ring-width: 4px;
     --ring-color-default: rgba(59, 130, 246, 0.5);
@@ -47463,6 +47481,12 @@ video {
 
   .sm\:focus\:ring-2:focus {
     --ring-width: 2px;
+    --ring-color-default: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
+  }
+
+  .sm\:focus\:ring-3:focus {
+    --ring-width: 3px;
     --ring-color-default: rgba(59, 130, 246, 0.5);
     box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
   }
@@ -74666,6 +74690,12 @@ video {
     box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
   }
 
+  .md\:ring-3 {
+    --ring-width: 3px;
+    --ring-color-default: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
+  }
+
   .md\:ring-4 {
     --ring-width: 4px;
     --ring-color-default: rgba(59, 130, 246, 0.5);
@@ -74698,6 +74728,12 @@ video {
 
   .md\:focus\:ring-2:focus {
     --ring-width: 2px;
+    --ring-color-default: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
+  }
+
+  .md\:focus\:ring-3:focus {
+    --ring-width: 3px;
     --ring-color-default: rgba(59, 130, 246, 0.5);
     box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
   }
@@ -101901,6 +101937,12 @@ video {
     box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
   }
 
+  .lg\:ring-3 {
+    --ring-width: 3px;
+    --ring-color-default: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
+  }
+
   .lg\:ring-4 {
     --ring-width: 4px;
     --ring-color-default: rgba(59, 130, 246, 0.5);
@@ -101933,6 +101975,12 @@ video {
 
   .lg\:focus\:ring-2:focus {
     --ring-width: 2px;
+    --ring-color-default: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
+  }
+
+  .lg\:focus\:ring-3:focus {
+    --ring-width: 3px;
     --ring-color-default: rgba(59, 130, 246, 0.5);
     box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
   }
@@ -129136,6 +129184,12 @@ video {
     box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
   }
 
+  .xl\:ring-3 {
+    --ring-width: 3px;
+    --ring-color-default: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
+  }
+
   .xl\:ring-4 {
     --ring-width: 4px;
     --ring-color-default: rgba(59, 130, 246, 0.5);
@@ -129168,6 +129222,12 @@ video {
 
   .xl\:focus\:ring-2:focus {
     --ring-width: 2px;
+    --ring-color-default: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
+  }
+
+  .xl\:focus\:ring-3:focus {
+    --ring-width: 3px;
     --ring-color-default: rgba(59, 130, 246, 0.5);
     box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
   }
@@ -156371,6 +156431,12 @@ video {
     box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
   }
 
+  .\32xl\:ring-3 {
+    --ring-width: 3px;
+    --ring-color-default: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
+  }
+
   .\32xl\:ring-4 {
     --ring-width: 4px;
     --ring-color-default: rgba(59, 130, 246, 0.5);
@@ -156403,6 +156469,12 @@ video {
 
   .\32xl\:focus\:ring-2:focus {
     --ring-width: 2px;
+    --ring-color-default: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
+  }
+
+  .\32xl\:focus\:ring-3:focus {
+    --ring-width: 3px;
     --ring-color-default: rgba(59, 130, 246, 0.5);
     box-shadow: 0 0 0 var(--ring-offset-width, 0) var(--ring-offset-color, #fff), 0 0 0 calc(var(--ring-width) + var(--ring-offset-width, 0px)) var(--ring-color, var(--ring-color-default)), var(--box-shadow, 0 0 #0000);
   }

@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  version: 'v1.0',
 
   // The amount of seconds POIs are cached (defaults to 60 minutes)
   CACHE_POIS_SECONDS: 60 * 60,

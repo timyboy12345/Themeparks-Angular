@@ -72,7 +72,7 @@ export class ThemeparkService {
     throw new Error('This park does not have the getWaitingTimesOfRide() function');
   }
 
-  public getRidesWithWaitTimes(): Promise<Poi[]> {
+  public getPoisWithWaitingTimes(): Promise<Poi[]> {
     throw new Error('This park does not have the getWaitingTimes() function');
   }
 

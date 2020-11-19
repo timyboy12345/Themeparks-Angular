@@ -183,10 +183,10 @@ export class EftelingService extends ThemeparkService {
     });
   }
 
-  public getRidesWithWaitTimes(): Promise<Poi[]> {
+  public getPoisWithWaitingTimes(): Promise<Poi[]> {
     return Promise.all([
       this.getWaitingTimes(),
-      this.getRides()
+      this.getPois()
     ]).then((value: [WaitingTimes[], Poi[]]) => {
       return value[1].map((poi) => {
         poi.waitingTimes = value[0].filter(wt => wt.ride_id == poi.id)[0];

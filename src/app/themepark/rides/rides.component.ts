@@ -4,6 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Themepark} from '../../_interfaces/themepark.interface';
 import {Poi, PoiCategory} from '../../_interfaces/poi.interface';
 import {ThemeparkService} from '../../_services/themepark.service';
+import {PreferenceService} from '../../_services/preference.service';
 
 @Component({
   selector: 'app-rides',
@@ -16,6 +17,7 @@ export class RidesComponent implements OnInit {
 
   public parkService?: ThemeparkService;
   public rideArea = '';
+  public displayType: 'cards' | 'list' = this.preferenceService.listType();
 
   public get areas(): string[] {
     const areas: string[] = [];
@@ -30,17 +32,22 @@ export class RidesComponent implements OnInit {
   }
 
   public get selectedRides() {
-    if (!this.rides) { return null; }
+    if (!this.rides) {
+      return null;
+    }
 
     return this.rides.filter(ride => {
-      if (this.rideArea && ride.area != this.rideArea) { return; }
+      if (this.rideArea && ride.area != this.rideArea) {
+        return;
+      }
 
       return ride;
     });
   }
 
   constructor(public parksService: ThemeparksService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private preferenceService: PreferenceService) {
   }
 
   ngOnInit(): void {
@@ -54,7 +61,7 @@ export class RidesComponent implements OnInit {
       this.parkService = value;
 
       if (this.parkService.supportsWaitingTimes) {
-        this.parkService.getRidesWithWaitTimes().then((rides) => {
+        this.parkService.getPoisWithWaitingTimes().then((rides) => {
           this.rides = rides.filter(ride => ride.category == PoiCategory.ATTRACTION);
         });
       } else {
@@ -67,5 +74,9 @@ export class RidesComponent implements OnInit {
 
   public call(ride: Poi) {
     console.log(ride);
+  }
+
+  public saveDisplayType($event: any) {
+    this.preferenceService.listType($event);
   }
 }

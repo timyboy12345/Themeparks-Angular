@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
 
         if (value.supportsPois) {
           if (value.supportsWaitingTimes) {
-            this.parkService.getRidesWithWaitTimes().then(rides => {
+            this.parkService.getPoisWithWaitingTimes().then(rides => {
               this.pois = rides;
             });
           } else {

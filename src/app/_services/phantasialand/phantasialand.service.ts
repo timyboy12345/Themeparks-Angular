@@ -107,7 +107,7 @@ export class PhantasialandService extends ThemeparkService {
           category,
           original_category: poi.category,
           area: poi.area,
-          original: poi,
+          original: poi
         };
 
         return p;

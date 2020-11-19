@@ -1,21 +1,31 @@
 <nav
-  class="top-0 w-full z-50 p-4 text-center bg-indigo-900 dark:bg-indigo-900 text-white mb-4 lg:mb-8 shadow-lg flex flex-row justify-between items-center">
+  class="fixed top-0 w-full z-50 p-4 text-center bg-indigo-900 dark:bg-indigo-900 text-white mb-4 lg:mb-8 shadow-lg flex flex-row justify-between items-center">
   <div class="text-lg font-bold flex flex-row items-start">
-    <div class="mr-1 cursor-pointer" routerLink="/">Themeparks</div>
-  </div>
+    <div class="mr-1 cursor-pointer outline-none" (click)="menuOpen = false" routerLink="/home">GameQuest</div>
 
-  <div class="w-6 h-6 ml-auto cursor-pointer" (click)="menuOpen = true">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+    <span class="text-xs font-light transform -translate-y-0.5 opacity-50">
+      {{ version }}
+    </span>
+  </div>
+  <div (click)="menuOpen = !menuOpen"
+       class="cursor-pointer ml-2 w-8 h-8 rounded-full flex flex-row items-center justify-center">
+    <svg *ngIf="!menuOpen" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+
+    <svg *ngIf="menuOpen" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
     </svg>
   </div>
 </nav>
+
+<div class="" style="height: 64px;"></div>
 
 <div class="m-4 lg:m-8 xl:my-12 lg:max-w-4xl lg:mx-auto">
   <router-outlet></router-outlet>
 </div>
 
-<div class="fixed w-full h-full text-gray-900 flex flex-col w-full left-0 top-0 z-10" *ngIf="menuOpen">
+<div class="fixed w-full h-full text-gray-900 flex flex-col w-full left-0 top-0 z-10 block" [@inOutAnimation] *ngIf="menuOpen">
   <div class="bg-opacity-80 bg-gray-700 dark:bg-gray-900 w-full h-full left-0 top-0 absolute"
        (click)="menuOpen = false"></div>
 
@@ -23,7 +33,7 @@
     <div (click)="menuOpen = false"
          class="border-b hover:bg-gray-100 duration-100 transition-colors border-gray-100 p-4 flex flex-row items-center cursor-pointer"
          routerLink="/home">
-      <svg class="w-5 h-5 mr-2 text-indigo-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+      <svg class="w-6 h-6 mr-2 text-indigo-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
            stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
@@ -33,7 +43,7 @@
     <div (click)="menuOpen = false"
          class="border-b hover:bg-gray-100 duration-100 transition-colors border-gray-100 p-4 flex flex-row items-center cursor-pointer"
          routerLink="/parks">
-      <svg class="w-5 h-5 mr-2 text-indigo-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+      <svg class="w-6 h-6 mr-2 text-indigo-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
            stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
