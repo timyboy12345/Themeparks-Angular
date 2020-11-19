@@ -7,6 +7,7 @@ import {HomeComponent} from './home/home.component';
 import {HttpClientModule} from '@angular/common/http';
 import {LazyLoadImageModule} from 'ng-lazyload-image';
 import {ComponentsModule} from './_components/components.module';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import {ComponentsModule} from './_components/components.module';
     AppRoutingModule,
     HttpClientModule,
     LazyLoadImageModule,
-    ComponentsModule
+    ComponentsModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   exports: [],

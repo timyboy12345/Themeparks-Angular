@@ -1,7 +1,7 @@
 <app-card *ngIf="themeparks" cardTitle="Filteren" cardClasses="mb-8">
   <div class="flex flex-col">
     <label for="rideArea" class="mb-1">Land</label>
-    <select class="border-indigo-700 border rounded bg-white" id="rideArea" [(ngModel)]="selectedCountryId">
+    <select class="appearance-none outline-none focus:ring-3 ring-indigo-700 ring-opacity-40 border-gray-300 border rounded bg-white text-gray-900" id="rideArea" [(ngModel)]="selectedCountryId">
       <option value="">Alle Landen</option>
       <option *ngFor="let country of countries" [value]="country.id">{{ country.name }}</option>
     </select>
