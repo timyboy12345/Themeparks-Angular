@@ -1,8 +1,7 @@
 module.exports = {
   purge: [
     './src/app/**/*.ts',
-    './src/app/**/*.html',
-    './src/app/*.html'
+    './src/**/*.html',
   ],
   presets: [],
   darkMode: 'media', // or 'media' or 'class'

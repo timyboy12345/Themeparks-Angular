@@ -2,15 +2,18 @@ import {Injectable} from '@angular/core';
 import {Poi, PoiCategory} from '../_interfaces/poi.interface';
 import {ThemeparkOptions} from '../_interfaces/themepark_options.interface';
 import {WaitingTimes} from '../_interfaces/waitingtimes.interface';
+import {Themepark} from '../_interfaces/themepark.interface';
+import {Country} from '../_interfaces/country.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeparkService {
-  private settings: ThemeparkOptions;
-
   constructor() {
-    this.settings = {
+  }
+
+  public supports(): ThemeparkOptions {
+    return {
       parkSupportsWaitingTimes: false,
       parkSupportsShowTimes: false,
       parkSupportsRideAreas: false,
@@ -19,28 +22,24 @@ export class ThemeparkService {
     };
   }
 
-  public setSettings(options: ThemeparkOptions) {
-    this.settings = options;
-  }
-
   public get supportsPois(): boolean {
-    return this.settings.parkSupportsPois ?? false;
+    return this.supports().parkSupportsPois ?? false;
   }
 
   public get supportsRideAreas(): boolean {
-    return this.settings.parkSupportsRideAreas ?? false;
+    return this.supports().parkSupportsRideAreas ?? false;
   }
 
   public get supportsWaitingTimes(): boolean {
-    return this.settings.parkSupportsWaitingTimes ?? false;
+    return this.supports().parkSupportsWaitingTimes ?? false;
   }
 
   public get supportsShowTimes(): boolean {
-    return this.settings.parkSupportsShowTimes ?? false;
+    return this.supports().parkSupportsShowTimes ?? false;
   }
 
   public get supportsOpeningTimes(): boolean {
-    return this.settings.parkSupportsOpeningTimes ?? false;
+    return this.supports().parkSupportsOpeningTimes ?? false;
   }
 
   public getPois(): Promise<Poi[]> {
@@ -71,5 +70,13 @@ export class ThemeparkService {
 
   public getWaitingTimesOfRide(rideId: string): Promise<WaitingTimes> {
     throw new Error('This park does not have the getWaitingTimesOfRide() function');
+  }
+
+  public getRidesWithWaitTimes(): Promise<Poi[]> {
+    throw new Error('This park does not have the getWaitingTimes() function');
+  }
+
+  public getInfo(country: Country): Themepark {
+    throw new Error('This park does not have the getInfo() function');
   }
 }

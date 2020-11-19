@@ -21,9 +21,7 @@
     </div>
   </div>
 
-  <div *ngIf="(parkService && parkService.supportsWaitingTimes) && waitingTime" class="mt-4 rounded bg-red-600 shadow text-white p-4">
-    {{ waitingTime.state }} / {{ waitingTime.wait }}
-  </div>
+  <app-ride-status-indicator *ngIf="ride" [ride]="ride"></app-ride-status-indicator>
 
   <div *ngIf="(parkService && parkService.supportsWaitingTimes) && !waitingTime" class="mt-4 rounded bg-red-600 shadow text-white p-4">
     Wachttijd wordt opgehaald...

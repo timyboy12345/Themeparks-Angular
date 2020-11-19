@@ -3,11 +3,13 @@ import {CommonModule} from '@angular/common';
 import {CardComponent} from './card/card.component';
 import { ButtonComponent } from './button/button.component';
 import {RouterModule} from '@angular/router';
+import { StatusIndicatorComponent } from './ride/status-indicator/status-indicator.component';
 
 @NgModule({
   declarations: [
     CardComponent,
-    ButtonComponent
+    ButtonComponent,
+    StatusIndicatorComponent
   ],
   imports: [
     CommonModule,
@@ -15,7 +17,8 @@ import {RouterModule} from '@angular/router';
   ],
     exports: [
         CardComponent,
-        ButtonComponent
+        ButtonComponent,
+        StatusIndicatorComponent
     ]
 })
 export class ComponentsModule {

@@ -9,8 +9,8 @@
     "test": "ng test",
     "lint": "tslint -p tsconfig.json -c tslint.json 'src/**/*.ts'",
     "e2e": "ng e2e",
-    "tailwind:dev": "npx tailwindcss@2.0.0-alpha.11 build -c tailwindcss-config.js style.scss -o ./src/tailwind.css",
-    "tailwind:prod": "NODE_ENV=production npx tailwindcss@2.0.0-alpha.11 build -c tailwindcss-config.js style.scss -o ./src/tailwind.css"
+    "tailwind:dev": "npx tailwindcss@2.0.0-alpha.11 build style.scss -c tailwindcss-config.js -o ./src/tailwind.css",
+    "tailwind:prod": "NODE_ENV=production npx tailwindcss@2.0.0-alpha.11 build style.scss -c tailwindcss-config.js -o ./src/tailwind.css"
   },
   "private": true,
   "dependencies": {

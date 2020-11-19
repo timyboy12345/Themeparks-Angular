@@ -2,7 +2,7 @@ export interface PhantasialandPoi {
   area: string;
   category: string;
   createdAt: string;
-  description: string;
+  description: PhantasialandLocalizedPoiItem;
   entrance: {
     id: string,
     world: {
@@ -27,13 +27,21 @@ export interface PhantasialandPoi {
   preferredDestinations: [];
   seasons: string[];
   slug: string;
-  tagline: string;
+  tagline: PhantasialandLocalizedPoiItem;
   tags: string[];
-  title: string;
+  title: PhantasialandLocalizedPoiItem;
   titleImage: {
     id: number,
     url: string
   };
   updatedAt: string;
-  weblink: string;
+  weblink: PhantasialandLocalizedPoiItem;
+}
+
+export interface PhantasialandLocalizedPoiItem {
+  id?: string;
+  nl: string;
+  en: string;
+  de: string;
+  fr: string;
 }

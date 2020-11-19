@@ -53,9 +53,15 @@ export class RidesComponent implements OnInit {
     this.parksService.getParkService(parkId as string).then(value => {
       this.parkService = value;
 
-      this.parkService.getPois().then((rides) => {
-        this.rides = rides.filter(ride => ride.category == PoiCategory.ATTRACTION);
-      });
+      if (this.parkService.supportsWaitingTimes) {
+        this.parkService.getRidesWithWaitTimes().then((rides) => {
+          this.rides = rides.filter(ride => ride.category == PoiCategory.ATTRACTION);
+        });
+      } else {
+        this.parkService.getRides().then((rides) => {
+          this.rides = rides;
+        });
+      }
     });
   }
 

@@ -10,6 +10,9 @@ import {
   EftelingWaitTimesResponse
 } from '../../_interfaces/efteling/waittimesresponse.interface';
 import {WaitingTimes, WaitingTimesState} from '../../_interfaces/waitingtimes.interface';
+import {Themepark} from '../../_interfaces/themepark.interface';
+import {Country} from '../../_interfaces/country.interface';
+import {ThemeparkOptions} from '../../_interfaces/themepark_options.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -26,14 +29,29 @@ export class EftelingService extends ThemeparkService {
   constructor(private httpClient: HttpClient,
               private cacheService: CacheService) {
     super();
+  }
 
-    this.setSettings({
+  supports(): ThemeparkOptions {
+    return {
       parkSupportsOpeningTimes: true,
       parkSupportsPois: true,
       parkSupportsRideAreas: true,
       parkSupportsShowTimes: true,
       parkSupportsWaitingTimes: true
-    });
+    }
+  }
+
+  public getInfo(country: Country): Themepark {
+    return {
+      id: 'efteling_nl',
+      name: 'Efteling',
+      description: 'Reserveer je bezoek of blijf slapen. Beleef een sprookjesachtige winter in de Efteling! Geniet van winterse attracties en duizenden twinkelende lichtjes in de Winter Efteling. Spectaculaire achtbanen. Adembenemende attracties. Laat je verwonderen. Wereld vol Wonderen.',
+      service: this,
+      country: country,
+      enabled: true,
+      image_url: 'https://www.efteling.com/nl/-/media/images/wereld-vol-wonderen/1600x900-en-toen-winter-efteling.jpg?h=900&w=1600&focuspoint=-0.01%2c-0.19&hash=CD8DA332297BA0BF60CE9780C38A94A8',
+      options: this.supports()
+    };
   }
 
   public getEftelingPois(): Promise<EftelingPoi[]> {
@@ -101,7 +119,7 @@ export class EftelingService extends ThemeparkService {
         if (poi.fields.image_detailview4) { images.push(`https://efteling.com/${poi.fields.image_detailview4}`); }
 
         const p: Poi = {
-          id: poi.id,
+          id: poi.id.split(`-${this.apiLang}`)[0],
           category: c,
           original_category: poi.fields.category,
           title: poi.fields.name,
@@ -165,9 +183,22 @@ export class EftelingService extends ThemeparkService {
     });
   }
 
+  public getRidesWithWaitTimes(): Promise<Poi[]> {
+    return Promise.all([
+      this.getWaitingTimes(),
+      this.getRides()
+    ]).then((value: [WaitingTimes[], Poi[]]) => {
+      return value[1].map((poi) => {
+        poi.waitingTimes = value[0].filter(wt => wt.ride_id == poi.id)[0];
+
+        return poi;
+      });
+    })
+  }
+
   public getWaitingTimesOfRide(rideId: string): Promise<WaitingTimes> {
     return this.getWaitingTimes().then(value => {
-      return value.filter(ride => ride.ride_id == rideId.split(`-${this.apiLang}`)[0])[0];
+      return value.filter(ride => ride.ride_id == rideId)[0];
     });
   }
 }

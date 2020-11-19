@@ -5,6 +5,9 @@ import {PhantasialandPoi} from '../../_interfaces/phantasialand/phantasialand_po
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {CacheService} from '../cache.service';
 import {environment} from '../../../environments/environment';
+import {Country} from '../../_interfaces/country.interface';
+import {Themepark} from '../../_interfaces/themepark.interface';
+import {ThemeparkOptions} from '../../_interfaces/themepark_options.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +21,36 @@ export class PhantasialandService extends ThemeparkService {
   private latMin = 50.800659529;
   private latMax = 50.799683077;
 
+  private get selectedLang(): string {
+    return "nl";
+  }
+
+  public supports(): ThemeparkOptions {
+    return {
+      parkSupportsWaitingTimes: false,
+      parkSupportsShowTimes: false,
+      parkSupportsRideAreas: true,
+      parkSupportsPois: true,
+      parkSupportsOpeningTimes: false,
+    }
+  }
+
   constructor(private httpClient: HttpClient,
               private cacheService: CacheService) {
     super();
+  }
+
+  public getInfo(country: Country): Themepark {
+    return {
+      id: 'phantasialand_de',
+      name: 'Phantasialand',
+      description: 'Wereldwijd unieke en recordbrekende attracties in 6 themawerelden, spectaculaire shows, magisch overnachten en uitzonderlijk eten & drinken.',
+      service: this,
+      country: country,
+      enabled: true,
+      image_url: 'https://static.phlcdn.de/files/uploads/themenpark/images/winter/berlin/wellenflug/ga-winter-wellenflug_05.jpg',
+      options: this.supports()
+    };
   }
 
   public async getPois(): Promise<Poi[]> {
@@ -62,22 +92,24 @@ export class PhantasialandService extends ThemeparkService {
         }
 
         const bold = /\*\*(.*?)\*\*/gm;
-        const heading = /---(.*?)---/gm;
+        const heading = /(---)/gm;
 
-        const description = poi.description
-          .replace(heading, '<h3 class=\'text-lg\'>$1</h3>')
+        const description = (poi.description.nl ?? "")
+          // .replace(heading, '<h3 class="text-lg mt-2 mb-1 text-indigo-800 font-bold">$1</h3>')
+          .replace(heading, '<br/><br/>')
           .replace(bold, '<strong>$1</strong>');
 
         const p: Poi = {
           id: poi.id.toString(),
-          title: poi.title,
-          description,
+          title: poi.title.nl,
+          description: description,
           image_url: poi.titleImage.url,
           category,
           original_category: poi.category,
           area: poi.area,
           original: poi,
         };
+
         return p;
       });
     });

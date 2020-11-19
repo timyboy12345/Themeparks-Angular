@@ -27,15 +27,7 @@ export class ThemeparksService {
     flag_url: 'https://flagcdn.com/nl.svg'
   }];
 
-  private _themeparks: Themepark[] = [{
-    id: 'phantasialand_de',
-    name: 'Phantasialand',
-    description: 'Wereldwijd unieke en recordbrekende attracties in 6 themawerelden, spectaculaire shows, magisch overnachten en uitzonderlijk eten & drinken.',
-    service: this.phantasialandService,
-    country: this._countries.filter(c => c.id == 'de')[0],
-    enabled: true,
-    image_url: 'https://static.phlcdn.de/files/uploads/themenpark/images/winter/berlin/wellenflug/ga-winter-wellenflug_05.jpg'
-  }, {
+  private _oldThemeparks: Themepark[] = [{
     id: 'europapark_de',
     name: 'Europapark',
     description: 'Duitslands grootste pretpark. Meer dan 100 attracties, shows en achtbanen! Het ideale park voor een vakantie met de familie.',
@@ -57,15 +49,9 @@ export class ThemeparksService {
     country: this._countries.filter(c => c.id == 'fr')[0],
     enabled: true,
     image_url: 'https://www.parcasterix.fr/sites/default/files/images/attractions/teaser/aerolaf_sylvain_cambon_2018-2023_32.jpg'
-  }, {
-    id: 'efteling_nl',
-    name: 'Efteling',
-    description: 'Reserveer je bezoek of blijf slapen. Beleef een sprookjesachtige winter in de Efteling! Geniet van winterse attracties en duizenden twinkelende lichtjes in de Winter Efteling. Spectaculaire achtbanen. Adembenemende attracties. Laat je verwonderen. Wereld vol Wonderen.',
-    service: this.eftelingService,
-    country: this._countries.filter(c => c.id == 'nl')[0],
-    enabled: true,
-    image_url: 'https://www.efteling.com/nl/-/media/images/wereld-vol-wonderen/1600x900-en-toen-winter-efteling.jpg?h=900&w=1600&focuspoint=-0.01%2c-0.19&hash=CD8DA332297BA0BF60CE9780C38A94A8'
   }];
+
+  private _themeparks: Themepark[] = [];
 
   constructor(private httpClient: HttpClient,
               private phantasialandService: PhantasialandService,
@@ -73,6 +59,8 @@ export class ThemeparksService {
               private heidiparkService: HeidiparkService,
               private parcasterixService: ParcasterixService,
               private eftelingService: EftelingService) {
+    this._themeparks.push(eftelingService.getInfo(this._countries.filter(c => c.id == 'nl')[0]));
+    this._themeparks.push(phantasialandService.getInfo(this._countries.filter(c => c.id == 'de')[0]));
   }
 
   public getParks(): Promise<Themepark[]> {

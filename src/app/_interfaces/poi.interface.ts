@@ -1,3 +1,5 @@
+import {WaitingTimes} from './waitingtimes.interface';
+
 export interface Poi {
   id: string;
   category: PoiCategory;
@@ -41,6 +43,8 @@ export interface Poi {
   photoPoint?: boolean;
 
   images?: string[];
+
+  waitingTimes?: WaitingTimes;
 
   // The original POI object (eftelingPoi, parcAsterixPoi, ...)
   original: any;

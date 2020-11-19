@@ -4,6 +4,7 @@ import {ThemeparkService} from '../../_services/themepark.service';
 import {ThemeparksService} from '../../_services/themeparks.service';
 import {ActivatedRoute} from '@angular/router';
 import {Poi, PoiCategory} from '../../_interfaces/poi.interface';
+import {WaitingTimes} from '../../_interfaces/waitingtimes.interface';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +23,7 @@ export class HomeComponent implements OnInit {
     return this.pois ? this.pois.filter(p => p.category == PoiCategory.RESTAURANT).slice(0, 5) : null;
   }
 
-  private parkService?: ThemeparkService = undefined;
+  public parkService?: ThemeparkService = undefined;
 
   constructor(private parksService: ThemeparksService,
               private activatedRoute: ActivatedRoute) {
@@ -39,13 +40,22 @@ export class HomeComponent implements OnInit {
       .then(value => {
         this.parkService = value;
 
-        this.parkService.getPois().then(rides => {
-          this.pois = rides;
-        });
+        if (value.supportsPois) {
+          if (value.supportsWaitingTimes) {
+            this.parkService.getRidesWithWaitTimes().then(rides => {
+              this.pois = rides;
+            });
+          } else {
+            this.parkService.getPois().then(rides => {
+              this.pois = rides;
+            });
+          }
+        }
 
-        this.parkService.getWaitingTimes().then(value => {
-          console.log(value);
-        });
+        if (value.supportsWaitingTimes) {
+          this.parkService.getWaitingTimes().then(value => {
+          });
+        }
       })
       .catch(reason => {
         this.pois = [];
