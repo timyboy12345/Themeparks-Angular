@@ -3,8 +3,8 @@
        alt="Image of {{ park.name }}">
 
   <div class="p-4">
-    <h1 class="text-lg text-indigo-800">{{ park.name }}</h1>
-    <p *ngIf="park.description" class="text-gray-600">{{ park.description }}</p>
+    <h1 class="text-lg text-indigo-800 dark:text-indigo-400">{{ park.name }}</h1>
+    <p *ngIf="park.description" class="text-gray-600 dark:text-gray-400">{{ park.description }}</p>
   </div>
 </app-card>
 
@@ -28,7 +28,7 @@
 
         <div *ngFor="let ride of popularRides; let last = last">
           <div
-            class="border-gray-100 p-3 flex flex-row items-center cursor-pointer hover:bg-gray-100 transition duration-100"
+            class="border-gray-100 dark:border-gray-800 p-3 flex flex-row items-center cursor-pointer hover:bg-gray-100 hover:bg-gray-800 transition duration-100"
             [ngClass]="{'border-b': !last}" [routerLink]="['rides', ride.id]">
             <div class="w-8 h-8 relative bg-indigo-700 rounded-full overflow-hidden mr-2">
               <img alt="Image of {{ ride.title }}" *ngIf="ride.image_url"
@@ -36,9 +36,9 @@
             </div>
 
             <div class="flex-grow flex flex-row justify-between">
-              <div class="text-indigo-800">{{ ride.title }}</div>
+              <div class="text-indigo-800 dark:text-indigo-400">{{ ride.title }}</div>
 
-              <div *ngIf="ride.waitingTimes">
+              <div *ngIf="ride.waitingTimes" class="text-gray-100 dark:text-gray-400">
                 <span *ngIf="ride.waitingTimes.state == 'Open'; else otherRideState">{{ ride.waitingTimes.wait }} min</span>
                 <ng-template #otherRideState>{{ ride.waitingTimes.state }}</ng-template>
               </div>
@@ -70,13 +70,13 @@
 
         <div *ngFor="let restaurant of popularRestaurants; let last = last">
           <div
-            class="border-gray-100 p-3 flex flex-row items-center cursor-pointer hover:bg-gray-100 transition duration-100"
+            class="border-gray-100 dark:border-gray-800 p-3 flex flex-row items-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-100"
             [ngClass]="{'border-b': !last}">
             <div class="w-8 h-8 relative bg-indigo-700 rounded-full overflow-hidden mr-2">
               <img *ngIf="restaurant.image_url" class="w-full h-full absolute left-0 top-0 object-center object-cover"
                    [src]="restaurant.image_url">
             </div>
-            <div class="text-indigo-800">{{ restaurant.title }}</div>
+            <div class="text-indigo-800 dark:text-indigo-400">{{ restaurant.title }}</div>
           </div>
         </div>
       </app-card>
