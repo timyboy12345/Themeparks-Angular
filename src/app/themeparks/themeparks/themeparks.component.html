@@ -11,10 +11,10 @@
 <h1 class="text-xl mb-1 text-indigo-800 dark:text-indigo-700">Alle pretparken</h1>
 
 <div *ngIf="themeparks.length > 0; else noParks" class="flex flex-col">
-  <app-card *ngFor="let tp of selectedParks" [routerLink]="['/park', tp.id]" cardClasses="hover:bg-gray-100 dark:hover:bg-gray-800" class="cursor-pointer mb-4">
+  <app-card *ngFor="let tp of selectedParks" [routerLink]="['/park', tp.id]" cardClasses="hover:bg-gray-100 dark:hover:bg-gray-900" class="cursor-pointer mb-4">
     <div class="flex flex-row items-center mb-2">
       <img class="w-6 h-6 rounded-full overflow-hidden object-cover mr-2" [src]="tp.country.flag_url">
-      <h2 class="text-lg text-indigo-800 dark:text-indigo-400">{{ tp.name }}</h2>
+      <h2 class="text-lg text-indigo-800 dark:text-indigo-200">{{ tp.name }}</h2>
     </div>
 
     <p *ngIf="tp.description" class="text-sm text-gray-600 dark:text-gray-400">{{ tp.description }}</p>

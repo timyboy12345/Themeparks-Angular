@@ -54,7 +54,7 @@
 
   <app-card *ngIf="displayType === 'list'" padding="p-0" cardClasses="flex flex-col my-4">
     <div *ngFor="let ride of selectedRides; let last = last;" [routerLink]="ride.id" [ngClass]="{'border-b': !last}"
-         class="border-gray-100 dark:border-gray-600 p-3 flex flex-row items-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition duration-100">
+         class="border-gray-100 dark:border-gray-700 p-3 flex flex-row items-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900 transition duration-100">
 
       <div class="w-8 h-8 relative bg-indigo-700 rounded-full overflow-hidden mr-2">
         <img alt="Image of {{ ride.title }}" *ngIf="ride.image_url"
@@ -62,7 +62,7 @@
       </div>
 
       <div class="flex-grow flex flex-row justify-between">
-        <div class="text-indigo-800 dark:text-indigo-400 font-bold">{{ ride.title }}</div>
+        <div class="text-indigo-800 dark:text-indigo-200 font-bold">{{ ride.title }}</div>
 
         <div *ngIf="ride.waitingTimes" class="text-gray-100 dark:text-gray-400">
           <span *ngIf="ride.waitingTimes.state == 'Open'; else otherRideState">{{ ride.waitingTimes.wait }} min</span>
