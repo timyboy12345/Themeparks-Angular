@@ -10,7 +10,7 @@ import {WaitingTimes, WaitingTimesState} from '../../_interfaces/waitingtimes.in
 import {Themepark} from '../../_interfaces/themepark.interface';
 import {Country} from '../../_interfaces/country.interface';
 import {ThemeparkOptions} from '../../_interfaces/themepark_options.interface';
-import {OpeningTimes, OpeningTimesTimeslot} from '../../_interfaces/openingtimes.interface';
+import {OpeningTimes, OpeningtimesEvent, OpeningTimesTimeslot} from '../../_interfaces/openingtimes.interface';
 import {EftelingOpeningTimesResponse} from '../../_interfaces/efteling/efteling_openingtimesresponse.interface';
 
 import * as moment from 'moment';
@@ -215,12 +215,24 @@ export class EftelingService extends ThemeparkService {
           })
         })
 
+        const events: OpeningtimesEvent[] = [];
+        value.Events.forEach(event => {
+          events.push({
+            begin: event.DateFrom,
+            end: event.DateTo,
+            title: event.Name,
+            type: 'informative',
+            description: event.Description,
+            show: true
+          })
+        })
+
         return {
           date: d.format('YYYY-MM-DD'),
           year: parseInt(d.format('YYYY')),
           month: parseInt(d.format('MM')),
           day: parseInt(d.format('DD')),
-          events: [],
+          events: events,
           times: openingTimes,
           original: date
         };
