@@ -4,6 +4,9 @@ import {ThemeparkOptions} from '../_interfaces/themepark_options.interface';
 import {WaitingTimes} from '../_interfaces/waitingtimes.interface';
 import {Themepark} from '../_interfaces/themepark.interface';
 import {Country} from '../_interfaces/country.interface';
+import {OpeningTimes} from '../_interfaces/openingtimes.interface';
+
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -89,5 +92,24 @@ export class ThemeparkService {
 
   public getInfo(country: Country): Themepark {
     throw new Error('This park does not have the getInfo() function');
+  }
+
+  public getOpeningTimesOfDay(year: number, month: number, day: number): Promise<OpeningTimes> {
+    throw new Error('This park does not have the getOpeningTimesOfDay() function');
+  }
+
+  public getOpeningTimesOfMonth(year: number, month: number): Promise<OpeningTimes[]> {
+    throw new Error('This park does not have the getOpeningTimesOfMonth() function');
+  }
+
+  public getOpeningTimesOfYear(year: number): Promise<OpeningTimes[]> {
+    throw new Error('This park does not have the getOpeningTimesOfYear() function');
+  }
+
+  public getOpeningTimesOfToday(): Promise<OpeningTimes> {
+    const year = moment().year();
+    const month = moment().month();
+    const day = moment().day();
+    return this.getOpeningTimesOfDay(year, month, day);
   }
 }

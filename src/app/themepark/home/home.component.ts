@@ -5,6 +5,7 @@ import {ThemeparksService} from '../../_services/themeparks.service';
 import {ActivatedRoute} from '@angular/router';
 import {Poi, PoiCategory} from '../../_interfaces/poi.interface';
 import {WaitingTimes} from '../../_interfaces/waitingtimes.interface';
+import {OpeningTimes} from '../../_interfaces/openingtimes.interface';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,7 @@ import {WaitingTimes} from '../../_interfaces/waitingtimes.interface';
 export class HomeComponent implements OnInit {
   public park?: Themepark;
   public pois?: Poi[];
+  public openingTimes?: OpeningTimes;
 
   public get popularRides() {
     return this.pois ? this.pois.filter(p => p.category == PoiCategory.ATTRACTION).slice(0, 5) : null;
@@ -50,6 +52,12 @@ export class HomeComponent implements OnInit {
             .catch(reason => {
               console.error(reason);
             });
+        }
+
+        if (value.supportsOpeningTimes) {
+          value.getOpeningTimesOfDay(2020, 11, 20).then(date => {
+            this.openingTimes = date;
+          })
         }
       })
       .catch((reason) => {

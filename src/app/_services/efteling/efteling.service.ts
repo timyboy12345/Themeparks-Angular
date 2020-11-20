@@ -5,14 +5,15 @@ import {EftelingPoi} from '../../_interfaces/efteling/efteling_poi.interface';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {CacheService} from '../cache.service';
 import {environment} from '../../../environments/environment';
-import {
-  EftelingAttractionInfoType,
-  EftelingWaitTimesResponse
-} from '../../_interfaces/efteling/efteling_waittimesresponse.interface';
+import {EftelingAttractionInfoType, EftelingWaitTimesResponse} from '../../_interfaces/efteling/efteling_waittimesresponse.interface';
 import {WaitingTimes, WaitingTimesState} from '../../_interfaces/waitingtimes.interface';
 import {Themepark} from '../../_interfaces/themepark.interface';
 import {Country} from '../../_interfaces/country.interface';
 import {ThemeparkOptions} from '../../_interfaces/themepark_options.interface';
+import {OpeningTimes, OpeningTimesTimeslot} from '../../_interfaces/openingtimes.interface';
+import {EftelingOpeningTimesResponse} from '../../_interfaces/efteling/efteling_openingtimesresponse.interface';
+
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +39,7 @@ export class EftelingService extends ThemeparkService {
       parkSupportsRideAreas: true,
       parkSupportsShowTimes: true,
       parkSupportsWaitingTimes: true
-    }
+    };
   }
 
   public getInfo(country: Country): Themepark {
@@ -113,10 +114,18 @@ export class EftelingService extends ThemeparkService {
         }
 
         const images: string[] = [];
-        if (poi.fields.image_detailview1) { images.push(`https://efteling.com/${poi.fields.image_detailview1}`); }
-        if (poi.fields.image_detailview2) { images.push(`https://efteling.com/${poi.fields.image_detailview2}`); }
-        if (poi.fields.image_detailview3) { images.push(`https://efteling.com/${poi.fields.image_detailview3}`); }
-        if (poi.fields.image_detailview4) { images.push(`https://efteling.com/${poi.fields.image_detailview4}`); }
+        if (poi.fields.image_detailview1) {
+          images.push(`https://efteling.com/${poi.fields.image_detailview1}`);
+        }
+        if (poi.fields.image_detailview2) {
+          images.push(`https://efteling.com/${poi.fields.image_detailview2}`);
+        }
+        if (poi.fields.image_detailview3) {
+          images.push(`https://efteling.com/${poi.fields.image_detailview3}`);
+        }
+        if (poi.fields.image_detailview4) {
+          images.push(`https://efteling.com/${poi.fields.image_detailview4}`);
+        }
 
         const p: Poi = {
           id: poi.id.split(`-${this.apiLang}`)[0],
@@ -186,6 +195,42 @@ export class EftelingService extends ThemeparkService {
   public getWaitingTimesOfRide(rideId: string): Promise<WaitingTimes> {
     return this.getWaitingTimes().then(value => {
       return value.filter(ride => ride.ride_id == rideId)[0];
+    });
+  }
+
+  private getEftelingOpeningTimes(year: number, month: number) {
+    return this.httpClient.get<EftelingOpeningTimesResponse>(`${this.apiUrl}/openingtimes?year=${year}&month=${month}`).toPromise();
+  }
+
+  getOpeningTimesOfMonth(year: number, month: number): Promise<OpeningTimes[]> {
+    return this.getEftelingOpeningTimes(year, month).then(value => {
+      return value.OpeningHours.map(date => {
+        const d = moment(date.Date);
+
+        const openingTimes: OpeningTimesTimeslot[] = [];
+        date.OpeningHours.forEach(slot => {
+          openingTimes.push({
+            open: slot.Open,
+            close: slot.Close
+          })
+        })
+
+        return {
+          date: d.format('YYYY-MM-DD'),
+          year: parseInt(d.format('YYYY')),
+          month: parseInt(d.format('MM')),
+          day: parseInt(d.format('DD')),
+          events: [],
+          times: openingTimes,
+          original: date
+        };
+      });
+    });
+  }
+
+  getOpeningTimesOfDay(year: number, month: number, day: number): Promise<OpeningTimes> {
+    return this.getOpeningTimesOfMonth(year, month).then(value => {
+      return value.filter(date => date.day == day)[0];
     });
   }
 }
