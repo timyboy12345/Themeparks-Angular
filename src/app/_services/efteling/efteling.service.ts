@@ -8,7 +8,7 @@ import {environment} from '../../../environments/environment';
 import {
   EftelingAttractionInfoType,
   EftelingWaitTimesResponse
-} from '../../_interfaces/efteling/waittimesresponse.interface';
+} from '../../_interfaces/efteling/efteling_waittimesresponse.interface';
 import {WaitingTimes, WaitingTimesState} from '../../_interfaces/waitingtimes.interface';
 import {Themepark} from '../../_interfaces/themepark.interface';
 import {Country} from '../../_interfaces/country.interface';
@@ -181,19 +181,6 @@ export class EftelingService extends ThemeparkService {
         return wait;
       });
     });
-  }
-
-  public getPoisWithWaitingTimes(): Promise<Poi[]> {
-    return Promise.all([
-      this.getWaitingTimes(),
-      this.getPois()
-    ]).then((value: [WaitingTimes[], Poi[]]) => {
-      return value[1].map((poi) => {
-        poi.waitingTimes = value[0].filter(wt => wt.ride_id == poi.id)[0];
-
-        return poi;
-      });
-    })
   }
 
   public getWaitingTimesOfRide(rideId: string): Promise<WaitingTimes> {

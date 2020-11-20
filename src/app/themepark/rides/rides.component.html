@@ -42,7 +42,7 @@
 
         <div class="absolute w-full bottom-0">
           <div class="p-4 bg-white rounded m-4 shadow m-4">
-            <h2 (click)="call(ride)" class="text-indigo-800 font-bold">{{ ride.title }}</h2>
+            <h2 class="text-indigo-800 font-bold">{{ ride.title }}</h2>
 
             <div *ngIf="ride.minSizeEscort">Minimaal met begeleiding: {{ ride.minSizeEscort }} cm</div>
             <div *ngIf="ride.minSize">Zonder begeleiding: {{ ride.minSize }} cm</div>

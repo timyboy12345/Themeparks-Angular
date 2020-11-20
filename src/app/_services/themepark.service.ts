@@ -64,7 +64,7 @@ export class ThemeparkService {
     });
   }
 
-  public getWaitingTimes(): Promise<any[]> {
+  public getWaitingTimes(): Promise<WaitingTimes[]> {
     throw new Error('This park does not have the getWaitingTimes() function');
   }
 
@@ -73,7 +73,18 @@ export class ThemeparkService {
   }
 
   public getPoisWithWaitingTimes(): Promise<Poi[]> {
-    throw new Error('This park does not have the getWaitingTimes() function');
+    // throw new Error('This park does not have the getPoisWithWaitingTimes() function');
+
+    return Promise.all([
+      this.getWaitingTimes(),
+      this.getPois()
+    ]).then((value: [WaitingTimes[], Poi[]]) => {
+      return value[1].map((poi) => {
+        poi.waitingTimes = value[0].filter(wt => wt.ride_id == poi.id)[0];
+
+        return poi;
+      });
+    })
   }
 
   public getInfo(country: Country): Themepark {

@@ -2,37 +2,29 @@ import {Injectable} from '@angular/core';
 import {ThemeparkService} from '../themepark.service';
 import {Poi, PoiCategory} from '../../_interfaces/poi.interface';
 import {PhantasialandPoi} from '../../_interfaces/phantasialand/phantasialand_poi.interface';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {CacheService} from '../cache.service';
 import {environment} from '../../../environments/environment';
 import {Country} from '../../_interfaces/country.interface';
 import {Themepark} from '../../_interfaces/themepark.interface';
 import {ThemeparkOptions} from '../../_interfaces/themepark_options.interface';
+import {PhantasialandWaitTimeResponse} from '../../_interfaces/phantasialand/phantasialand_waittimeresponse.interface';
+import {WaitingTimes, WaitingTimesState} from '../../_interfaces/waitingtimes.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PhantasialandService extends ThemeparkService {
   private apiBase = `${environment.SHARED_API_URL}/phantasialand`;
-  private apiToken = 'auiJJnDpbIWrqt2lJBnD8nV9pcBCIprCrCxaWettkBQWAjhDAHtDxXBbiJvCzkUf';
-
-  private lngMin = 6.878342628;
-  private lngMax = 6.877570152;
-  private latMin = 50.800659529;
-  private latMax = 50.799683077;
-
-  private get selectedLang(): string {
-    return "nl";
-  }
 
   public supports(): ThemeparkOptions {
     return {
-      parkSupportsWaitingTimes: false,
+      parkSupportsWaitingTimes: true,
       parkSupportsShowTimes: false,
       parkSupportsRideAreas: true,
       parkSupportsPois: true,
-      parkSupportsOpeningTimes: false,
-    }
+      parkSupportsOpeningTimes: true,
+    };
   }
 
   constructor(private httpClient: HttpClient,
@@ -94,7 +86,7 @@ export class PhantasialandService extends ThemeparkService {
         const bold = /\*\*(.*?)\*\*/gm;
         const heading = /(---)/gm;
 
-        const description = (poi.description.nl ?? "")
+        const description = (poi.description.nl ?? '')
           // .replace(heading, '<h3 class="text-lg mt-2 mb-1 text-indigo-800 font-bold">$1</h3>')
           .replace(heading, '<br/><br/>')
           .replace(bold, '<strong>$1</strong>');
@@ -123,20 +115,26 @@ export class PhantasialandService extends ThemeparkService {
     });
   }
 
-  public getWaitingTimes(): Promise<any[]> {
-    const url = `${this.apiBase}/waittimes`;
+  public getPhantasialandWaitingTimes(): Promise<PhantasialandWaitTimeResponse[]> {
+    return this.cacheService.remember<PhantasialandWaitTimeResponse[]>('phantasialand_waittimes', environment.CACHE_WAITINGTIMES_SECONDS, () => {
+      const url = `${this.apiBase}/waittimes`;
 
-    const randomLat = Math.floor(Math.random() * this.latMax) + this.latMin;
-    const randomLng = Math.floor(Math.random() * this.lngMax) + this.lngMin;
-
-    const headers: HttpHeaders = new HttpHeaders({
-      loc: `${randomLat},${randomLng}`,
-      compact: 'true',
-      access_token: '8cbWt6gu8aEG2VLvDVS9G2dj5rjjnrBuExxbLHQEEoG6zgS0BYqy8eFyaKcZ8ZCH'
+      return this.httpClient.get<PhantasialandWaitTimeResponse[]>(url).toPromise();
     });
+  }
 
-    return this.httpClient.get<any[]>(url, {
-      headers
-    }).toPromise();
+  public getWaitingTimes(): Promise<WaitingTimes[]> {
+    return this.getPhantasialandWaitingTimes().then(value => {
+      return value.map((wait) => {
+        const w: WaitingTimes = {
+          wait: wait.waitTime,
+          state: wait.open ? WaitingTimesState.OPEN : WaitingTimesState.CLOSED,
+          ride_id: wait.poiId.toString(),
+          original: wait
+        };
+
+        return w;
+      })
+    });
   }
 }

@@ -1,6 +1,6 @@
 export interface WaitingTimes {
   ride_id: string;
-  date: string;
+  date?: string;
   state: WaitingTimesState;
   wait: number;
   original: any;

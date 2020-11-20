@@ -8,6 +8,7 @@ import {EuropaparkService} from './europapark/europapark.service';
 import {HeidiparkService} from './heidipark/heidipark.service';
 import {ParcasterixService} from './parkasterix/parcasterix.service';
 import {EftelingService} from './efteling/efteling.service';
+import {BellewaerdeService} from './bellewaerde/bellewaerde.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,30 +26,10 @@ export class ThemeparksService {
     id: 'nl',
     name: 'Nederland',
     flag_url: 'https://flagcdn.com/nl.svg'
-  }];
-
-  private _oldThemeparks: Themepark[] = [{
-    id: 'europapark_de',
-    name: 'Europapark',
-    description: 'Duitslands grootste pretpark. Meer dan 100 attracties, shows en achtbanen! Het ideale park voor een vakantie met de familie.',
-    service: this.europaparkService,
-    country: this._countries.filter(c => c.id == 'de')[0],
-    enabled: false,
   }, {
-    id: 'heidipark_de',
-    name: 'Heide Park',
-    description: 'Heide-Park Resort is een attractiepark, gelegen bij Soltau in het Duitse Nedersaksen. Het is qua oppervlakte het tweede grootste pretpark van Duitsland.',
-    service: this.heidiparkService,
-    country: this._countries.filter(c => c.id == 'de')[0],
-    enabled: false,
-  }, {
-    id: 'parcasterix_fr',
-    name: 'Parc Asterix',
-    description: 'Parc Astérix is een Frans attractiepark in Plailly, ongeveer 35 km ten noorden van Parijs. Het is gebaseerd op de stripverhalen van Asterix en Obelix van Albert Uderzo en René Goscinny.',
-    service: this.parcasterixService,
-    country: this._countries.filter(c => c.id == 'fr')[0],
-    enabled: true,
-    image_url: 'https://www.parcasterix.fr/sites/default/files/images/attractions/teaser/aerolaf_sylvain_cambon_2018-2023_32.jpg'
+    id: 'be',
+    name: 'België',
+    flag_url: 'https://flagcdn.com/be.svg'
   }];
 
   private _themeparks: Themepark[] = [];
@@ -58,9 +39,12 @@ export class ThemeparksService {
               private europaparkService: EuropaparkService,
               private heidiparkService: HeidiparkService,
               private parcasterixService: ParcasterixService,
-              private eftelingService: EftelingService) {
+              private eftelingService: EftelingService,
+              private bellewaerdeService: BellewaerdeService) {
     this._themeparks.push(eftelingService.getInfo(this._countries.filter(c => c.id == 'nl')[0]));
     this._themeparks.push(phantasialandService.getInfo(this._countries.filter(c => c.id == 'de')[0]));
+    this._themeparks.push(parcasterixService.getInfo(this._countries.filter(c => c.id == 'fr')[0]));
+    this._themeparks.push(bellewaerdeService.getInfo(this._countries.filter(c => c.id == 'be')[0]));
   }
 
   public getParks(): Promise<Themepark[]> {

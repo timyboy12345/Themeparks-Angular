@@ -37,12 +37,6 @@ export class RideComponent implements OnInit {
       p.then()
         .then((rides) => {
           this.ride = rides.filter(ride => ride.id == rideId)[0];
-
-          if (value.supportsWaitingTimes) {
-            value.getWaitingTimes().then(value1 => {
-              console.log(value1);
-            });
-          }
         })
         .catch(reason => {
           console.error(reason);

@@ -63,6 +63,16 @@ export class RidesComponent implements OnInit {
       if (this.parkService.supportsWaitingTimes) {
         this.parkService.getPoisWithWaitingTimes().then((rides) => {
           this.rides = rides.filter(ride => ride.category == PoiCategory.ATTRACTION);
+
+          rides.forEach(r => {
+            console.log("R: " + r.id);
+          })
+
+          value.getWaitingTimes().then(value1 => {
+            value1.forEach(wt => {
+              console.log(`WT: ${wt.ride_id} : ${rides.filter(r => r.id == wt.ride_id)[0]}`);
+            })
+          })
         });
       } else {
         this.parkService.getRides().then((rides) => {
@@ -70,10 +80,6 @@ export class RidesComponent implements OnInit {
         });
       }
     });
-  }
-
-  public call(ride: Poi) {
-    console.log(ride);
   }
 
   public saveDisplayType($event: any) {

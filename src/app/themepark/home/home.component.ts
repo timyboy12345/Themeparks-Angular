@@ -41,23 +41,19 @@ export class HomeComponent implements OnInit {
         this.parkService = value;
 
         if (value.supportsPois) {
-          if (value.supportsWaitingTimes) {
-            this.parkService.getPoisWithWaitingTimes().then(rides => {
-              this.pois = rides;
-            });
-          } else {
-            this.parkService.getPois().then(rides => {
-              this.pois = rides;
-            });
-          }
-        }
+          const p: Promise<Poi[]> = value.supportsWaitingTimes ? this.parkService.getPoisWithWaitingTimes() : this.parkService.getPois();
 
-        if (value.supportsWaitingTimes) {
-          this.parkService.getWaitingTimes().then(value => {
-          });
+          p
+            .then((pois) => {
+              this.pois = pois;
+            })
+            .catch(reason => {
+              console.error(reason);
+            });
         }
       })
-      .catch(reason => {
+      .catch((reason) => {
+        console.error(reason);
         this.pois = [];
       });
   }
