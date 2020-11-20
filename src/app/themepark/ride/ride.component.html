@@ -40,10 +40,6 @@
     <p [innerHTML]="ride.description"></p>
   </app-card>
 
-  <!--  <app-card cardTitle="Algemene informatie">-->
-  <!--    {{ ride | json }}-->
-  <!--  </app-card>-->
-
   <div class="flex flex-row flex-wrap my-4 -mx-2" *ngIf="ride.images">
     <div *ngFor="let img of ride.images" class="overflow-hidden w-1/2 lg:w-1/3">
       <div class="m-2 rounded bg-white shadow overflow-hidden h-40">
