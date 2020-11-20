@@ -23,9 +23,16 @@
 
   <app-ride-status-indicator *ngIf="ride" [ride]="ride"></app-ride-status-indicator>
 
-  <div *ngIf="(parkService && parkService.supportsWaitingTimes) && !waitingTime" class="mt-4 rounded bg-red-600 shadow text-white p-4">
+  <div *ngIf="(parkService && parkService.supportsWaitingTimes) && !ride.waitingTimes"
+       class="mt-4 rounded bg-gray-200 text-gray-500 shadow p-4">
     Wachttijd wordt opgehaald...
   </div>
+
+  <app-card *ngIf="(parkService && parkService.supportsWaitingTimes) && ride.waitingTimes"
+       cardClasses="mt-4 flex flex-row justify-between">
+    <div class="font-bold text-indigo-800 dark:text-indigo-200">{{ ride.waitingTimes.state }} </div>
+    <div class="" *ngIf="ride.waitingTimes.state == 'Open'">{{ ride.waitingTimes.wait }} min</div>
+  </app-card>
 
   <app-button link="../" buttonText="Terug naar alle attracties" margin="my-4"></app-button>
 
@@ -33,9 +40,9 @@
     <p [innerHTML]="ride.description"></p>
   </app-card>
 
-<!--  <app-card cardTitle="Algemene informatie">-->
-<!--    {{ ride | json }}-->
-<!--  </app-card>-->
+  <!--  <app-card cardTitle="Algemene informatie">-->
+  <!--    {{ ride | json }}-->
+  <!--  </app-card>-->
 
   <div class="flex flex-row flex-wrap my-4 -mx-2" *ngIf="ride.images">
     <div *ngFor="let img of ride.images" class="overflow-hidden w-1/2 lg:w-1/3">

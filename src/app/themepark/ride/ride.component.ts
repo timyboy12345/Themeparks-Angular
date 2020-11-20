@@ -14,7 +14,6 @@ import {WaitingTimes} from '../../_interfaces/waitingtimes.interface';
 export class RideComponent implements OnInit {
   public park?: Themepark = undefined;
   public ride?: Poi;
-  public waitingTime?: WaitingTimes;
 
   public parkService?: ThemeparkService;
 
@@ -33,25 +32,16 @@ export class RideComponent implements OnInit {
     this.parksService.getParkService(parkId as string).then(value => {
       this.parkService = value;
 
-      this.parkService.getPois()
+      const p: Promise<Poi[]> = this.parkService.supportsWaitingTimes ? this.parkService.getPoisWithWaitingTimes() : this.parkService.getPois();
+
+      p.then()
         .then((rides) => {
           this.ride = rides.filter(ride => ride.id == rideId)[0];
-
-          console.log(this.ride);
 
           if (value.supportsWaitingTimes) {
             value.getWaitingTimes().then(value1 => {
               console.log(value1);
             });
-
-            value.getWaitingTimesOfRide(this.ride.id)
-              .then((wt) => {
-                console.log(wt);
-                this.waitingTime = wt;
-              })
-              .catch(reason => {
-                console.error(reason);
-              });
           }
         })
         .catch(reason => {
@@ -63,7 +53,6 @@ export class RideComponent implements OnInit {
             title: '',
             original: {}
           };
-          // window.alert("We konden de attractie niet ophalen");
         });
     });
   }
