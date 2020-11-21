@@ -217,14 +217,16 @@ export class EftelingService extends ThemeparkService {
 
         const events: OpeningtimesEvent[] = [];
         value.Events.forEach(event => {
-          events.push({
-            begin: event.DateFrom,
-            end: event.DateTo,
-            title: event.Name,
-            type: 'informative',
-            description: event.Description,
-            show: true
-          })
+          if (moment().diff(event.DateFrom, 'days') >= 0 && moment().diff(event.DateTo, 'days') <= 0) {
+            events.push({
+              begin: event.DateFrom,
+              end: event.DateTo,
+              title: event.Name,
+              type: 'informative',
+              description: event.Description,
+              show: true
+            })
+          }
         })
 
         return {

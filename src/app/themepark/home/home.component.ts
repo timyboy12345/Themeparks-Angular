@@ -7,6 +7,8 @@ import {Poi, PoiCategory} from '../../_interfaces/poi.interface';
 import {WaitingTimes} from '../../_interfaces/waitingtimes.interface';
 import {OpeningTimes} from '../../_interfaces/openingtimes.interface';
 
+import * as moment from 'moment';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -51,13 +53,18 @@ export class HomeComponent implements OnInit {
             })
             .catch(reason => {
               console.error(reason);
+              this.pois = [];
             });
         }
 
         if (value.supportsOpeningTimes) {
-          value.getOpeningTimesOfDay(2020, 11, 20).then(date => {
-            this.openingTimes = date;
-          })
+          value.getOpeningTimesOfDay(moment().year(), moment().month() + 1, moment().day())
+            .then(date => {
+              this.openingTimes = date;
+            })
+            .catch((reason) => {
+              this.openingTimes = undefined;
+            });
         }
       })
       .catch((reason) => {

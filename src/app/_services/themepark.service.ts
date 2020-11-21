@@ -108,7 +108,7 @@ export class ThemeparkService {
 
   public getOpeningTimesOfToday(): Promise<OpeningTimes> {
     const year = moment().year();
-    const month = moment().month();
+    const month = moment().month() + 1;
     const day = moment().day();
     return this.getOpeningTimesOfDay(year, month, day);
   }

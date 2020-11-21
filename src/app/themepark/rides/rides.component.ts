@@ -60,25 +60,21 @@ export class RidesComponent implements OnInit {
     this.parksService.getParkService(parkId as string).then(value => {
       this.parkService = value;
 
-      if (this.parkService.supportsWaitingTimes) {
-        this.parkService.getPoisWithWaitingTimes().then((rides) => {
-          this.rides = rides.filter(ride => ride.category == PoiCategory.ATTRACTION);
+      const promise = this.parkService.supportsWaitingTimes ? this.parkService.getPoisWithWaitingTimes() : this.parkService.getPois();
 
-          rides.forEach(r => {
-            console.log("R: " + r.id);
-          })
+      promise
+        .then((rides) => {
+          this.rides = rides.filter(ride => ride.category == PoiCategory.ATTRACTION);
 
           value.getWaitingTimes().then(value1 => {
             value1.forEach(wt => {
               console.log(`WT: ${wt.ride_id} : ${rides.filter(r => r.id == wt.ride_id)[0]}`);
-            })
-          })
+            });
+          });
+        })
+        .catch(reason => {
+          this.rides = [];
         });
-      } else {
-        this.parkService.getRides().then((rides) => {
-          this.rides = rides;
-        });
-      }
     });
   }
 
