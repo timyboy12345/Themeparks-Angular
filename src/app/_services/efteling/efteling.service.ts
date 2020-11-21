@@ -272,6 +272,8 @@ export class EftelingService extends ThemeparkService {
     return Promise.all([
       this.getShows(),
       this.getEftelingShowTimes(),
+      this.getEftelingPois(),
+      this.getEftelingWaitingTimes(),
     ]).then((value) => {
       return value[0].map(poi => {
         const showTimes: ShowTime[] = [];
@@ -281,10 +283,39 @@ export class EftelingService extends ThemeparkService {
         const futureShowTimes: ShowTime[] = [];
 
         value[1].filter(st => st.Name == poi.title).forEach(eftelingShowTimes => {
-          eftelingShowTimes.ShowDates.forEach(eftelingShowTime => {
-            const st = {
-              from: moment(eftelingShowTime).format("HH:mm:ss"),
+          const poiData = value[2].filter(p => p.id == poi.id)[0];
+          const waitData = value[3].AttractionInfo.filter(wd => wd.Id == poi.id)[0];
+
+          eftelingShowTimes.ShowDates.forEach((eftelingShowTime) => {
+            let edition = undefined;
+
+            if (waitData) {
+              if (waitData.ShowTimes && waitData.ShowTimes.length > 0) {
+                const time = waitData.ShowTimes.filter(st => st.StartDateTime == eftelingShowTime)[0];
+
+                if (time && time.Edition) {
+                  edition = time.Edition;
+                }
+              }
+
+              if (!edition && waitData.PastShowTimes && waitData.PastShowTimes.length > 0) {
+                const time = waitData.PastShowTimes.filter(st => st.StartDateTime == eftelingShowTime)[0];
+
+                if (time && time.Edition) {
+                  edition = time.Edition;
+                }
+              }
+            }
+
+            const st: ShowTime = {
+              from: moment(eftelingShowTime).format('YYYY-MM-DDTHH:mm:ss'),
+              fromTime: moment(eftelingShowTime).format('HH:mm:ss'),
+              isPassed: moment(eftelingShowTime).isBefore(moment()),
+              duration: poiData ? poiData.fields.showduration : undefined,
+              edition: edition
             };
+
+            console.log(st);
 
             showTimes.push(st);
 

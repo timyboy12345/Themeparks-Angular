@@ -36,6 +36,7 @@ export class ShowComponent implements OnInit {
       p.then()
         .then((shows) => {
           this.show = shows.filter(show => show.id == showId)[0];
+          console.log(this.show);
         })
         .catch(reason => {
           console.error(reason);

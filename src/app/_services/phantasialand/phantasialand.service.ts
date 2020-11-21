@@ -10,6 +10,9 @@ import {Themepark} from '../../_interfaces/themepark.interface';
 import {ThemeparkOptions} from '../../_interfaces/themepark_options.interface';
 import {PhantasialandWaitTimeResponse} from '../../_interfaces/phantasialand/phantasialand_waittimeresponse.interface';
 import {WaitingTimes, WaitingTimesState} from '../../_interfaces/waitingtimes.interface';
+import {ShowTime} from '../../_interfaces/showtimes.interface';
+
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -19,11 +22,12 @@ export class PhantasialandService extends ThemeparkService {
 
   public supports(): ThemeparkOptions {
     return {
-      parkSupportsWaitingTimes: true,
-      parkSupportsShowTimes: false,
-      parkSupportsRideAreas: true,
       parkSupportsPois: true,
-      parkSupportsOpeningTimes: true,
+      parkSupportsWaitingTimes: true,
+      parkSupportsShows: true,
+      parkSupportsShowTimes: true,
+      parkSupportsRideAreas: true,
+      parkSupportsOpeningTimes: false,
     };
   }
 
@@ -136,5 +140,50 @@ export class PhantasialandService extends ThemeparkService {
         return w;
       })
     });
+  }
+
+  getShows(): Promise<Poi[]> {
+    return this.getPois().then(pois => {
+      return pois.filter(value => value.category == PoiCategory.SHOW);
+    });
+  }
+
+  getShowsWithShowTimes(): Promise<Poi[]> {
+    return Promise.all([
+      this.getShows(),
+      this.getPhantasialandWaitingTimes(),
+    ]).then(value => {
+      console.log(value);
+
+      return value[0].map(show => {
+        const todayShowTimes: ShowTime[] = [];
+        const futureShowTimes: ShowTime[] = [];
+        const pastShowTimes: ShowTime[] = [];
+        const allShowTimes: ShowTime[] = [];
+
+        value[1].map(waitingTimes => {
+          if (waitingTimes.showTimes) {
+            waitingTimes.showTimes.forEach(showTime => {
+              const show: ShowTime = { from: showTime, fromTime: showTime, isPassed: moment(showTime).isBefore(moment()) };
+
+              if (moment().isSame(showTime, 'date')) {
+                todayShowTimes.push(show);
+              } else {
+                allShowTimes.push(show)
+              }
+            })
+          }
+        })
+
+        show.showTimes = {
+          todayShowTimes,
+          futureShowTimes,
+          pastShowTimes,
+          allShowTimes
+        }
+
+        return show;
+      });
+    })
   }
 }

@@ -4,7 +4,6 @@ import {ThemeparkService} from '../../_services/themepark.service';
 import {ThemeparksService} from '../../_services/themeparks.service';
 import {ActivatedRoute} from '@angular/router';
 import {Poi, PoiCategory} from '../../_interfaces/poi.interface';
-import {WaitingTimes} from '../../_interfaces/waitingtimes.interface';
 import {OpeningTimes} from '../../_interfaces/openingtimes.interface';
 
 import * as moment from 'moment';
@@ -73,9 +72,11 @@ export class HomeComponent implements OnInit {
 
           promise
             .then(shows => {
+              console.log(shows);
               this.shows = shows;
             })
             .catch(reason => {
+              console.error(reason);
               this.shows = [];
             });
         }

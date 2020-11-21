@@ -10,6 +10,9 @@ export interface ShowTimes {
 export interface ShowTime {
   id?: string;
   from: string;
+  fromTime: string;
   to?: string;
   duration?: number;
+  isPassed?: boolean;
+  edition?: string;
 }

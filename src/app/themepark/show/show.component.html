@@ -31,8 +31,9 @@
     <div *ngFor="let showTime of show.showTimes.todayShowTimes; let last = last;" [routerLink]="showTime.id" [ngClass]="{'border-b': !last}"
          class="border-gray-100 dark:border-gray-700 p-3 flex flex-row items-center">
 
-      <div class="flex-grow flex flex-row justify-between">
-        <div class="">{{ showTime.from }}</div>
+      <div class="flex-grow flex flex-row justify-between" [ngClass]="{'opacity-20': showTime.isPassed }">
+        <div class="">{{ showTime.fromTime }}</div>
+        <div class="text-sm text-gray-600 dark:text-gray-500" *ngIf="showTime.edition">{{ showTime.edition }}</div>
       </div>
     </div>
   </app-card>

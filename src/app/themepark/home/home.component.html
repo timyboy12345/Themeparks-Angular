@@ -116,7 +116,7 @@
         </div>
 
         <div *ngFor="let show of shows; let last = last">
-          <div
+          <div [routerLink]="['shows', show.id]"
             class="border-gray-100 dark:border-gray-800 p-3 flex flex-row items-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900 transition duration-100"
             [ngClass]="{'border-b': !last}">
             <div class="w-8 h-8 relative bg-indigo-700 rounded-full overflow-hidden mr-2">
