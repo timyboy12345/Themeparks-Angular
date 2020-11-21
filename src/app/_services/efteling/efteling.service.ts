@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {ThemeparkService} from '../themepark.service';
-import {Poi, PoiCategory} from '../../_interfaces/poi.interface';
+import {Poi, PoiCategory, PoiOpeningTime} from '../../_interfaces/poi.interface';
 import {EftelingPoi} from '../../_interfaces/efteling/efteling_poi.interface';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {CacheService} from '../cache.service';
 import {environment} from '../../../environments/environment';
 import {
+  EftelingAttractionInfo,
   EftelingAttractionInfoType,
-  EftelingShowTime,
   EftelingWaitTimesResponse
 } from '../../_interfaces/efteling/efteling_waittimesresponse.interface';
 import {WaitingTimes, WaitingTimesState} from '../../_interfaces/waitingtimes.interface';
@@ -44,7 +44,8 @@ export class EftelingService extends ThemeparkService {
       parkSupportsRideAreas: true,
       parkSupportsShows: true,
       parkSupportsShowTimes: true,
-      parkSupportsWaitingTimes: true
+      parkSupportsWaitingTimes: true,
+      parkSupportsRestaurantOpeningTimes: true,
     };
   }
 
@@ -315,8 +316,6 @@ export class EftelingService extends ThemeparkService {
               edition: edition
             };
 
-            console.log(st);
-
             showTimes.push(st);
 
             if (moment().isSame(eftelingShowTime, 'day')) {
@@ -334,6 +333,7 @@ export class EftelingService extends ThemeparkService {
         });
 
         poi.showTimes = {
+          currentDate: moment().format('DD MM YYYY'),
           allShowTimes: showTimes,
           todayShowTimes: todayDateShowTimes,
           otherDateShowTimes: otherDateShowTimes,
@@ -342,6 +342,43 @@ export class EftelingService extends ThemeparkService {
         };
 
         return poi;
+      });
+    });
+  }
+
+  private getEftelingRestaurantOpeningTimes(): Promise<EftelingAttractionInfo[]> {
+    return this.getEftelingWaitingTimes().then(value => {
+      return value.AttractionInfo.filter(poi => poi.Type == EftelingAttractionInfoType.HORECA).map(restaurant => {
+        return restaurant;
+      });
+    });
+  }
+
+  getRestaurantsWithOpeningTimes(): Promise<Poi[]> {
+    return Promise.all([
+      this.getRestaurants(),
+      this.getEftelingRestaurantOpeningTimes(),
+    ]).then(value => {
+      return value[0].map(restaurant => {
+        const poi = value[1].filter(r => r.Id == restaurant.id)[0];
+        const eftelingOpeningTimes = poi ? poi.OpeningTimes : undefined;
+        console.log(restaurant);
+        console.log(poi);
+
+        restaurant.openingTimes = [];
+
+        if (eftelingOpeningTimes) {
+          eftelingOpeningTimes.forEach(openingTime => {
+            if (restaurant.openingTimes) {
+              restaurant.openingTimes.push({
+                open: openingTime.HourFrom,
+                close: openingTime.HourTo
+              });
+            }
+          })
+        }
+
+        return restaurant;
       });
     });
   }

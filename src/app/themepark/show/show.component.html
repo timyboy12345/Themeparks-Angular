@@ -27,7 +27,7 @@
     <p [innerHTML]="show.description"></p>
   </app-card>
 
-  <app-card *ngIf="parkService && parkService.supportsShowTimes && show.showTimes" cardTitle="Showtijden" padding="p-0" cardClasses="flex flex-col my-4">
+  <app-card *ngIf="parkService && parkService.supportsShowTimes && show.showTimes" cardTitle="Showtijden ({{ show.showTimes.currentDate }})" padding="p-0" cardClasses="flex flex-col my-4">
     <div *ngFor="let showTime of show.showTimes.todayShowTimes; let last = last;" [routerLink]="showTime.id" [ngClass]="{'border-b': !last}"
          class="border-gray-100 dark:border-gray-700 p-3 flex flex-row items-center">
 

@@ -153,8 +153,6 @@ export class PhantasialandService extends ThemeparkService {
       this.getShows(),
       this.getPhantasialandWaitingTimes(),
     ]).then(value => {
-      console.log(value);
-
       return value[0].map(show => {
         const todayShowTimes: ShowTime[] = [];
         const futureShowTimes: ShowTime[] = [];
@@ -176,6 +174,7 @@ export class PhantasialandService extends ThemeparkService {
         })
 
         show.showTimes = {
+          currentDate: moment().format("DD MM YYYY"),
           todayShowTimes,
           futureShowTimes,
           pastShowTimes,

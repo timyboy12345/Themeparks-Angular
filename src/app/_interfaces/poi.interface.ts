@@ -49,8 +49,15 @@ export interface Poi {
 
   showTimes?: ShowTimes;
 
+  openingTimes?: PoiOpeningTime[];
+
   // The original POI object (eftelingPoi, parcAsterixPoi, ...)
   original: any;
+}
+
+export interface PoiOpeningTime {
+  open: string;
+  close: string;
 }
 
 export enum PoiCategory {

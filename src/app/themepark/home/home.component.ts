@@ -58,12 +58,14 @@ export class HomeComponent implements OnInit {
         }
 
         if (value.supportsOpeningTimes) {
-          value.getOpeningTimesOfDay(moment().year(), moment().month() + 1, moment().day())
+          value.getOpeningTimesOfDay(moment().year(), moment().month() + 1, moment().date())
             .then(date => {
               this.openingTimes = date;
+              console.log(date);
             })
             .catch((reason) => {
               this.openingTimes = undefined;
+              console.error(reason);
             });
         }
 
@@ -72,7 +74,6 @@ export class HomeComponent implements OnInit {
 
           promise
             .then(shows => {
-              console.log(shows);
               this.shows = shows;
             })
             .catch(reason => {

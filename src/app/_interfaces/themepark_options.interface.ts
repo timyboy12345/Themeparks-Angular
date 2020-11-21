@@ -5,4 +5,5 @@ export interface ThemeparkOptions {
   parkSupportsShows?: boolean;
   parkSupportsShowTimes?: boolean;
   parkSupportsOpeningTimes?: boolean;
+  parkSupportsRestaurantOpeningTimes?: boolean;
 }

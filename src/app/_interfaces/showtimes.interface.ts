@@ -1,5 +1,6 @@
 export interface ShowTimes {
   duration?: number;
+  currentDate: string;
   allShowTimes: ShowTime[];
   todayShowTimes: ShowTime[];
   otherDateShowTimes?: ShowTime[];

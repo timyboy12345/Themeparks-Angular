@@ -6,13 +6,13 @@ import {ThemeparksService} from '../../_services/themeparks.service';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
-  selector: 'app-show',
-  templateUrl: './show.component.html',
-  styleUrls: ['./show.component.scss']
+  selector: 'app-restaurant',
+  templateUrl: './restaurant.component.html',
+  styleUrls: ['./restaurant.component.scss']
 })
-export class ShowComponent implements OnInit {
+export class RestaurantComponent implements OnInit {
   public park?: Themepark = undefined;
-  public show?: Poi;
+  public restaurant?: Poi;
 
   public parkService?: ThemeparkService;
 
@@ -22,7 +22,7 @@ export class ShowComponent implements OnInit {
 
   ngOnInit(): void {
     const parkId = this.activatedRoute.snapshot.paramMap.get('park_id');
-    const showId = this.activatedRoute.snapshot.paramMap.get('show_id');
+    const restaurantId = this.activatedRoute.snapshot.paramMap.get('restaurant_id');
 
     this.parksService.findPark(parkId as string).then(park => {
       this.park = park;
@@ -31,15 +31,15 @@ export class ShowComponent implements OnInit {
     this.parksService.getParkService(parkId as string).then(value => {
       this.parkService = value;
 
-      const p: Promise<Poi[]> = this.parkService.supportsShowTimes ? this.parkService.getShowsWithShowTimes() : this.parkService.getShows();
+      const p = this.parkService.supportsRestaurantOpeningTimes ? this.parkService.getRestaurantsWithOpeningTimes() : this.parkService.getRestaurants();
 
       p.then()
-        .then((shows) => {
-          this.show = shows.filter(show => show.id == showId)[0];
+        .then((pois) => {
+          this.restaurant = pois.filter(r => r.id == restaurantId)[0];
         })
         .catch(reason => {
           console.error(reason);
-          this.show = {
+          this.restaurant = {
             id: '',
             category: PoiCategory.UNDEFINED,
             original_category: '',

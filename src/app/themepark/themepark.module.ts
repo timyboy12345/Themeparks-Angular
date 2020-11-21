@@ -9,6 +9,8 @@ import {FormsModule} from '@angular/forms';
 import { RideComponent } from './ride/ride.component';
 import { ShowsComponent } from './shows/shows.component';
 import { ShowComponent } from './show/show.component';
+import { RestaurantComponent } from './restaurant/restaurant.component';
+import { RestaurantsComponent } from './restaurants/restaurants.component';
 
 const routes: Routes = [{
   path: '',
@@ -25,6 +27,12 @@ const routes: Routes = [{
 }, {
   path: 'shows/:show_id',
   component: ShowComponent
+}, {
+  path: 'restaurants',
+  component: RestaurantsComponent
+}, {
+  path: 'restaurants/:restaurant_id',
+  component: RestaurantComponent
 }];
 
 @NgModule({
@@ -33,7 +41,9 @@ const routes: Routes = [{
     HomeComponent,
     RideComponent,
     ShowsComponent,
-    ShowComponent
+    ShowComponent,
+    RestaurantComponent,
+    RestaurantsComponent
   ],
   imports: [
     CommonModule,

@@ -23,6 +23,7 @@ export class ThemeparkService {
       parkSupportsWaitingTimes: false,
       parkSupportsShows: false,
       parkSupportsShowTimes: false,
+      parkSupportsRestaurantOpeningTimes: false,
     };
   }
 
@@ -48,6 +49,10 @@ export class ThemeparkService {
 
   public get supportsOpeningTimes(): boolean {
     return this.supports().parkSupportsOpeningTimes ?? false;
+  }
+
+  public get supportsRestaurantOpeningTimes(): boolean {
+    return this.supports().parkSupportsRestaurantOpeningTimes ?? false;
   }
 
   public getPois(): Promise<Poi[]> {
@@ -76,6 +81,10 @@ export class ThemeparkService {
     });
   }
 
+  public getRestaurantsWithOpeningTimes(): Promise<Poi[]> {
+    throw new Error('This park does not have an implementation for getRestaurantsWithOpeningTimes()');
+  }
+
   public getWaitingTimes(): Promise<WaitingTimes[]> {
     throw new Error('This park does not have the getWaitingTimes() function');
   }
@@ -85,8 +94,6 @@ export class ThemeparkService {
   }
 
   public getPoisWithWaitingTimes(): Promise<Poi[]> {
-    // throw new Error('This park does not have the getPoisWithWaitingTimes() function');
-
     return Promise.all([
       this.getWaitingTimes(),
       this.getPois()
@@ -118,7 +125,7 @@ export class ThemeparkService {
   public getOpeningTimesOfToday(): Promise<OpeningTimes> {
     const year = moment().year();
     const month = moment().month() + 1;
-    const day = moment().day();
+    const day = moment().date();
     return this.getOpeningTimesOfDay(year, month, day);
   }
 }
