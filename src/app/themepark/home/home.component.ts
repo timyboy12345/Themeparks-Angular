@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   public park?: Themepark;
   public pois?: Poi[];
   public openingTimes?: OpeningTimes;
+  public shows?: Poi[];
 
   public get popularRides() {
     return this.pois ? this.pois.filter(p => p.category == PoiCategory.ATTRACTION).slice(0, 5) : null;
@@ -64,6 +65,18 @@ export class HomeComponent implements OnInit {
             })
             .catch((reason) => {
               this.openingTimes = undefined;
+            });
+        }
+
+        if (value.supportsShows) {
+          const promise = value.supportsShowTimes ? value.getShowsWithShowTimes() : value.getShows();
+
+          promise
+            .then(shows => {
+              this.shows = shows;
+            })
+            .catch(reason => {
+              this.shows = [];
             });
         }
       })

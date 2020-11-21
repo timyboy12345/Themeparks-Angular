@@ -5,15 +5,20 @@ import {EftelingPoi} from '../../_interfaces/efteling/efteling_poi.interface';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {CacheService} from '../cache.service';
 import {environment} from '../../../environments/environment';
-import {EftelingAttractionInfoType, EftelingWaitTimesResponse} from '../../_interfaces/efteling/efteling_waittimesresponse.interface';
+import {
+  EftelingAttractionInfoType,
+  EftelingShowTime,
+  EftelingWaitTimesResponse
+} from '../../_interfaces/efteling/efteling_waittimesresponse.interface';
 import {WaitingTimes, WaitingTimesState} from '../../_interfaces/waitingtimes.interface';
 import {Themepark} from '../../_interfaces/themepark.interface';
 import {Country} from '../../_interfaces/country.interface';
 import {ThemeparkOptions} from '../../_interfaces/themepark_options.interface';
 import {OpeningTimes, OpeningtimesEvent, OpeningTimesTimeslot} from '../../_interfaces/openingtimes.interface';
-import {EftelingOpeningTimesResponse} from '../../_interfaces/efteling/efteling_openingtimesresponse.interface';
+import {EftelingOpeningTimesResponse, EftelingOpeningTimesShow} from '../../_interfaces/efteling/efteling_openingtimesresponse.interface';
 
 import * as moment from 'moment';
+import {ShowTime} from '../../_interfaces/showtimes.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +42,7 @@ export class EftelingService extends ThemeparkService {
       parkSupportsOpeningTimes: true,
       parkSupportsPois: true,
       parkSupportsRideAreas: true,
+      parkSupportsShows: true,
       parkSupportsShowTimes: true,
       parkSupportsWaitingTimes: true
     };
@@ -198,8 +204,10 @@ export class EftelingService extends ThemeparkService {
     });
   }
 
-  private getEftelingOpeningTimes(year: number, month: number) {
-    return this.httpClient.get<EftelingOpeningTimesResponse>(`${this.apiUrl}/openingtimes?year=${year}&month=${month}`).toPromise();
+  private getEftelingOpeningTimes(year: number, month: number): Promise<EftelingOpeningTimesResponse> {
+    return this.cacheService.remember<EftelingOpeningTimesResponse>('efteling_openingtimes', environment.CACHE_OPENINGTIMES_SECONDS, () => {
+      return this.httpClient.get<EftelingOpeningTimesResponse>(`${this.apiUrl}/openingtimes?year=${year}&month=${month}`).toPromise();
+    });
   }
 
   getOpeningTimesOfMonth(year: number, month: number): Promise<OpeningTimes[]> {
@@ -212,8 +220,8 @@ export class EftelingService extends ThemeparkService {
           openingTimes.push({
             open: slot.Open,
             close: slot.Close
-          })
-        })
+          });
+        });
 
         const events: OpeningtimesEvent[] = [];
         value.Events.forEach(event => {
@@ -225,9 +233,9 @@ export class EftelingService extends ThemeparkService {
               type: 'informative',
               description: event.Description,
               show: true
-            })
+            });
           }
-        })
+        });
 
         return {
           date: d.format('YYYY-MM-DD'),
@@ -245,6 +253,65 @@ export class EftelingService extends ThemeparkService {
   getOpeningTimesOfDay(year: number, month: number, day: number): Promise<OpeningTimes> {
     return this.getOpeningTimesOfMonth(year, month).then(value => {
       return value.filter(date => date.day == day)[0];
+    });
+  }
+
+  getShows(): Promise<Poi[]> {
+    return this.getPois().then(value => {
+      return value.filter(poi => poi.category == PoiCategory.SHOW);
+    });
+  }
+
+  private getEftelingShowTimes(): Promise<EftelingOpeningTimesShow[]> {
+    return this.getEftelingOpeningTimes(moment().year(), moment().month() + 1).then(value => {
+      return value.Shows;
+    });
+  }
+
+  getShowsWithShowTimes(): Promise<Poi[]> {
+    return Promise.all([
+      this.getShows(),
+      this.getEftelingShowTimes(),
+    ]).then((value) => {
+      return value[0].map(poi => {
+        const showTimes: ShowTime[] = [];
+        const todayDateShowTimes: ShowTime[] = [];
+        const otherDateShowTimes: ShowTime[] = [];
+        const pastShowTimes: ShowTime[] = [];
+        const futureShowTimes: ShowTime[] = [];
+
+        value[1].filter(st => st.Name == poi.title).forEach(eftelingShowTimes => {
+          eftelingShowTimes.ShowDates.forEach(eftelingShowTime => {
+            const st = {
+              from: moment(eftelingShowTime).format("HH:mm:ss"),
+            };
+
+            showTimes.push(st);
+
+            if (moment().isSame(eftelingShowTime, 'day')) {
+              todayDateShowTimes.push(st);
+
+              if (moment().diff(eftelingShowTime) > 0) {
+                pastShowTimes.push(st);
+              } else {
+                futureShowTimes.push(st);
+              }
+            } else {
+              otherDateShowTimes.push(st);
+            }
+          });
+        });
+
+        poi.showTimes = {
+          allShowTimes: showTimes,
+          todayShowTimes: todayDateShowTimes,
+          otherDateShowTimes: otherDateShowTimes,
+          pastShowTimes: pastShowTimes,
+          futureShowTimes: futureShowTimes,
+        };
+
+        return poi;
+      });
     });
   }
 }

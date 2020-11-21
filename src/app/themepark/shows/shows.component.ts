@@ -1,28 +1,28 @@
-import {Component, OnInit} from '@angular/core';
-import {ThemeparksService} from '../../_services/themeparks.service';
-import {ActivatedRoute} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import {Themepark} from '../../_interfaces/themepark.interface';
 import {Poi, PoiCategory} from '../../_interfaces/poi.interface';
 import {ThemeparkService} from '../../_services/themepark.service';
+import {ThemeparksService} from '../../_services/themeparks.service';
+import {ActivatedRoute} from '@angular/router';
 import {PreferenceService} from '../../_services/preference.service';
 
 @Component({
-  selector: 'app-rides',
-  templateUrl: './rides.component.html',
-  styleUrls: ['./rides.component.scss']
+  selector: 'app-shows',
+  templateUrl: './shows.component.html',
+  styleUrls: ['./shows.component.scss']
 })
-export class RidesComponent implements OnInit {
+export class ShowsComponent implements OnInit {
   public park?: Themepark = undefined;
-  public rides?: Poi[];
+  public shows?: Poi[];
 
   public parkService?: ThemeparkService;
-  public rideArea = '';
+  public showArea = '';
   public displayType: 'cards' | 'list' = this.preferenceService.listType();
 
   public get areas(): string[] {
     const areas: string[] = [];
-    if (this.rides) {
-      this.rides.forEach(r => {
+    if (this.shows) {
+      this.shows.forEach(r => {
         if (r.area && !areas.includes(r.area)) {
           areas.push(r.area);
         }
@@ -31,17 +31,17 @@ export class RidesComponent implements OnInit {
     return areas;
   }
 
-  public get selectedRides() {
-    if (!this.rides) {
+  public get selectedshows() {
+    if (!this.shows) {
       return null;
     }
 
-    return this.rides.filter(ride => {
-      if (this.rideArea && ride.area != this.rideArea) {
+    return this.shows.filter(show => {
+      if (this.showArea && show.area != this.showArea) {
         return;
       }
 
-      return ride;
+      return show;
     });
   }
 
@@ -60,14 +60,14 @@ export class RidesComponent implements OnInit {
     this.parksService.getParkService(parkId as string).then(value => {
       this.parkService = value;
 
-      const promise = this.parkService.supportsWaitingTimes ? this.parkService.getPoisWithWaitingTimes() : this.parkService.getPois();
+      const promise = this.parkService.supportsShowTimes ? this.parkService.getShowsWithShowTimes() : this.parkService.getShows();
 
       promise
-        .then((rides) => {
-          this.rides = rides.filter(ride => ride.category == PoiCategory.ATTRACTION);
+        .then((shows) => {
+          this.shows = shows;
         })
         .catch(reason => {
-          this.rides = [];
+          this.shows = [];
         });
     });
   }

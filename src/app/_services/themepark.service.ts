@@ -17,11 +17,12 @@ export class ThemeparkService {
 
   public supports(): ThemeparkOptions {
     return {
-      parkSupportsWaitingTimes: false,
-      parkSupportsShowTimes: false,
-      parkSupportsRideAreas: false,
-      parkSupportsPois: false,
       parkSupportsOpeningTimes: false,
+      parkSupportsPois: true,
+      parkSupportsRideAreas: false,
+      parkSupportsWaitingTimes: false,
+      parkSupportsShows: false,
+      parkSupportsShowTimes: false,
     };
   }
 
@@ -35,6 +36,10 @@ export class ThemeparkService {
 
   public get supportsWaitingTimes(): boolean {
     return this.supports().parkSupportsWaitingTimes ?? false;
+  }
+
+  public get supportsShows() {
+    return this.supports().parkSupportsShows ?? false;
   }
 
   public get supportsShowTimes(): boolean {
@@ -59,6 +64,10 @@ export class ThemeparkService {
     return this.getPois().then(value => {
       return value.filter(poi => poi.category == PoiCategory.SHOW);
     });
+  }
+
+  public getShowsWithShowTimes(): Promise<Poi[]> {
+    throw new Error('This park does not have an implementation for getShowsWithShowTimes()');
   }
 
   public getRestaurants(): Promise<Poi[]> {

@@ -1,0 +1,63 @@
+<div *ngIf="show && show.id != ''; else showLoading" class="flex flex-col">
+  <div class="h-72 relative flex flex-col rounded shadow overflow-hidden">
+    <div *ngIf="show.image_url" class="h-72 overflow-hidden">
+      <img class="w-full h-full object-center object-cover" [lazyLoad]="show.image_url">
+    </div>
+
+    <div *ngIf="show.area" class="absolute right-4 top-4 rounded py-1 px-2 text-sm text-white bg-indigo-700">
+      {{ show.area }}
+    </div>
+
+    <div class="absolute w-full bottom-0">
+      <div class="p-4 bg-white rounded m-4 shadow m-4">
+        <h2 class="text-indigo-800 font-bold">{{ show.title }}</h2>
+
+        <div *ngIf="show.minSizeEscort">Minimaal met begeleiding: {{ show.minSizeEscort }} cm</div>
+        <div *ngIf="show.minSize">Zonder begeleiding: {{ show.minSize }} cm</div>
+        <div *ngIf="show.maxSize">Maximaal: {{ show.minSize }} cm</div>
+
+        <div>{{ show.area }}</div>
+      </div>
+    </div>
+  </div>
+
+  <app-button link="../" buttonText="Terug naar alle shows" margin="my-4"></app-button>
+
+  <app-card titleMargin="mb-1" *ngIf="show.description" class="mb-4" cardTitle="Omschrijving">
+    <p [innerHTML]="show.description"></p>
+  </app-card>
+
+  <app-card *ngIf="parkService.supportsShowTimes" cardTitle="Showtijden" padding="p-0" cardClasses="flex flex-col my-4">
+    <div *ngFor="let showTime of show.showTimes.todayShowTimes; let last = last;" [routerLink]="showTime.id" [ngClass]="{'border-b': !last}"
+         class="border-gray-100 dark:border-gray-700 p-3 flex flex-row items-center">
+
+      <div class="flex-grow flex flex-row justify-between">
+        <div class="">{{ showTime.from }}</div>
+      </div>
+    </div>
+  </app-card>
+
+  <div class="flex flex-row flex-wrap my-4 -mx-2" *ngIf="show.images">
+    <div *ngFor="let img of show.images" class="overflow-hidden w-1/2 lg:w-1/3">
+      <div class="m-2 rounded bg-white shadow overflow-hidden h-40">
+        <img class="w-full h-full object-cover object-center" [src]="img" alt="Image of {{ show.title }}">
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #showLoading>
+  <div class="progress-materializecss">
+    <div class="indeterminate"></div>
+  </div>
+
+  <app-card>
+    <h2 class="text-indigo-800 text-lg">De show wordt geladen...</h2>
+    <p class="text-gray-600">Voordat je dit hebt gelezen zie je hier alle informatie over deze show.</p>
+
+    <h3 *ngIf="park" class="text-indigo-800 mt-4">{{ park.name }}</h3>
+    <p *ngIf="park" class="text-gray-600 text-sm">
+      {{ park.description }}
+    </p>
+  </app-card>
+</ng-template>

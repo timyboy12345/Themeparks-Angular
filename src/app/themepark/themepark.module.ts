@@ -7,6 +7,8 @@ import {ComponentsModule} from '../_components/components.module';
 import {LazyLoadImageModule} from 'ng-lazyload-image';
 import {FormsModule} from '@angular/forms';
 import { RideComponent } from './ride/ride.component';
+import { ShowsComponent } from './shows/shows.component';
+import { ShowComponent } from './show/show.component';
 
 const routes: Routes = [{
   path: '',
@@ -17,13 +19,21 @@ const routes: Routes = [{
 }, {
   path: 'rides/:ride_id',
   component: RideComponent
+}, {
+  path: 'shows',
+  component: ShowsComponent
+}, {
+  path: 'shows/:show_id',
+  component: ShowComponent
 }];
 
 @NgModule({
   declarations: [
     RidesComponent,
     HomeComponent,
-    RideComponent
+    RideComponent,
+    ShowsComponent,
+    ShowComponent
   ],
   imports: [
     CommonModule,
