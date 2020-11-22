@@ -27,13 +27,13 @@
     <p [innerHTML]="restaurant.description"></p>
   </app-card>
 
-  <app-card *ngIf="parkService && parkService.supportsShowTimes && restaurant.showTimes" cardTitle="Showtijden ({{ restaurant.showTimes.currentDate }})" padding="p-0" cardClasses="flex flex-col my-4">
-    <div *ngFor="let showTime of restaurant.showTimes.todayShowTimes; let last = last;" [routerLink]="showTime.id" [ngClass]="{'border-b': !last}"
+  <app-card *ngIf="parkService && parkService.supportsRestaurantOpeningTimes && restaurant.openingTimes" cardTitle="Openingstijden" padding="p-0" cardClasses="flex flex-col mb-4">
+    <div *ngFor="let openingTime of restaurant.openingTimes; let last = last;" [ngClass]="{'border-b': !last}"
          class="border-gray-100 dark:border-gray-700 p-3 flex flex-row items-center">
 
-      <div class="flex-grow flex flex-row justify-between" [ngClass]="{'opacity-20': showTime.isPassed }">
-        <div class="">{{ showTime.fromTime }}</div>
-        <div class="text-sm text-gray-600 dark:text-gray-500" *ngIf="showTime.edition">{{ showTime.edition }}</div>
+      <div class="flex-grow flex flex-row justify-between" [ngClass]="{'opacity-20': openingTime.isPassed ? openingTime.isPassed : false }">
+        <div class="">Op {{ openingTime.date }} geopend van {{ openingTime.openTime }} - {{ openingTime.closeTime }}</div>
+        <div class="text-sm text-gray-600 dark:text-gray-500" *ngIf="openingTime.comments">{{ openingTime.comments }}</div>
       </div>
     </div>
   </app-card>

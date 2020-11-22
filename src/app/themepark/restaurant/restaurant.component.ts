@@ -35,6 +35,7 @@ export class RestaurantComponent implements OnInit {
 
       p.then()
         .then((pois) => {
+          console.log(pois);
           this.restaurant = pois.filter(r => r.id == restaurantId)[0];
         })
         .catch(reason => {

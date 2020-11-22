@@ -174,7 +174,7 @@ export class PhantasialandService extends ThemeparkService {
         })
 
         show.showTimes = {
-          currentDate: moment().format("DD MM YYYY"),
+          currentDate: moment().format("DD-MM-YYYY HH:mm"),
           todayShowTimes,
           futureShowTimes,
           pastShowTimes,

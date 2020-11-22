@@ -333,7 +333,7 @@ export class EftelingService extends ThemeparkService {
         });
 
         poi.showTimes = {
-          currentDate: moment().format('DD MM YYYY'),
+          currentDate: moment().format('DD-MM-YYYY HH:mm'),
           allShowTimes: showTimes,
           todayShowTimes: todayDateShowTimes,
           otherDateShowTimes: otherDateShowTimes,
@@ -362,8 +362,8 @@ export class EftelingService extends ThemeparkService {
       return value[0].map(restaurant => {
         const poi = value[1].filter(r => r.Id == restaurant.id)[0];
         const eftelingOpeningTimes = poi ? poi.OpeningTimes : undefined;
-        console.log(restaurant);
-        console.log(poi);
+        // console.log(restaurant);
+        // console.log(poi);
 
         restaurant.openingTimes = [];
 
@@ -372,7 +372,10 @@ export class EftelingService extends ThemeparkService {
             if (restaurant.openingTimes) {
               restaurant.openingTimes.push({
                 open: openingTime.HourFrom,
-                close: openingTime.HourTo
+                close: openingTime.HourTo,
+                date: moment(openingTime.HourFrom).format('DD-MM-YYYY'),
+                openTime: moment(openingTime.HourFrom).format('HH:mm'),
+                closeTime: moment(openingTime.HourTo).format('HH:mm'),
               });
             }
           })
