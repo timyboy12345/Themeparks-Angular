@@ -77,7 +77,7 @@ export class ThemeparkService {
 
   public getRestaurants(): Promise<Poi[]> {
     return this.getPois().then(value => {
-      return value.filter(poi => poi.category == PoiCategory.RESTAURANT);
+      return value.filter(poi => poi.category == PoiCategory.RESTAURANT || poi.category == PoiCategory.BAR);
     });
   }
 

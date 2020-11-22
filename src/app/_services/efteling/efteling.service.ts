@@ -362,8 +362,6 @@ export class EftelingService extends ThemeparkService {
       return value[0].map(restaurant => {
         const poi = value[1].filter(r => r.Id == restaurant.id)[0];
         const eftelingOpeningTimes = poi ? poi.OpeningTimes : undefined;
-        // console.log(restaurant);
-        // console.log(poi);
 
         restaurant.openingTimes = [];
 

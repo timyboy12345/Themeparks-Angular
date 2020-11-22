@@ -27,7 +27,7 @@
     <p [innerHTML]="restaurant.description"></p>
   </app-card>
 
-  <app-card *ngIf="parkService && parkService.supportsRestaurantOpeningTimes && restaurant.openingTimes" cardTitle="Openingstijden" padding="p-0" cardClasses="flex flex-col mb-4">
+  <app-card *ngIf="parkService && parkService.supportsRestaurantOpeningTimes && restaurant.openingTimes && restaurant.openingTimes.length > 0" cardTitle="Openingstijden" padding="p-0" cardClasses="flex flex-col mb-4">
     <div *ngFor="let openingTime of restaurant.openingTimes; let last = last;" [ngClass]="{'border-b': !last}"
          class="border-gray-100 dark:border-gray-700 p-3 flex flex-row items-center">
 
