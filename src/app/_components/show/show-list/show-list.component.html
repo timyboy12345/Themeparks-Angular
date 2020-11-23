@@ -6,12 +6,12 @@
          class="w-full h-full absolute left-0 top-0 object-center object-cover" [src]="show.image_url">
   </div>
 
-  <div class="flex-grow flex flex-col md:flex-row justify-between">
+  <div class="flex-grow flex flex-col justify-between">
     <div class="text-indigo-800 dark:text-indigo-200 font-bold">{{ show.title }}</div>
 
     <div *ngIf="show.showTimes" class="text-gray-500 dark:text-gray-400">
       <span *ngIf="show.showTimes.futureShowTimes.length > 0; else noShowsLeftToday">Show om {{ show.showTimes.futureShowTimes[0].fromTime }}</span>
-      <ng-template #noShowsLeftToday><span class="text-gray-400 dark:text-gray-300">Geen shows meer vandaag</span></ng-template>
+      <ng-template #noShowsLeftToday><span class="text-gray-400 dark:text-gray-500">Geen shows meer vandaag</span></ng-template>
     </div>
   </div>
 </div>

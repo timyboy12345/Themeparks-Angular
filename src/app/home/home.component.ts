@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Title} from '@angular/platform-browser';
+import {TitleService} from '../_services/title.service';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private titleService: TitleService) {
+    this.titleService.setTitle('Home');
+  }
 
   ngOnInit(): void {
   }

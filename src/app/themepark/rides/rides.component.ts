@@ -5,6 +5,7 @@ import {Themepark} from '../../_interfaces/themepark.interface';
 import {Poi, PoiCategory} from '../../_interfaces/poi.interface';
 import {ThemeparkService} from '../../_services/themepark.service';
 import {PreferenceService} from '../../_services/preference.service';
+import {TitleService} from '../../_services/title.service';
 
 @Component({
   selector: 'app-rides',
@@ -47,7 +48,8 @@ export class RidesComponent implements OnInit {
 
   constructor(public parksService: ThemeparksService,
               private activatedRoute: ActivatedRoute,
-              private preferenceService: PreferenceService) {
+              private preferenceService: PreferenceService,
+              private titleService: TitleService) {
   }
 
   ngOnInit(): void {
@@ -55,6 +57,7 @@ export class RidesComponent implements OnInit {
 
     this.parksService.findPark(parkId as string).then(park => {
       this.park = park;
+      this.titleService.setTitle("Alle attracties");
     });
 
     this.parksService.getParkService(parkId as string).then(value => {

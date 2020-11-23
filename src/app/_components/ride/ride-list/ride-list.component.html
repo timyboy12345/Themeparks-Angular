@@ -6,7 +6,7 @@
          class="w-full h-full absolute left-0 top-0 object-center object-cover" [src]="ride.image_url">
   </div>
 
-  <div class="flex-grow flex flex-row justify-between">
+  <div class="flex-grow flex flex-row md:flex-col justify-between">
     <div class="text-indigo-800 dark:text-indigo-200 font-bold">{{ ride.title }}</div>
 
     <div *ngIf="ride.waitingTimes" class="text-gray-500 dark:text-gray-400">

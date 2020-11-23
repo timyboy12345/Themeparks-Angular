@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ThemeparksService} from '../../_services/themeparks.service';
 import {Themepark} from '../../_interfaces/themepark.interface';
+import {TitleService} from '../../_services/title.service';
 
 @Component({
   selector: 'app-themeparks',
@@ -23,7 +24,9 @@ export class ThemeparksComponent implements OnInit {
     });
   }
 
-  constructor(private themeparksService: ThemeparksService) {
+  constructor(private themeparksService: ThemeparksService,
+              private titleService: TitleService) {
+    this.titleService.setTitle('Alle pretparken');
   }
 
   ngOnInit() {

@@ -5,6 +5,7 @@ import {ThemeparkService} from '../../_services/themepark.service';
 import {ThemeparksService} from '../../_services/themeparks.service';
 import {ActivatedRoute} from '@angular/router';
 import {WaitingTimes} from '../../_interfaces/waitingtimes.interface';
+import {TitleService} from '../../_services/title.service';
 
 @Component({
   selector: 'app-ride',
@@ -18,7 +19,8 @@ export class RideComponent implements OnInit {
   public parkService?: ThemeparkService;
 
   constructor(private parksService: ThemeparksService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private titleService: TitleService) {
   }
 
   ngOnInit(): void {
@@ -37,6 +39,7 @@ export class RideComponent implements OnInit {
       p.then()
         .then((rides) => {
           this.ride = rides.filter(ride => ride.id == rideId)[0];
+          this.titleService.setTitle(`${this.ride.title} - ${this.park?.name}`);
         })
         .catch(reason => {
           console.error(reason);

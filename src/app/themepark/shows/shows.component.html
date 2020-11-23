@@ -9,6 +9,14 @@
     </select>
   </div>
 
+  <div class="flex flex-col mb-2" *ngIf="parkService && parkService.supportsShowTimes">
+    <label for="showTimes" class="mb-1">Showtijden</label>
+    <select (ngModelChange)="saveDisplayType($event)" class="appearance-none outline-none focus:ring-3 ring-indigo-700 ring-opacity-40 border-gray-300 border rounded bg-white text-gray-900" id="showTimes" [(ngModel)]="showTimes">
+      <option value="all">Kaarten</option>
+      <option value="show_today">Heeft een show vandaag</option>
+    </select>
+  </div>
+
   <div class="flex flex-col">
     <label for="displayType" class="mb-1">Weergave</label>
     <select (ngModelChange)="saveDisplayType($event)" class="appearance-none outline-none focus:ring-3 ring-indigo-700 ring-opacity-40 border-gray-300 border rounded bg-white text-gray-900" id="displayType" [(ngModel)]="displayType">

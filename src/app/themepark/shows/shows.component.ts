@@ -5,6 +5,7 @@ import {ThemeparkService} from '../../_services/themepark.service';
 import {ThemeparksService} from '../../_services/themeparks.service';
 import {ActivatedRoute} from '@angular/router';
 import {PreferenceService} from '../../_services/preference.service';
+import {TitleService} from '../../_services/title.service';
 
 @Component({
   selector: 'app-shows',
@@ -18,6 +19,7 @@ export class ShowsComponent implements OnInit {
   public parkService?: ThemeparkService;
   public showArea = '';
   public displayType: 'cards' | 'list' = this.preferenceService.listType();
+  public showTimes: 'all' | 'show_today' = 'all';
 
   public get areas(): string[] {
     const areas: string[] = [];
@@ -41,13 +43,16 @@ export class ShowsComponent implements OnInit {
         return;
       }
 
+      if (this.showTimes == 'show_today' && (!show.showTimes || show.showTimes.todayShowTimes.length == 0)) return;
+
       return show;
     });
   }
 
   constructor(public parksService: ThemeparksService,
               private activatedRoute: ActivatedRoute,
-              private preferenceService: PreferenceService) {
+              private preferenceService: PreferenceService,
+              private titleService: TitleService) {
   }
 
   ngOnInit(): void {
@@ -55,6 +60,7 @@ export class ShowsComponent implements OnInit {
 
     this.parksService.findPark(parkId as string).then(park => {
       this.park = park;
+      this.titleService.setTitle("Alle shows");
     });
 
     this.parksService.getParkService(parkId as string).then(value => {

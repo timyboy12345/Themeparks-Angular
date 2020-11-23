@@ -7,6 +7,7 @@ import {Poi, PoiCategory} from '../../_interfaces/poi.interface';
 import {OpeningTimes} from '../../_interfaces/openingtimes.interface';
 
 import * as moment from 'moment';
+import {TitleService} from '../../_services/title.service';
 
 @Component({
   selector: 'app-home',
@@ -31,7 +32,8 @@ export class HomeComponent implements OnInit {
   public parkService?: ThemeparkService = undefined;
 
   constructor(private parksService: ThemeparksService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private titleService: TitleService) {
   }
 
   ngOnInit(): void {
@@ -39,6 +41,7 @@ export class HomeComponent implements OnInit {
 
     this.parksService.findPark(parkId as string).then(park => {
       this.park = park;
+      this.titleService.setTitle(`${park.name}`);
     });
 
     this.parksService.getParkService(parkId as string)

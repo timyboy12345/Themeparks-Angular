@@ -4,6 +4,7 @@ import {Poi, PoiCategory} from '../../_interfaces/poi.interface';
 import {ThemeparkService} from '../../_services/themepark.service';
 import {ThemeparksService} from '../../_services/themeparks.service';
 import {ActivatedRoute} from '@angular/router';
+import {TitleService} from '../../_services/title.service';
 
 @Component({
   selector: 'app-restaurant',
@@ -17,7 +18,8 @@ export class RestaurantComponent implements OnInit {
   public parkService?: ThemeparkService;
 
   constructor(private parksService: ThemeparksService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private titleService: TitleService) {
   }
 
   ngOnInit(): void {
@@ -31,12 +33,12 @@ export class RestaurantComponent implements OnInit {
     this.parksService.getParkService(parkId as string).then(value => {
       this.parkService = value;
 
-      const p = this.parkService.supportsRestaurantOpeningTimes ? this.parkService.getRestaurantsWithOpeningTimes() : this.parkService.getRestaurants();
+      const promise = this.parkService.supportsRestaurantOpeningTimes ? this.parkService.getRestaurantsWithOpeningTimes() : this.parkService.getRestaurants();
 
-      p.then()
+      promise.then()
         .then((pois) => {
-          console.log(pois);
           this.restaurant = pois.filter(r => r.id == restaurantId)[0];
+          this.titleService.setTitle(`${this.restaurant.title} - ${this.park?.name}`);
         })
         .catch(reason => {
           console.error(reason);

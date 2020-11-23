@@ -4,6 +4,7 @@ import {Poi, PoiCategory} from '../../_interfaces/poi.interface';
 import {ThemeparkService} from '../../_services/themepark.service';
 import {ThemeparksService} from '../../_services/themeparks.service';
 import {ActivatedRoute} from '@angular/router';
+import {TitleService} from '../../_services/title.service';
 
 @Component({
   selector: 'app-show',
@@ -17,7 +18,8 @@ export class ShowComponent implements OnInit {
   public parkService?: ThemeparkService;
 
   constructor(private parksService: ThemeparksService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private titleService: TitleService) {
   }
 
   ngOnInit(): void {
@@ -36,6 +38,7 @@ export class ShowComponent implements OnInit {
       p.then()
         .then((shows) => {
           this.show = shows.filter(show => show.id == showId)[0];
+          this.titleService.setTitle(`${this.show.title} - ${this.park?.name}`);
         })
         .catch(reason => {
           console.error(reason);

@@ -5,6 +5,7 @@ import {ThemeparkService} from '../../_services/themepark.service';
 import {ThemeparksService} from '../../_services/themeparks.service';
 import {ActivatedRoute} from '@angular/router';
 import {PreferenceService} from '../../_services/preference.service';
+import {TitleService} from '../../_services/title.service';
 
 @Component({
   selector: 'app-restaurants',
@@ -52,7 +53,8 @@ export class RestaurantsComponent implements OnInit {
 
   constructor(public parksService: ThemeparksService,
               private activatedRoute: ActivatedRoute,
-              private preferenceService: PreferenceService) {
+              private preferenceService: PreferenceService,
+              private titleService: TitleService) {
   }
 
   ngOnInit(): void {
@@ -60,12 +62,13 @@ export class RestaurantsComponent implements OnInit {
 
     this.parksService.findPark(parkId as string).then(park => {
       this.park = park;
+      this.titleService.setTitle("Alle restaurants");
     });
 
-    this.parksService.getParkService(parkId as string).then(themeparkService => {
-      this.parkService = themeparkService;
+    this.parksService.getParkService(parkId as string).then(parkService => {
+      this.parkService = parkService;
 
-      const promise = themeparkService.supportsRestaurantOpeningTimes ? themeparkService.getRestaurantsWithOpeningTimes() : themeparkService.getRestaurants();
+      const promise = parkService.supportsRestaurantOpeningTimes ? parkService.getRestaurantsWithOpeningTimes() : parkService.getRestaurants();
 
       promise
         .then((pois) => {
