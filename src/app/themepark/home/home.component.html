@@ -39,25 +39,7 @@
           </app-card>
         </div>
 
-        <div *ngFor="let ride of popularRides; let last = last">
-          <div
-            class="border-gray-100 dark:border-gray-800 p-3 flex flex-row items-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900 transition duration-100"
-            [ngClass]="{'border-b': !last}" [routerLink]="['rides', ride.id]">
-            <div class="w-8 h-8 relative bg-indigo-700 rounded-full overflow-hidden mr-2">
-              <img alt="Image of {{ ride.title }}" *ngIf="ride.image_url"
-                   class="w-full h-full absolute left-0 top-0 object-center object-cover" [src]="ride.image_url">
-            </div>
-
-            <div class="flex-grow flex flex-row justify-between">
-              <div class="text-indigo-800 font-bold dark:text-indigo-200">{{ ride.title }}</div>
-
-              <div *ngIf="ride.waitingTimes" class="text-gray-500 dark:text-gray-400">
-                <span *ngIf="ride.waitingTimes.state == 'Open'; else otherRideState">{{ ride.waitingTimes.wait }} min</span>
-                <ng-template #otherRideState>{{ ride.waitingTimes.state }}</ng-template>
-              </div>
-            </div>
-          </div>
-        </div>
+        <app-ride-list *ngIf="popularRides && popularRides.length > 0" [rides]="popularRides"></app-ride-list>
       </app-card>
 
       <app-button margin="mb-4 mt-2" link="rides" buttonText="Alle attracties"></app-button>
@@ -81,17 +63,7 @@
           </app-card>
         </div>
 
-        <div *ngFor="let restaurant of popularRestaurants; let last = last">
-          <div
-            class="border-gray-100 dark:border-gray-800 p-3 flex flex-row items-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900 transition duration-100"
-            [ngClass]="{'border-b': !last}">
-            <div class="w-8 h-8 relative bg-indigo-700 rounded-full overflow-hidden mr-2">
-              <img *ngIf="restaurant.image_url" class="w-full h-full absolute left-0 top-0 object-center object-cover"
-                   [src]="restaurant.image_url">
-            </div>
-            <div class="text-indigo-800 font-bold dark:text-indigo-200">{{ restaurant.title }}</div>
-          </div>
-        </div>
+        <app-restaurant-list *ngIf="popularRestaurants && popularRestaurants.length > 0" [restaurants]="popularRestaurants"></app-restaurant-list>
       </app-card>
 
       <app-button margin="mb-4 mt-2" link="restaurants" buttonText="Alle restaurants"></app-button>

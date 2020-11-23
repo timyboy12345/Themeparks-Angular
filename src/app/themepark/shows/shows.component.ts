@@ -31,9 +31,9 @@ export class ShowsComponent implements OnInit {
     return areas;
   }
 
-  public get selectedshows() {
+  public get selectedShows(): Poi[] {
     if (!this.shows) {
-      return null;
+      return [];
     }
 
     return this.shows.filter(show => {

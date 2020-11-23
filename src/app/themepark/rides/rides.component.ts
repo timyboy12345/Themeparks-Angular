@@ -31,7 +31,7 @@ export class RidesComponent implements OnInit {
     return areas;
   }
 
-  public get selectedRides() {
+  public get selectedRides(): Poi[] | null {
     if (!this.rides) {
       return null;
     }

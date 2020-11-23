@@ -1,0 +1,17 @@
+<div *ngFor="let ride of rides; let last = last;" [routerLink]="ride.id" [ngClass]="{'border-b': !last}"
+     class="border-gray-100 dark:border-gray-700 p-3 flex flex-row items-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900 transition duration-100">
+
+  <div class="w-8 h-8 relative bg-indigo-700 rounded-full overflow-hidden mr-2">
+    <img alt="Image of {{ ride.title }}" *ngIf="ride.image_url"
+         class="w-full h-full absolute left-0 top-0 object-center object-cover" [src]="ride.image_url">
+  </div>
+
+  <div class="flex-grow flex flex-row justify-between">
+    <div class="text-indigo-800 dark:text-indigo-200 font-bold">{{ ride.title }}</div>
+
+    <div *ngIf="ride.waitingTimes" class="text-gray-500 dark:text-gray-400">
+      <span *ngIf="ride.waitingTimes.state == 'Open'; else otherRideState">{{ ride.waitingTimes.wait }} min</span>
+      <ng-template #otherRideState><span class="text-red-600">{{ ride.waitingTimes.state }}</span></ng-template>
+    </div>
+  </div>
+</div>

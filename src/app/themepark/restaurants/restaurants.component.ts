@@ -18,6 +18,7 @@ export class RestaurantsComponent implements OnInit {
   public parkService?: ThemeparkService;
   public restaurantArea = '';
   public displayType: 'cards' | 'list' = this.preferenceService.listType();
+  public openingTimes: 'all' | 'open_today' = 'all';
 
   public get areas(): string[] {
     const areas: string[] = [];
@@ -38,6 +39,10 @@ export class RestaurantsComponent implements OnInit {
 
     return this.restaurants.filter(restaurant => {
       if (this.restaurantArea && restaurant.area != this.restaurantArea) {
+        return;
+      }
+
+      if (this.openingTimes == 'open_today' && (!restaurant.openingTimes || restaurant.openingTimes.length == 0)) {
         return;
       }
 

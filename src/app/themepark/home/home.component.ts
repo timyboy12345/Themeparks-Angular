@@ -16,6 +16,7 @@ import * as moment from 'moment';
 export class HomeComponent implements OnInit {
   public park?: Themepark;
   public pois?: Poi[];
+  public restaurants?: Poi[];
   public openingTimes?: OpeningTimes;
   public shows?: Poi[];
 
@@ -24,7 +25,7 @@ export class HomeComponent implements OnInit {
   }
 
   public get popularRestaurants() {
-    return this.pois ? this.pois.filter(p => p.category == PoiCategory.RESTAURANT).slice(0, 5) : null;
+    return this.restaurants ? this.restaurants.filter(p => p.category == PoiCategory.RESTAURANT || p.category == PoiCategory.BAR).slice(0, 5) : null;
   }
 
   public parkService?: ThemeparkService = undefined;
@@ -41,13 +42,12 @@ export class HomeComponent implements OnInit {
     });
 
     this.parksService.getParkService(parkId as string)
-      .then(value => {
-        this.parkService = value;
+      .then(parkService => {
+        this.parkService = parkService;
 
-        if (value.supportsPois) {
-          const p: Promise<Poi[]> = value.supportsWaitingTimes ? this.parkService.getPoisWithWaitingTimes() : this.parkService.getPois();
-
-          p
+        if (parkService.supportsPois) {
+          const poiPromise: Promise<Poi[]> = parkService.supportsWaitingTimes ? this.parkService.getPoisWithWaitingTimes() : this.parkService.getPois();
+          poiPromise
             .then((pois) => {
               this.pois = pois;
             })
@@ -57,11 +57,20 @@ export class HomeComponent implements OnInit {
             });
         }
 
-        if (value.supportsOpeningTimes) {
-          value.getOpeningTimesOfDay(moment().year(), moment().month() + 1, moment().date())
+        const restaurantPromise: Promise<Poi[]> = parkService.supportsRestaurantOpeningTimes ? this.parkService.getRestaurantsWithOpeningTimes() : this.parkService.getRestaurants();
+        restaurantPromise
+          .then(restaurants => {
+            this.restaurants = restaurants;
+          })
+          .catch(reason => {
+            console.error(reason);
+            this.restaurants = [];
+          });
+
+        if (parkService.supportsOpeningTimes) {
+          parkService.getOpeningTimesOfDay(moment().year(), moment().month() + 1, moment().date())
             .then(date => {
               this.openingTimes = date;
-              console.log(date);
             })
             .catch((reason) => {
               this.openingTimes = undefined;
@@ -69,8 +78,8 @@ export class HomeComponent implements OnInit {
             });
         }
 
-        if (value.supportsShows) {
-          const promise = value.supportsShowTimes ? value.getShowsWithShowTimes() : value.getShows();
+        if (parkService.supportsShows) {
+          const promise = parkService.supportsShowTimes ? parkService.getShowsWithShowTimes() : parkService.getShows();
 
           promise
             .then(shows => {

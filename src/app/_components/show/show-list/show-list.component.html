@@ -1,0 +1,17 @@
+<div *ngFor="let show of shows; let last = last;" [routerLink]="show.id" [ngClass]="{'border-b': !last}"
+     class="border-gray-100 dark:border-gray-700 p-3 flex flex-row items-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900 transition duration-100">
+
+  <div class="w-8 h-8 relative bg-indigo-700 rounded-full overflow-hidden mr-2">
+    <img alt="Image of {{ show.title }}" *ngIf="show.image_url"
+         class="w-full h-full absolute left-0 top-0 object-center object-cover" [src]="show.image_url">
+  </div>
+
+  <div class="flex-grow flex flex-col md:flex-row justify-between">
+    <div class="text-indigo-800 dark:text-indigo-200 font-bold">{{ show.title }}</div>
+
+    <div *ngIf="show.showTimes" class="text-gray-500 dark:text-gray-400">
+      <span *ngIf="show.showTimes.futureShowTimes.length > 0; else noShowsLeftToday">Show om {{ show.showTimes.futureShowTimes[0].fromTime }}</span>
+      <ng-template #noShowsLeftToday><span class="text-gray-400 dark:text-gray-300">Geen shows meer vandaag</span></ng-template>
+    </div>
+  </div>
+</div>
