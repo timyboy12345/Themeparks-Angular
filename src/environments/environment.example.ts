@@ -19,7 +19,13 @@ export const environment = {
   SHARED_API_URL: 'http://127.0.0.1:8000/api',
 
   // The URL where authorization and user data is stored
-  API_URL: 'http://127.0.0.1:8000'
+  API_URL: 'http://127.0.0.1:8000',
+
+  // The URL of this Angular app
+  APP_URL: 'http://themeparks.arendz.nl/#',
+
+  // The public key of the Themeparks OAUTH Api
+  OAUTH_PUBLIC_KEY: '9218a68f-0524-45a6-b3dc-51cbb93774c7',
 };
 
 /*
