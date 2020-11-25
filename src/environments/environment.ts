@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  version: 'v0.15-ALPHA',
+  version: 'v0.15.1-ALPHA',
 
   CACHE_POIS_SECONDS: 60 * 60,
   CACHE_WAITINGTIMES_SECONDS: 60 * 4,
