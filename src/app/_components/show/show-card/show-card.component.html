@@ -14,7 +14,7 @@
         Volgende show: {{ show.showTimes.futureShowTimes[0].fromTime }}
       </div>
     </div>
-    <ng-template #otherShowState>Geen shows meer vandaag</ng-template>
+    <ng-template #otherShowState>Geen shows {{ show.showTimes.todayShowTimes.length > 0 ? "meer" : ""}} vandaag</ng-template>
   </div>
 
   <div *ngIf="show.area" class="absolute shadow right-4 top-4 rounded py-1 px-2 text-sm text-white bg-indigo-700">

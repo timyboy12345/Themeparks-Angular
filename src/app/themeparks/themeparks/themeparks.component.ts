@@ -9,17 +9,17 @@ import {TitleService} from '../../_services/title.service';
   styleUrls: ['./themeparks.component.scss']
 })
 export class ThemeparksComponent implements OnInit {
-  public themeparks: Themepark[] = [];
+  public parks: Themepark[] = [];
   public selectedCountryId = '';
 
   public get selectedParks() {
-    return this.themeparks.filter((park) => {
+    return this.parks.filter((park) => {
       return this.selectedCountryId == '' || park.country.id == this.selectedCountryId ? park : null;
     });
   }
 
   public get countries() {
-    return this.themeparks.map((park) => {
+    return this.parks.map((park) => {
       return park.country;
     });
   }
@@ -31,7 +31,7 @@ export class ThemeparksComponent implements OnInit {
 
   ngOnInit() {
     this.themeparksService.getParks().then(value => {
-      this.themeparks = value.filter(park => park.enabled);
+      this.parks = value.filter(park => park.enabled);
     });
   }
 }

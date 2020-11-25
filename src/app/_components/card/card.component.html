@@ -1,4 +1,4 @@
-<div class="{{ titleMargin }}">
+<div *ngIf="cardTitle || cardSubTitle" class="{{ titleMargin }}">
   <h3 *ngIf="cardTitle" class="text-lg text-indigo-800 dark:text-white">{{ cardTitle }}</h3>
   <h4 *ngIf="cardSubTitle" class="text-gray-600 dark:text-gray-500 text-sm">{{ cardSubTitle }}</h4>
 </div>

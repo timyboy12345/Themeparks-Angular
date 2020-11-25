@@ -18,8 +18,8 @@ export const environment = {
   // The shared API for themeparks, to circumvent CORS rules and some other browser issues
   SHARED_API_URL: 'http://127.0.0.1:8000/api',
 
-  // The shared data endpoint for themeparks for static data, to circumvent CORS rules and some other browser issues
-  SHARED_DATA_URL: 'http://127.0.0.1:8000/api',
+  // The URL where authorization and user data is stored
+  API_URL: 'http://127.0.0.1:8000'
 };
 
 /*

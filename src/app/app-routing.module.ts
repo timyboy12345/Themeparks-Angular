@@ -12,6 +12,9 @@ const routes: Routes = [{
   path: 'park/:park_id',
   loadChildren: () => import('./themepark/themepark.module').then(m => m.ThemeparkModule)
 }, {
+  path: 'auth',
+  loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+}, {
   pathMatch: 'full',
   path: '**',
   redirectTo: '/home'

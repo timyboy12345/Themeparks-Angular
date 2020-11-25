@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {environment} from '../environments/environment';
+import {AuthService} from './_services/auth/auth.service';
+import {MessageService} from './_services/message.service';
 
 @Component({
   selector: 'app-root',
@@ -36,7 +38,9 @@ export class AppComponent implements OnInit {
   public menuOpen = false;
   public version: string = environment.version;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              public authService: AuthService,
+              public messageService: MessageService) {
   }
 
   ngOnInit(): void {
@@ -47,5 +51,21 @@ export class AppComponent implements OnInit {
       }
       window.scrollTo(0, 0);
     });
+  }
+
+  public login(): void {
+    this.authService.getAuthUrl()
+      .then(value => {
+        window.location.href = value;
+      })
+      .catch(reason => {
+        console.error(reason);
+        window.alert('Er ging iets mis bij het ophalen van de URL, probeer het later opnieuw.');
+      });
+  }
+
+  public logout(): void {
+    this.menuOpen = false;
+    this.authService.logout();
   }
 }

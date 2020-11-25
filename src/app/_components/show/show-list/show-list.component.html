@@ -11,7 +11,7 @@
 
     <div *ngIf="show.showTimes" class="text-gray-500 dark:text-gray-400">
       <span *ngIf="show.showTimes.futureShowTimes.length > 0; else noShowsLeftToday">Show om {{ show.showTimes.futureShowTimes[0].fromTime }}</span>
-      <ng-template #noShowsLeftToday><span class="text-gray-400 dark:text-gray-500">Geen shows meer vandaag</span></ng-template>
+      <ng-template #noShowsLeftToday><span class="text-gray-400 dark:text-gray-500">Geen shows {{ show.showTimes.todayShowTimes.length > 0 ? "meer" : ""}} vandaag</span></ng-template>
     </div>
   </div>
 </div>
