@@ -1,4 +1,4 @@
-<div *ngFor="let restaurant of restaurants; let last = last;" [routerLink]="restaurant.id"
+<div *ngFor="let restaurant of restaurants; let last = last;" [routerLink]="getParsedRestaurantUrl(restaurant)"
      [ngClass]="{'border-b': !last}"
      class="border-gray-100 dark:border-gray-700 p-3 flex flex-row items-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900 transition duration-100">
 

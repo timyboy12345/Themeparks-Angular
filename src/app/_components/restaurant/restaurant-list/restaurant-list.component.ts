@@ -8,10 +8,15 @@ import {Poi} from '../../../_interfaces/poi.interface';
 })
 export class RestaurantListComponent implements OnInit {
   @Input() restaurants: Poi[] = [];
+  @Input() url: string = '{RESTAURANT_ID}';
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
 
+  public getParsedRestaurantUrl(restaurant: Poi): string {
+    return this.url.replace('{RESTAURANT_ID}', restaurant.id);
+  }
 }

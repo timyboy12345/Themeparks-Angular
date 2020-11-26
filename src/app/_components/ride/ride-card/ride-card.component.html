@@ -4,8 +4,8 @@
     <img class="bg-gray-300 w-full h-full object-center object-cover" [lazyLoad]="ride.image_url">
   </div>
 
-  <div *ngIf="showWaitingTimes && ride.waitingTimes" class="absolute bg-white shadow left-4 top-4 rounded py-1 px-2 text-sm text-gray-900"
-       [ngClass]="{'bg-red-700 text-white': ride.waitingTimes.state == 'Closed'}">
+  <div *ngIf="showWaitingTimes && ride.waitingTimes" class="absolute bg-white shadow left-4 top-4 rounded py-1 px-2 text-sm"
+       [ngClass]="{'bg-red-700 text-white': ride.waitingTimes.state != 'Open', 'text-gray-900': ride.waitingTimes.state == 'Open'}">
           <span *ngIf="ride.waitingTimes.state == 'Open'; else otherRideState" class="flex flex-row">
             {{ ride.waitingTimes.state }}
             <span *ngIf="ride.waitingTimes.state == 'Open'" class="ml-1">/ {{ ride.waitingTimes.wait }} min</span>

@@ -8,10 +8,14 @@ import {Poi} from '../../../_interfaces/poi.interface';
 })
 export class RideListComponent implements OnInit {
   @Input() rides?: Poi[];
+  @Input() url: string = "{RIDE_ID}";
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  public getParsedRideUrl(ride: Poi): string {
+    return this.url.replace("{RIDE_ID}", ride.id);
+  }
 }

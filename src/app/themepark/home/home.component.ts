@@ -71,9 +71,21 @@ export class HomeComponent implements OnInit {
           });
 
         if (parkService.supportsOpeningTimes) {
-          parkService.getOpeningTimesOfDay(moment().year(), moment().month() + 1, moment().date())
+          parkService.getOpeningTimesOfToday()
             .then(date => {
-              this.openingTimes = date;
+              if (date) {
+                this.openingTimes = date;
+              } else {
+                this.openingTimes = {
+                  date: moment().format("YYYY-MM-DD"),
+                  original: null,
+                  events: [],
+                  year: moment().year(),
+                  month: moment().month() + 1,
+                  day: moment().date(),
+                  times: []
+                }
+              }
             })
             .catch((reason) => {
               this.openingTimes = undefined;

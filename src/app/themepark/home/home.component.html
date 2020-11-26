@@ -8,7 +8,7 @@
   </div>
 </app-card>
 
-<app-card *ngIf="parkService && parkService.supportsOpeningTimes" cardTitle="Openingstijden en evenementen">
+<app-card *ngIf="parkService && parkService.supportsOpeningTimes" cardTitle="Openingstijden en evenementen" [cardSubTitle]="openingTimes ? 'Op ' + openingTimes.date : null">
   <div *ngIf="openingTimes && openingTimes.times.length > 0">Geopend van {{ openingTimes.times[0].open }}
     tot {{ openingTimes.times[0].close }}</div>
   <div *ngIf="openingTimes && openingTimes.times.length == 0" class="text-gray-600 dark:text-gray-500">Het park lijkt
@@ -42,7 +42,7 @@
       </div>
 
       <app-card *ngIf="popularRides && popularRides.length > 0" padding="p-0" cardTitle="Populaire Attracties">
-        <app-ride-list [rides]="popularRides"></app-ride-list>
+        <app-ride-list url="rides/{RIDE_ID}" [rides]="popularRides"></app-ride-list>
       </app-card>
 
       <app-button margin="mb-4 mt-2" link="rides" buttonText="Alle attracties"></app-button>
@@ -66,7 +66,7 @@
       </div>
 
       <app-card *ngIf="popularRestaurants && popularRestaurants.length > 0" padding="p-0" cardTitle="Populaire Restaurants">
-        <app-restaurant-list [restaurants]="popularRestaurants"></app-restaurant-list>
+        <app-restaurant-list url="restaurants/{RESTAURANT_ID}" [restaurants]="popularRestaurants"></app-restaurant-list>
       </app-card>
 
       <app-button margin="mb-4 mt-2" link="restaurants" buttonText="Alle restaurants"></app-button>
@@ -90,7 +90,7 @@
       </div>
 
       <app-card *ngIf="shows && shows.length > 0" padding="p-0" cardTitle="Shows">
-        <app-show-list [shows]="shows"></app-show-list>
+        <app-show-list url="shows/{SHOW_ID}" [shows]="shows"></app-show-list>
       </app-card>
 
       <app-button margin="mb-4 mt-2" link="shows" buttonText="Alle shows"></app-button>

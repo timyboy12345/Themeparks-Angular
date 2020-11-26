@@ -8,10 +8,14 @@ import {Poi} from '../../../_interfaces/poi.interface';
 })
 export class ShowListComponent implements OnInit {
   @Input() shows?: Poi[];
+  @Input() url: string = "{SHOW_ID}"
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  public getParsedShowUrl(show: Poi): string {
+    return this.url.replace('{SHOW_ID}', show.id);
+  }
 }

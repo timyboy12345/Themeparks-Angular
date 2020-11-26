@@ -9,6 +9,7 @@ import {HeidiparkService} from './heidipark/heidipark.service';
 import {ParcasterixService} from './parkasterix/parcasterix.service';
 import {EftelingService} from './efteling/efteling.service';
 import {BellewaerdeService} from './bellewaerde/bellewaerde.service';
+import {PortaVenturaService} from './portaventura/portaventura.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,10 @@ export class ThemeparksService {
     id: 'be',
     name: 'België',
     flag_url: 'https://flagcdn.com/be.svg'
+  }, {
+    id: 'es',
+    name: 'Spanje',
+    flag_url: 'https://flagcdn.com/es.svg'
   }];
 
   private _themeparks: Themepark[] = [];
@@ -40,11 +45,13 @@ export class ThemeparksService {
               private heidiparkService: HeidiparkService,
               private parcasterixService: ParcasterixService,
               private eftelingService: EftelingService,
-              private bellewaerdeService: BellewaerdeService) {
+              private bellewaerdeService: BellewaerdeService,
+              private portaVenturaService: PortaVenturaService) {
     this._themeparks.push(eftelingService.getInfo(this._countries.filter(c => c.id == 'nl')[0]));
     this._themeparks.push(phantasialandService.getInfo(this._countries.filter(c => c.id == 'de')[0]));
     this._themeparks.push(parcasterixService.getInfo(this._countries.filter(c => c.id == 'fr')[0]));
     this._themeparks.push(bellewaerdeService.getInfo(this._countries.filter(c => c.id == 'be')[0]));
+    this._themeparks.push(portaVenturaService.getInfo(this._countries.filter(c => c.id == 'es')[0]));
   }
 
   public getParks(): Promise<Themepark[]> {

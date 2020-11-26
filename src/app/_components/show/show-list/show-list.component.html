@@ -1,4 +1,4 @@
-<div *ngFor="let show of shows; let last = last;" [routerLink]="show.id" [ngClass]="{'border-b': !last}"
+<div *ngFor="let show of shows; let last = last;" [routerLink]="getParsedShowUrl(show)" [ngClass]="{'border-b': !last}"
      class="border-gray-100 dark:border-gray-700 p-3 flex flex-row items-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900 transition duration-100">
 
   <div class="w-8 h-8 relative bg-indigo-700 rounded-full overflow-hidden mr-2">
