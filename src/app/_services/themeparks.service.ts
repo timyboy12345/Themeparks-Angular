@@ -58,6 +58,10 @@ export class ThemeparksService {
     return Promise.resolve(this.themeParks);
   }
 
+  public getParksByIds(ids: string[]): Promise<Themepark[]> {
+    return Promise.resolve(this.themeParks.filter(park => ids.includes(park.id)));
+  }
+
   public findPark(parkId: string): Promise<Themepark> {
     return Promise.resolve(this.themeParks.filter(park => park.id === parkId)[0]);
   }

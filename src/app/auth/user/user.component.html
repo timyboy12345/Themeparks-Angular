@@ -1,0 +1,21 @@
+<app-card cardTitle="Jouw account" *ngIf="user">
+  <div class="text-lg text-indigo-800 dark:text-indigo-200">{{ user.name }}</div>
+  <div class="text-gray-600 dark:text-gray-500">{{ user.email }}</div>
+</app-card>
+
+<app-card cardTitle="Favoriete pretparken" padding="p-0">
+  <div *ngFor="let park of parks; let last = last;" [ngClass]="{'border-b': !last}"
+       class="border-gray-100 dark:border-gray-700 p-3 flex flex-row items-center">
+
+    <div class="w-8 h-8 relative bg-indigo-700 rounded-full overflow-hidden mr-2">
+      <img alt="Image of {{ park.name }}" *ngIf="park.image_url"
+           class="w-full h-full absolute left-0 top-0 object-center object-cover" [src]="park.image_url">
+    </div>
+
+    <div class="flex-grow flex flex-row md:flex-col justify-between">
+      <div class="text-indigo-800 dark:text-indigo-200 font-bold cursor-pointer" [routerLink]="['/park', park.id]">{{ park.name }}</div>
+
+      <div class="h-6 w-6 transition duration-100" [ngClass]="{'bg-indigo-200 rounded': isFavorite(park.id), 'bg-indigo-600 rounded-full': !isFavorite(park.id)}" (click)="toggleFavorite(park.id)"></div>
+    </div>
+  </div>
+</app-card>

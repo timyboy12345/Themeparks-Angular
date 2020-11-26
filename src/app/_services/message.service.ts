@@ -27,14 +27,17 @@ export class MessageService {
     });
 
     window.setTimeout(() => {
-      this.privateMessages[i - 1].classes = 'opacity-100';
+      const newIndex = this.privateMessages.indexOf(this.privateMessages.filter(m => m.id === id)[0]);
+      this.privateMessages[newIndex].classes = 'opacity-100';
     });
 
     window.setTimeout(() => {
-      this.privateMessages[i - 1].classes = 'opacity-0';
+      const newIndex = this.privateMessages.indexOf(this.privateMessages.filter(m => m.id === id)[0]);
+      this.privateMessages[newIndex].classes = 'opacity-0';
 
       window.setTimeout(() => {
-        this.privateMessages.splice(i - 1, 1);
+        const secondNewIndex = this.privateMessages.indexOf(this.privateMessages.filter(m => m.id === id)[0]);
+        this.privateMessages.splice(secondNewIndex, 1);
       }, 200);
     }, duration);
   }

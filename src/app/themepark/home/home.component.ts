@@ -23,12 +23,20 @@ export class HomeComponent implements OnInit {
 
   /**
    * Return the most popular rides based on the wait time
+   * Used only if enough rides have an active waiting time, otherwise 5 random rides are chosen
    */
   public get popularRides(): Poi[] | null {
     return this.pois ? this.pois
       .filter(p => p.category === PoiCategory.ATTRACTION)
       .filter(p => {
-        if (this.parkService && this.parkService.supportsWaitingTimes) {
+        let shouldUseWaitingTimes = true;
+
+        const withWaitingTimes = this.pois?.filter(poi => poi.category === PoiCategory.ATTRACTION && poi.waitingTimes != null).length;
+        if (this.pois && this.pois.length - (withWaitingTimes ?? 0) > 5) {
+          shouldUseWaitingTimes = false;
+        }
+
+        if (this.parkService && this.parkService.supportsWaitingTimes && shouldUseWaitingTimes) {
           return p.waitingTimes && p.waitingTimes.wait >= 0 ? p : null;
         } else {
           return p;

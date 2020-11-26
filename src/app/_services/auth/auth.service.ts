@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {User} from '../../_interfaces/user.interface';
 import {environment} from '../../../environments/environment';
 import {MessageService} from '../message.service';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class AuthService {
   }
 
   constructor(private httpClient: HttpClient,
-              private messageService: MessageService) {
+              private messageService: MessageService,
+              private router: Router) {
     if (this.isLoggedIn) {
       this.getUserInfo().then(value => {
         this.user = value;
@@ -46,6 +48,8 @@ export class AuthService {
     this.user = undefined;
     localStorage.removeItem('oauth_token');
     localStorage.removeItem('refresh_token');
+
+    this.router.navigate(['/home']);
 
     this.messageService.addMessage('Uitgelogd', 'Je bent nu uitgelogd!');
   }

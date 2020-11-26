@@ -1,19 +1,47 @@
 <app-card cardTitle="Home">
-  <div class="font-bold text-indigo-800 dark:text-white mb-2">Alle informatie over alle pretparken</div>
-  <div class="mb-2 dark:text-gray-200">Met Themeparks houd je de wachttijden van alle grote themeparken wereldwijd in de
-    gaten.
+  <div class="font-bold text-indigo-800 dark:text-white mb-2">
+    Alle informatie over alle pretparken
   </div>
-  <div class="text-gray-600 dark:text-gray-500">Klik op de knop hieronder om naar de beschikbare themeparken te gaan.
+  <div class="mb-2 dark:text-gray-200">
+    Met Themeparks houd je de wachttijden van alle grote themeparken wereldwijd in de gaten.
+  </div>
+  <div class="text-gray-600 dark:text-gray-500">
+    Klik op de knop hieronder om naar de beschikbare themeparken te gaan.
   </div>
 </app-card>
 
 <div
-  class="rounded bg-indigo-700 hover:bg-indigo-800 duration-100 transition-colors text-white text-center px-4 py-2 mt-8 cursor-pointer"
+  class="rounded bg-indigo-700 hover:bg-indigo-800 duration-100 transition-colors text-white text-center px-4 py-2 my-8 cursor-pointer"
   routerLink="/parks">
   Bekijk alle parken
 </div>
 
-<app-card cardTitle="Over Themeparks" titleMargin="mt-12 mb-1">
+<app-card *ngIf="authService.isLoggedIn" cardTitle="Favoriete parken" padding="p-0">
+  <div *ngFor="let park of favoriteParks; let last = last;" [ngClass]="{'border-b': !last}" [routerLink]="['/park', park.id]"
+       class="border-gray-100 dark:border-gray-700 p-3 flex flex-row items-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-900 transition duration-100">
+
+    <div class="w-8 h-8 relative bg-indigo-700 rounded-full overflow-hidden mr-2">
+      <img alt="Image of {{ park.name }}" *ngIf="park.image_url"
+           class="w-full h-full absolute left-0 top-0 object-center object-cover" [src]="park.image_url">
+    </div>
+
+    <div class="flex-grow flex flex-row md:flex-col justify-between">
+      <div class="text-indigo-800 dark:text-indigo-200 font-bold cursor-pointer">{{ park.name }}</div>
+    </div>
+  </div>
+
+  <div *ngIf="favoriteParks.length == 0">
+      <div *ngIf="favoriteParks.length == 0" class="p-4">
+        <h2 class="text-indigo-800 dark:text-indigo-200">Geen favoriete parken gevonden</h2>
+        <p class="text-gray-900 dark:text-gray-500">
+          Je hebt nog geen favoriete parken aangegeven.</p>
+      </div>
+  </div>
+</app-card>
+
+<app-button *ngIf="authService.isLoggedIn" link="/auth/user" buttonText="Favorieten aanpassen"></app-button>
+
+<app-card cardTitle="Over Themeparks">
   <h2 class="font-bold text-indigo-800 dark:text-indigo-200">
     Wachttijden van alle pretparken
   </h2>
