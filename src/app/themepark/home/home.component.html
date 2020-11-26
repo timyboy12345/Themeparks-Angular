@@ -8,7 +8,7 @@
   </div>
 </app-card>
 
-<app-card *ngIf="parkService && parkService.supportsOpeningTimes" cardTitle="Openingstijden en evenementen" [cardSubTitle]="openingTimes ? 'Op ' + openingTimes.date : null">
+<app-card *ngIf="parkService && parkService.supportsOpeningTimes" cardTitle="Openingstijden en evenementen" [cardSubTitle]="openingTimes ? 'Op ' + openingTimes.date : ''">
   <div *ngIf="openingTimes && openingTimes.times.length > 0">Geopend van {{ openingTimes.times[0].open }}
     tot {{ openingTimes.times[0].close }}</div>
   <div *ngIf="openingTimes && openingTimes.times.length == 0" class="text-gray-600 dark:text-gray-500">Het park lijkt

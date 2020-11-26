@@ -85,7 +85,7 @@ export class PortaVenturaService extends ThemeparkService {
     return this.getPortaVenturaPois().then(pois => {
       return pois.map(poi => {
         let category = PoiCategory.UNDEFINED;
-        
+
         switch (poi.tipo) {
           case 'atraccion':
             category = PoiCategory.ATTRACTION;
