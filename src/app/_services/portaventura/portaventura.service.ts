@@ -102,6 +102,12 @@ export class PortaVenturaService extends ThemeparkService {
           title: poi.titulo,
           description: poi.descripcion,
           category,
+          entrance: {
+            world: {
+              lat: poi.latitud,
+              lng: poi.longitud,
+            }
+          },
           original_category: poi.tipo,
           original: poi,
           image_url: poi.logo,

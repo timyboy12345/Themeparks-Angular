@@ -21,12 +21,49 @@ export class HomeComponent implements OnInit {
   public openingTimes?: OpeningTimes;
   public shows?: Poi[];
 
+  /**
+   * Return the most popular rides based on the wait time
+   */
   public get popularRides(): Poi[] | null {
-    return this.pois ? this.pois.filter(p => p.category === PoiCategory.ATTRACTION).slice(0, 5) : null;
+    return this.pois ? this.pois
+      .filter(p => p.category === PoiCategory.ATTRACTION)
+      .filter(p => {
+        if (this.parkService && this.parkService.supportsWaitingTimes) {
+          return p.waitingTimes && p.waitingTimes.wait >= 0 ? p : null;
+        } else {
+          return p;
+        }
+      })
+      .sort((a, b) => {
+        if (this.parkService && this.parkService.supportsWaitingTimes && a.waitingTimes && b.waitingTimes) {
+          return b.waitingTimes.wait - a.waitingTimes.wait;
+        } else {
+          return 0;
+        }
+      })
+      .slice(0, 5) : null;
   }
 
+  /**
+   * Return the most popular restaurants based on the amount of minutes they are opened
+   */
   public get popularRestaurants(): Poi[] | null {
-    return this.restaurants ? this.restaurants.filter(p => p.category === PoiCategory.RESTAURANT || p.category === PoiCategory.BAR)
+    return this.restaurants ? this.restaurants
+      .filter(p => p.category === PoiCategory.RESTAURANT || p.category === PoiCategory.BAR)
+      .sort((a, b) => {
+        const openA = a.openingTimes && a.openingTimes.length > 0
+          ? moment(a.openingTimes[0].open).diff(a.openingTimes[0].close, 'minutes') : 0;
+        const openB = b.openingTimes && b.openingTimes.length > 0
+          ? moment(b.openingTimes[0].open).diff(b.openingTimes[0].close, 'minutes') : 0;
+
+        if (openA > openB) {
+          return 1;
+        } else if (openA < openB) {
+          return -1;
+        } else {
+          return 0;
+        }
+      })
       .slice(0, 5) : null;
   }
 
