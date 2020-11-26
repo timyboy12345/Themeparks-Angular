@@ -55,7 +55,7 @@ export class EftelingService extends ThemeparkService {
       name: 'Efteling',
       description: 'Reserveer je bezoek of blijf slapen. Beleef een sprookjesachtige winter in de Efteling! Geniet van winterse attracties en duizenden twinkelende lichtjes in de Winter Efteling. Spectaculaire achtbanen. Adembenemende attracties. Laat je verwonderen. Wereld vol Wonderen.',
       service: this,
-      country: country,
+      country,
       enabled: true,
       image_url: 'https://www.efteling.com/nl/-/media/images/wereld-vol-wonderen/1600x900-en-toen-winter-efteling.jpg?h=900&w=1600&focuspoint=-0.01%2c-0.19&hash=CD8DA332297BA0BF60CE9780C38A94A8',
       options: this.supports()
@@ -174,7 +174,7 @@ export class EftelingService extends ThemeparkService {
 
   public getWaitingTimes(): Promise<WaitingTimes[]> {
     return this.getEftelingWaitingTimes().then(value => {
-      const rides = value.AttractionInfo.filter(ride => ride.Type == EftelingAttractionInfoType.ATTRACTION);
+      const rides = value.AttractionInfo.filter(ride => ride.Type === EftelingAttractionInfoType.ATTRACTION);
 
       return rides.map(ride => {
         let state: WaitingTimesState = WaitingTimesState.CLOSED;
@@ -201,7 +201,7 @@ export class EftelingService extends ThemeparkService {
 
   public getWaitingTimesOfRide(rideId: string): Promise<WaitingTimes> {
     return this.getWaitingTimes().then(value => {
-      return value.filter(ride => ride.ride_id == rideId)[0];
+      return value.filter(ride => ride.ride_id === rideId)[0];
     });
   }
 
@@ -240,10 +240,10 @@ export class EftelingService extends ThemeparkService {
 
         return {
           date: d.format('YYYY-MM-DD'),
-          year: parseInt(d.format('YYYY')),
-          month: parseInt(d.format('MM')),
-          day: parseInt(d.format('DD')),
-          events: events,
+          year: d.year(),
+          month: d.month() + 1,
+          day: d.date(),
+          events,
           times: openingTimes,
           original: date
         };
@@ -253,13 +253,13 @@ export class EftelingService extends ThemeparkService {
 
   getOpeningTimesOfDay(year: number, month: number, day: number): Promise<OpeningTimes> {
     return this.getOpeningTimesOfMonth(year, month).then(value => {
-      return value.filter(date => date.day == day)[0];
+      return value.filter(date => date.day === day)[0];
     });
   }
 
   getShows(): Promise<Poi[]> {
     return this.getPois().then(value => {
-      return value.filter(poi => poi.category == PoiCategory.SHOW);
+      return value.filter(poi => poi.category === PoiCategory.SHOW);
     });
   }
 
@@ -283,16 +283,16 @@ export class EftelingService extends ThemeparkService {
         const pastShowTimes: ShowTime[] = [];
         const futureShowTimes: ShowTime[] = [];
 
-        value[1].filter(st => st.Name == poi.title).forEach(eftelingShowTimes => {
-          const poiData = value[2].filter(p => p.id == poi.id)[0];
-          const waitData = value[3].AttractionInfo.filter(wd => wd.Id == poi.id)[0];
+        value[1].filter(st => st.Name === poi.title).forEach(eftelingShowTimes => {
+          const poiData = value[2].filter(p => p.id === poi.id)[0];
+          const waitData = value[3].AttractionInfo.filter(wd => wd.Id === poi.id)[0];
 
           eftelingShowTimes.ShowDates.forEach((eftelingShowTime) => {
-            let edition = undefined;
+            let edition;
 
             if (waitData) {
               if (waitData.ShowTimes && waitData.ShowTimes.length > 0) {
-                const time = waitData.ShowTimes.filter(st => st.StartDateTime == eftelingShowTime)[0];
+                const time = waitData.ShowTimes.filter(showTime => showTime.StartDateTime === eftelingShowTime)[0];
 
                 if (time && time.Edition) {
                   edition = time.Edition;
@@ -300,7 +300,7 @@ export class EftelingService extends ThemeparkService {
               }
 
               if (!edition && waitData.PastShowTimes && waitData.PastShowTimes.length > 0) {
-                const time = waitData.PastShowTimes.filter(st => st.StartDateTime == eftelingShowTime)[0];
+                const time = waitData.PastShowTimes.filter(showTime => showTime.StartDateTime === eftelingShowTime)[0];
 
                 if (time && time.Edition) {
                   edition = time.Edition;
@@ -313,7 +313,7 @@ export class EftelingService extends ThemeparkService {
               fromTime: moment(eftelingShowTime).format('HH:mm:ss'),
               isPassed: moment(eftelingShowTime).isBefore(moment()),
               duration: poiData ? poiData.fields.showduration : undefined,
-              edition: edition
+              edition
             };
 
             showTimes.push(st);
@@ -336,9 +336,9 @@ export class EftelingService extends ThemeparkService {
           currentDate: moment().format('DD-MM-YYYY HH:mm'),
           allShowTimes: showTimes,
           todayShowTimes: todayDateShowTimes,
-          otherDateShowTimes: otherDateShowTimes,
-          pastShowTimes: pastShowTimes,
-          futureShowTimes: futureShowTimes,
+          otherDateShowTimes,
+          pastShowTimes,
+          futureShowTimes,
         };
 
         return poi;
@@ -348,7 +348,7 @@ export class EftelingService extends ThemeparkService {
 
   private getEftelingRestaurantOpeningTimes(): Promise<EftelingAttractionInfo[]> {
     return this.getEftelingWaitingTimes().then(value => {
-      return value.AttractionInfo.filter(poi => poi.Type == EftelingAttractionInfoType.HORECA).map(restaurant => {
+      return value.AttractionInfo.filter(poi => poi.Type === EftelingAttractionInfoType.HORECA).map(restaurant => {
         return restaurant;
       });
     });
@@ -360,7 +360,7 @@ export class EftelingService extends ThemeparkService {
       this.getEftelingRestaurantOpeningTimes(),
     ]).then(value => {
       return value[0].map(restaurant => {
-        const poi = value[1].filter(r => r.Id == restaurant.id)[0];
+        const poi = value[1].filter(r => r.Id === restaurant.id)[0];
         const eftelingOpeningTimes = poi ? poi.OpeningTimes : undefined;
 
         restaurant.openingTimes = [];
@@ -376,7 +376,7 @@ export class EftelingService extends ThemeparkService {
                 closeTime: moment(openingTime.HourTo).format('HH:mm'),
               });
             }
-          })
+          });
         }
 
         return restaurant;

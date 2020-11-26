@@ -26,7 +26,7 @@ export class RedirectComponent implements OnInit {
       return;
     }
 
-    this.authService.getTokenFromAuthorizationCode(<string> code).then(value => {
+    this.authService.getTokenFromAuthorizationCode(code as string).then(value => {
       console.log(value);
       this.router.navigate(['/home']);
     });

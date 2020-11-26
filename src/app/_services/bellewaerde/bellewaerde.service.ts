@@ -36,7 +36,7 @@ export class BellewaerdeService extends ThemeparkService {
       name: 'Bellewaerde',
       description: 'Bellewaerde is een pret- en dierenpark bij Ieper, gelegen in de Belgische provincie West-Vlaanderen. Het park is in handen van het Franse Compagnie des Alpes, waar de Walibiparken ook deel van uitmaken.',
       image_url: 'https://bellewaerde.be/sites/default/files/home/2020-10/wakala-bellewaerde_0%20%281%29.jpg',
-      country: country,
+      country,
       enabled: true,
       service: this,
       options: this.supports()
@@ -70,16 +70,16 @@ export class BellewaerdeService extends ThemeparkService {
         let category = PoiCategory.UNDEFINED;
 
         switch (r.type) {
-          case "POI":
+          case 'POI':
             category = PoiCategory.UNDEFINED;
             break;
-          case "Show":
+          case 'Show':
             category = PoiCategory.SHOW;
             break;
-          case "Attractions":
+          case 'Attractions':
             category = PoiCategory.ATTRACTION;
             break;
-          case "Resto":
+          case 'Resto':
             category = PoiCategory.RESTAURANT;
             break;
           default:
@@ -88,7 +88,7 @@ export class BellewaerdeService extends ThemeparkService {
 
         const p: Poi = {
           id: r.code.toString(),
-          category: category,
+          category,
           original_category: r.type,
           original: r,
           title: r.name
@@ -96,6 +96,6 @@ export class BellewaerdeService extends ThemeparkService {
 
         return p;
       });
-    })
+    });
   }
 }

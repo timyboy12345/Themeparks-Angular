@@ -10,18 +10,18 @@ export class PreferenceService {
 
   public listType(newType?: 'list' | 'cards'): 'list' | 'cards' {
     if (newType) {
-      this.setPreference('listType', newType)
+      this.setPreference('listType', newType);
     }
 
     const p = this.getPreference('listType');
-    return p == 'list' ? 'list' : 'cards';
+    return p === 'list' ? 'list' : 'cards';
   }
 
   private getPreference(key: string): string {
-    return <string> localStorage.getItem(`preference_${key}`);
+    return localStorage.getItem(`preference_${key}`) as string;
   }
 
-  private setPreference(key: string, value: string) {
+  private setPreference(key: string, value: string): void {
     localStorage.setItem(`preference_${key}`, value);
   }
 }

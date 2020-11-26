@@ -8,7 +8,7 @@ export class TitleService {
 
   constructor(private titleService: Title) { }
 
-  public setTitle(title: string, addAppName: boolean = true) {
+  public setTitle(title: string, addAppName: boolean = true): void {
     this.titleService.setTitle(`${title} ${addAppName ? ' / Themeparks' : ''}`);
   }
 }

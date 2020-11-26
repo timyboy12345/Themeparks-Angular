@@ -1,50 +1,45 @@
 import {Injectable} from '@angular/core';
+import {Message} from '../_interfaces/message.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
-  private readonly _messages: {
-    id: string,
-    header: string,
-    content: string,
-    totalDuration: number
-    classes?: string;
-  }[];
+  private readonly privateMessages: Message[];
 
-  public get messages() {
-    return this._messages;
+  public get messages(): Message[] {
+    return this.privateMessages;
   }
 
   constructor() {
-    this._messages = [];
+    this.privateMessages = [];
   }
 
-  public addMessage(header: string, content: string, duration: number = 2000) {
+  public addMessage(header: string, content: string, duration: number = 2000): void {
     const id = this.randomString(20);
 
-    const i = this._messages.push({
-      id: id,
-      header: header,
-      content: content,
+    const i = this.privateMessages.push({
+      id,
+      header,
+      content,
       totalDuration: duration,
-      classes: "opacity-0",
+      classes: 'opacity-0',
     });
 
     window.setTimeout(() => {
-      this._messages[i - 1].classes = "opacity-100";
-    })
+      this.privateMessages[i - 1].classes = 'opacity-100';
+    });
 
     window.setTimeout(() => {
-      this._messages[i - 1].classes = "opacity-0";
+      this.privateMessages[i - 1].classes = 'opacity-0';
 
       window.setTimeout(() => {
-        this._messages.splice(i - 1, 1);
+        this.privateMessages.splice(i - 1, 1);
       }, 200);
     }, duration);
   }
 
-  private randomString(length: number, chars: string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ') {
+  private randomString(length: number, chars: string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'): string {
     let result = '';
     for (let i = length; i > 0; --i) {
       result += chars[Math.floor(Math.random() * chars.length)];

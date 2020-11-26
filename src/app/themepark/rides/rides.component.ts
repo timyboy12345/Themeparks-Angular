@@ -38,7 +38,7 @@ export class RidesComponent implements OnInit {
     }
 
     return this.rides.filter(ride => {
-      if (this.rideArea && ride.area != this.rideArea) {
+      if (this.rideArea && ride.area !== this.rideArea) {
         return;
       }
 
@@ -57,17 +57,19 @@ export class RidesComponent implements OnInit {
 
     this.parksService.findPark(parkId as string).then(park => {
       this.park = park;
-      this.titleService.setTitle("Alle attracties");
+      this.titleService.setTitle('Alle attracties');
     });
 
     this.parksService.getParkService(parkId as string).then(value => {
       this.parkService = value;
 
-      const promise = this.parkService.supportsWaitingTimes ? this.parkService.getPoisWithWaitingTimes() : this.parkService.getPois();
+      const promise = this.parkService.supportsWaitingTimes
+        ? this.parkService.getPoisWithWaitingTimes()
+        : this.parkService.getPois();
 
       promise
         .then((rides) => {
-          this.rides = rides.filter(ride => ride.category == PoiCategory.ATTRACTION);
+          this.rides = rides.filter(ride => ride.category === PoiCategory.ATTRACTION);
         })
         .catch(reason => {
           this.rides = [];
@@ -75,7 +77,7 @@ export class RidesComponent implements OnInit {
     });
   }
 
-  public saveDisplayType($event: any) {
+  public saveDisplayType($event: any): void {
     this.preferenceService.listType($event);
   }
 }

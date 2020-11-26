@@ -8,7 +8,7 @@ import {Poi} from '../../../_interfaces/poi.interface';
 })
 export class RestaurantListComponent implements OnInit {
   @Input() restaurants: Poi[] = [];
-  @Input() url: string = '{RESTAURANT_ID}';
+  @Input() url = '{RESTAURANT_ID}';
 
   constructor() {
   }

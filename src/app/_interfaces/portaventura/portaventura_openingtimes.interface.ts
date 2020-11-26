@@ -1,6 +1,6 @@
 export interface PortaVenturaOpeningTimes {
-  componentChunkName: string,
-  path: string,
+  componentChunkName: string;
+  path: string;
   result: {
     data: {
       allCalendarHorario: {
@@ -173,15 +173,15 @@ export interface PortaVenturaOpeningTimes {
       pageName: string,
       url: string
     }
-  },
+  };
   staticQueryHashes: string[];
 }
 
 export interface PortaVenturaCalendarTiming {
-  'date_from': '2020-10-11T00:00:00.000+02:00',
-  'date_until': '2020-10-11T00:00:00.000+02:00',
-  'date_legend': '10:30 - 20:00',
-  'updated_at': '2020-10-14T18:35:30.000+02:00',
-  'created_at': '2020-10-14T18:35:30.000+02:00',
-  id: '001441'
+  'date_from': '2020-10-11T00:00:00.000+02:00';
+  'date_until': '2020-10-11T00:00:00.000+02:00';
+  'date_legend': '10:30 - 20:00';
+  'updated_at': '2020-10-14T18:35:30.000+02:00';
+  'created_at': '2020-10-14T18:35:30.000+02:00';
+  id: '001441';
 }

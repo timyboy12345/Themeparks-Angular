@@ -15,7 +15,7 @@ import {PortaVenturaService} from './portaventura/portaventura.service';
   providedIn: 'root'
 })
 export class ThemeparksService {
-  private _countries: Country[] = [{
+  private countries: Country[] = [{
     id: 'de',
     name: 'Duitsland',
     flag_url: 'https://flagcdn.com/de.svg'
@@ -37,7 +37,7 @@ export class ThemeparksService {
     flag_url: 'https://flagcdn.com/es.svg'
   }];
 
-  private _themeparks: Themepark[] = [];
+  private themeParks: Themepark[] = [];
 
   constructor(private httpClient: HttpClient,
               private phantasialandService: PhantasialandService,
@@ -47,19 +47,19 @@ export class ThemeparksService {
               private eftelingService: EftelingService,
               private bellewaerdeService: BellewaerdeService,
               private portaVenturaService: PortaVenturaService) {
-    this._themeparks.push(eftelingService.getInfo(this._countries.filter(c => c.id == 'nl')[0]));
-    this._themeparks.push(phantasialandService.getInfo(this._countries.filter(c => c.id == 'de')[0]));
-    this._themeparks.push(parcasterixService.getInfo(this._countries.filter(c => c.id == 'fr')[0]));
-    this._themeparks.push(bellewaerdeService.getInfo(this._countries.filter(c => c.id == 'be')[0]));
-    this._themeparks.push(portaVenturaService.getInfo(this._countries.filter(c => c.id == 'es')[0]));
+    this.themeParks.push(eftelingService.getInfo(this.countries.filter(c => c.id === 'nl')[0]));
+    this.themeParks.push(phantasialandService.getInfo(this.countries.filter(c => c.id === 'de')[0]));
+    this.themeParks.push(parcasterixService.getInfo(this.countries.filter(c => c.id === 'fr')[0]));
+    this.themeParks.push(bellewaerdeService.getInfo(this.countries.filter(c => c.id === 'be')[0]));
+    this.themeParks.push(portaVenturaService.getInfo(this.countries.filter(c => c.id === 'es')[0]));
   }
 
   public getParks(): Promise<Themepark[]> {
-    return Promise.resolve(this._themeparks);
+    return Promise.resolve(this.themeParks);
   }
 
   public findPark(parkId: string): Promise<Themepark> {
-    return Promise.resolve(this._themeparks.filter(park => park.id == parkId)[0]);
+    return Promise.resolve(this.themeParks.filter(park => park.id === parkId)[0]);
   }
 
   public getParkService(parkId: string): Promise<ThemeparkService> {

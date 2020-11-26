@@ -8,14 +8,16 @@ export class CacheService {
   constructor() {
   }
 
-  public save(key: string, item: object, seconds: number) {
+  public save(key: string, item: object, seconds: number): Promise<boolean> {
     sessionStorage.setItem(key, JSON.stringify(item));
 
     const now = Math.round(new Date().getTime() / 1000);
     sessionStorage.setItem(`${key}_time`, (seconds + now).toString());
+
+    return Promise.resolve(true);
   }
 
-  public get(key: string) {
+  public get(key: string): any {
     const now = Math.round(new Date().getTime() / 1000);
     const deadline = parseFloat(sessionStorage.getItem(`${key}_time`) as string);
 
@@ -32,9 +34,9 @@ export class CacheService {
     if (result) {
       return Promise.resolve(result);
     } else {
-      const result = await callback();
-      this.save(key, result, seconds);
-      return result;
+      const callbackResult = await callback();
+      this.save(key, callbackResult, seconds);
+      return callbackResult;
     }
   }
 }

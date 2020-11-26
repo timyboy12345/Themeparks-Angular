@@ -8,7 +8,7 @@ export interface EftelingOpeningTimesResponse {
 export interface EftelingOpeningTimesOpeningHours {
   Date: string;
   OpeningHours: { Open: string; Close: string; }[];
-  Crowded: number
+  Crowded: number;
 }
 
 export interface EftelingOpeningTimesMaintenance {
@@ -18,7 +18,7 @@ export interface EftelingOpeningTimesMaintenance {
   State: string;
   Type: string;
   Url: string;
-  Name: string
+  Name: string;
 }
 
 export interface EftelingOpeningTimesShow {

@@ -17,7 +17,7 @@ export interface OpeningtimesEvent {
   title: string;
   description?: string;
   show: boolean;
-  type: "important" | "informative" | "event" | "company";
+  type: 'important' | 'informative' | 'event' | 'company';
   begin: string;
   end: string;
 }

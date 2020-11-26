@@ -8,8 +8,8 @@ import {Poi} from '../../../_interfaces/poi.interface';
 })
 export class RideCardComponent implements OnInit {
   @Input() ride?: Poi;
-  @Input() showWaitingTimes: boolean = true;
-  @Input() showArea: boolean = true;
+  @Input() showWaitingTimes = true;
+  @Input() showArea = true;
 
   constructor() {
     this.ride = undefined;

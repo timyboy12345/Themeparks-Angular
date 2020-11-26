@@ -28,7 +28,7 @@ export class ParcasterixService extends ThemeparkService {
       parkSupportsRideAreas: false,
       parkSupportsShowTimes: false,
       parkSupportsWaitingTimes: true
-    }
+    };
   }
 
   getInfo(country: Country): Themepark {
@@ -37,10 +37,10 @@ export class ParcasterixService extends ThemeparkService {
       name: 'Parc Asterix',
       description: 'Parc Astérix is een Frans attractiepark in Plailly, ongeveer 35 km ten noorden van Parijs. Het is gebaseerd op de stripverhalen van Asterix en Obelix van Albert Uderzo en René Goscinny.',
       service: this,
-      country: country,
+      country,
       enabled: true,
       image_url: 'https://www.parcasterix.fr/sites/default/files/images/attractions/teaser/aerolaf_sylvain_cambon_2018-2023_32.jpg'
-    }
+    };
   }
 
   constructor(private httpClient: HttpClient,
@@ -94,8 +94,8 @@ export class ParcasterixService extends ThemeparkService {
           ride_id: wt.attractionid,
           state: WaitingTimesState.CLOSED,
           wait: 0
-        }
-      })
-    })
+        };
+      });
+    });
   }
 }

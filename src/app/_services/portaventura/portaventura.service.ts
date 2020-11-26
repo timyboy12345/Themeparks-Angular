@@ -26,7 +26,7 @@ export class PortaVenturaService extends ThemeparkService {
       image_url: 'https://static.ticketbar.eu/_1980x1320_/barcelona/classificaties/attractions/portaventura-park/aventura-1-1536224279.jpg',
       service: this,
       enabled: true,
-      country: country,
+      country,
       options: this.supports()
     };
   }
@@ -60,7 +60,7 @@ export class PortaVenturaService extends ThemeparkService {
     });
   }
 
-  private getPortaVenturaPois() {
+  private getPortaVenturaPois(): Promise<PortaVenturaPoi[]> {
     return Promise.all([
       this.getPortaVenturaAttractions(),
       this.getPortaVenturaRestaurants(),
@@ -101,7 +101,7 @@ export class PortaVenturaService extends ThemeparkService {
           id: poi.id.toString(),
           title: poi.titulo,
           description: poi.descripcion,
-          category: category,
+          category,
           original_category: poi.tipo,
           original: poi,
           image_url: poi.logo,
@@ -126,7 +126,7 @@ export class PortaVenturaService extends ThemeparkService {
 
   getOpeningTimesOfDay(year: number, month: number, day: number): Promise<OpeningTimes> {
     return this.getOpeningTimesOfMonth(year, month).then(openingTimes => {
-      return openingTimes.filter(date => date.date == `${year}-${month}-${day}`)[0];
+      return openingTimes.filter(date => date.date === `${year}-${month}-${day}`)[0];
     });
   }
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {User} from '../../_interfaces/user.interface';
 import {environment} from '../../../environments/environment';
@@ -8,8 +8,6 @@ import {MessageService} from '../message.service';
   providedIn: 'root'
 })
 export class AuthService {
-  public user?: User;
-
   get isLoggedIn(): boolean {
     return localStorage.getItem('oauth_token') !== null && localStorage.getItem('refresh_token') !== null;
   }
@@ -23,6 +21,9 @@ export class AuthService {
     }
   }
 
+  private static chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
+  public user?: User;
+
   private static async generateCodeChallenge(codeVerifier: string): Promise<string> {
     const digest = await crypto.subtle.digest('SHA-256',
       new TextEncoder().encode(codeVerifier));
@@ -31,7 +32,7 @@ export class AuthService {
       .replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
   }
 
-  private static random_string(length: number, chars: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~'): string {
+  private static random_string(length: number, chars: string = this.chars): string {
     let result = '';
 
     for (let i = 0; i < length; i++) {
@@ -46,7 +47,7 @@ export class AuthService {
     localStorage.removeItem('oauth_token');
     localStorage.removeItem('refresh_token');
 
-    this.messageService.addMessage("Uitgelogd", "Je bent nu uitgelogd!");
+    this.messageService.addMessage('Uitgelogd', 'Je bent nu uitgelogd!');
   }
 
   public async getAuthUrl(): Promise<string> {
@@ -91,7 +92,7 @@ export class AuthService {
         localStorage.setItem('oauth_token', value.access_token);
         localStorage.setItem('refresh_token', value.refresh_token);
 
-        this.messageService.addMessage("Ingelogd", "Je bent succesvol ingelogd!");
+        this.messageService.addMessage('Ingelogd', 'Je bent succesvol ingelogd!');
 
         return await this.getUserInfo().then((u: User) => {
           this.user = u;
@@ -113,10 +114,10 @@ export class AuthService {
   }
 
   public getAuthToken(): string {
-    return <string> localStorage.getItem('oauth_token');
+    return localStorage.getItem('oauth_token') as string;
   }
 
   public getRefreshToken(): string {
-    return <string> localStorage.getItem('refresh_token');
+    return localStorage.getItem('refresh_token') as string;
   }
 }

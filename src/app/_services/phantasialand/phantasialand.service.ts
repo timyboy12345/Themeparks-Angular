@@ -42,7 +42,7 @@ export class PhantasialandService extends ThemeparkService {
       name: 'Phantasialand',
       description: 'Wereldwijd unieke en recordbrekende attracties in 6 themawerelden, spectaculaire shows, magisch overnachten en uitzonderlijk eten & drinken.',
       service: this,
-      country: country,
+      country,
       enabled: true,
       image_url: 'https://static.phlcdn.de/files/uploads/themenpark/images/winter/berlin/wellenflug/ga-winter-wellenflug_05.jpg',
       options: this.supports()
@@ -98,7 +98,7 @@ export class PhantasialandService extends ThemeparkService {
         const p: Poi = {
           id: poi.id.toString(),
           title: poi.title.nl,
-          description: description,
+          description,
           image_url: poi.titleImage.url,
           category,
           original_category: poi.category,
@@ -120,11 +120,12 @@ export class PhantasialandService extends ThemeparkService {
   }
 
   public getPhantasialandWaitingTimes(): Promise<PhantasialandWaitTimeResponse[]> {
-    return this.cacheService.remember<PhantasialandWaitTimeResponse[]>('phantasialand_waittimes', environment.CACHE_WAITINGTIMES_SECONDS, () => {
-      const url = `${this.apiBase}/waittimes`;
+    return this.cacheService
+      .remember<PhantasialandWaitTimeResponse[]>('phantasialand_waittimes', environment.CACHE_WAITINGTIMES_SECONDS, () => {
+        const url = `${this.apiBase}/waittimes`;
 
-      return this.httpClient.get<PhantasialandWaitTimeResponse[]>(url).toPromise();
-    });
+        return this.httpClient.get<PhantasialandWaitTimeResponse[]>(url).toPromise();
+      });
   }
 
   public getWaitingTimes(): Promise<WaitingTimes[]> {
@@ -138,13 +139,13 @@ export class PhantasialandService extends ThemeparkService {
         };
 
         return w;
-      })
+      });
     });
   }
 
   getShows(): Promise<Poi[]> {
     return this.getPois().then(pois => {
-      return pois.filter(value => value.category == PoiCategory.SHOW);
+      return pois.filter(value => value.category === PoiCategory.SHOW);
     });
   }
 
@@ -162,27 +163,27 @@ export class PhantasialandService extends ThemeparkService {
         value[1].map(waitingTimes => {
           if (waitingTimes.showTimes) {
             waitingTimes.showTimes.forEach(showTime => {
-              const show: ShowTime = { from: showTime, fromTime: showTime, isPassed: moment(showTime).isBefore(moment()) };
+              const s: ShowTime = {from: showTime, fromTime: showTime, isPassed: moment(showTime).isBefore(moment())};
 
               if (moment().isSame(showTime, 'date')) {
-                todayShowTimes.push(show);
+                todayShowTimes.push(s);
               } else {
-                allShowTimes.push(show)
+                allShowTimes.push(s);
               }
-            })
+            });
           }
-        })
+        });
 
         show.showTimes = {
-          currentDate: moment().format("DD-MM-YYYY HH:mm"),
+          currentDate: moment().format('DD-MM-YYYY HH:mm'),
           todayShowTimes,
           futureShowTimes,
           pastShowTimes,
           allShowTimes
-        }
+        };
 
         return show;
       });
-    })
+    });
   }
 }

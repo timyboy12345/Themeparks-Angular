@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Themepark} from '../../_interfaces/themepark.interface';
 import {Poi, PoiCategory} from '../../_interfaces/poi.interface';
 import {ThemeparkService} from '../../_services/themepark.service';
@@ -33,11 +33,13 @@ export class ShowComponent implements OnInit {
     this.parksService.getParkService(parkId as string).then(value => {
       this.parkService = value;
 
-      const p: Promise<Poi[]> = this.parkService.supportsShowTimes ? this.parkService.getShowsWithShowTimes() : this.parkService.getShows();
+      const p: Promise<Poi[]> = this.parkService.supportsShowTimes
+        ? this.parkService.getShowsWithShowTimes()
+        : this.parkService.getShows();
 
       p.then()
         .then((shows) => {
-          this.show = shows.filter(show => show.id == showId)[0];
+          this.show = shows.filter(show => show.id === showId)[0];
           this.titleService.setTitle(`${this.show.title} - ${this.park?.name}`);
         })
         .catch(reason => {

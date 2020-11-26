@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Themepark} from '../../_interfaces/themepark.interface';
 import {Poi, PoiCategory} from '../../_interfaces/poi.interface';
 import {ThemeparkService} from '../../_services/themepark.service';
@@ -39,11 +39,13 @@ export class ShowsComponent implements OnInit {
     }
 
     return this.shows.filter(show => {
-      if (this.showArea && show.area != this.showArea) {
+      if (this.showArea && show.area !== this.showArea) {
         return;
       }
 
-      if (this.showTimes == 'show_today' && (!show.showTimes || show.showTimes.todayShowTimes.length == 0)) return;
+      if (this.showTimes === 'show_today' && (!show.showTimes || show.showTimes.todayShowTimes.length === 0)) {
+        return;
+      }
 
       return show;
     });
@@ -60,7 +62,7 @@ export class ShowsComponent implements OnInit {
 
     this.parksService.findPark(parkId as string).then(park => {
       this.park = park;
-      this.titleService.setTitle("Alle shows");
+      this.titleService.setTitle('Alle shows');
     });
 
     this.parksService.getParkService(parkId as string).then(value => {
@@ -78,7 +80,7 @@ export class ShowsComponent implements OnInit {
     });
   }
 
-  public saveDisplayType($event: any) {
+  public saveDisplayType($event: any): void {
     this.preferenceService.listType($event);
   }
 }

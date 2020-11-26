@@ -39,7 +39,7 @@ export class ThemeparkService {
     return this.supports().parkSupportsWaitingTimes ?? false;
   }
 
-  public get supportsShows() {
+  public get supportsShows(): boolean {
     return this.supports().parkSupportsShows ?? false;
   }
 
@@ -61,13 +61,13 @@ export class ThemeparkService {
 
   public getRides(): Promise<Poi[]> {
     return this.getPois().then(value => {
-      return value.filter(poi => poi.category == PoiCategory.ATTRACTION);
+      return value.filter(poi => poi.category === PoiCategory.ATTRACTION);
     });
   }
 
   public getShows(): Promise<Poi[]> {
     return this.getPois().then(value => {
-      return value.filter(poi => poi.category == PoiCategory.SHOW);
+      return value.filter(poi => poi.category === PoiCategory.SHOW);
     });
   }
 
@@ -77,7 +77,7 @@ export class ThemeparkService {
 
   public getRestaurants(): Promise<Poi[]> {
     return this.getPois().then(value => {
-      return value.filter(poi => poi.category == PoiCategory.RESTAURANT || poi.category == PoiCategory.BAR);
+      return value.filter(poi => poi.category === PoiCategory.RESTAURANT || poi.category === PoiCategory.BAR);
     });
   }
 
@@ -99,11 +99,11 @@ export class ThemeparkService {
       this.getPois()
     ]).then((value: [WaitingTimes[], Poi[]]) => {
       return value[1].map((poi) => {
-        poi.waitingTimes = value[0].filter(wt => wt.ride_id == poi.id)[0];
+        poi.waitingTimes = value[0].filter(wt => wt.ride_id === poi.id)[0];
 
         return poi;
       });
-    })
+    });
   }
 
   public getInfo(country: Country): Themepark {

@@ -34,11 +34,13 @@ export class RideComponent implements OnInit {
     this.parksService.getParkService(parkId as string).then(value => {
       this.parkService = value;
 
-      const p: Promise<Poi[]> = this.parkService.supportsWaitingTimes ? this.parkService.getPoisWithWaitingTimes() : this.parkService.getPois();
+      const p: Promise<Poi[]> = this.parkService.supportsWaitingTimes
+        ? this.parkService.getPoisWithWaitingTimes()
+        : this.parkService.getPois();
 
       p.then()
         .then((rides) => {
-          this.ride = rides.filter(ride => ride.id == rideId)[0];
+          this.ride = rides.filter(ride => ride.id === rideId)[0];
           this.titleService.setTitle(`${this.ride.title} - ${this.park?.name}`);
         })
         .catch(reason => {

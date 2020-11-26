@@ -21,12 +21,13 @@ export class HomeComponent implements OnInit {
   public openingTimes?: OpeningTimes;
   public shows?: Poi[];
 
-  public get popularRides() {
-    return this.pois ? this.pois.filter(p => p.category == PoiCategory.ATTRACTION).slice(0, 5) : null;
+  public get popularRides(): Poi[] | null {
+    return this.pois ? this.pois.filter(p => p.category === PoiCategory.ATTRACTION).slice(0, 5) : null;
   }
 
-  public get popularRestaurants() {
-    return this.restaurants ? this.restaurants.filter(p => p.category == PoiCategory.RESTAURANT || p.category == PoiCategory.BAR).slice(0, 5) : null;
+  public get popularRestaurants(): Poi[] | null {
+    return this.restaurants ? this.restaurants.filter(p => p.category === PoiCategory.RESTAURANT || p.category === PoiCategory.BAR)
+      .slice(0, 5) : null;
   }
 
   public parkService?: ThemeparkService = undefined;
@@ -49,7 +50,10 @@ export class HomeComponent implements OnInit {
         this.parkService = parkService;
 
         if (parkService.supportsPois) {
-          const poiPromise: Promise<Poi[]> = parkService.supportsWaitingTimes ? this.parkService.getPoisWithWaitingTimes() : this.parkService.getPois();
+          const poiPromise: Promise<Poi[]> = parkService.supportsWaitingTimes
+            ? this.parkService.getPoisWithWaitingTimes()
+            : this.parkService.getPois();
+
           poiPromise
             .then((pois) => {
               this.pois = pois;
@@ -60,7 +64,10 @@ export class HomeComponent implements OnInit {
             });
         }
 
-        const restaurantPromise: Promise<Poi[]> = parkService.supportsRestaurantOpeningTimes ? this.parkService.getRestaurantsWithOpeningTimes() : this.parkService.getRestaurants();
+        const restaurantPromise: Promise<Poi[]> = parkService.supportsRestaurantOpeningTimes
+          ? this.parkService.getRestaurantsWithOpeningTimes()
+          : this.parkService.getRestaurants();
+
         restaurantPromise
           .then(restaurants => {
             this.restaurants = restaurants;
@@ -77,14 +84,14 @@ export class HomeComponent implements OnInit {
                 this.openingTimes = date;
               } else {
                 this.openingTimes = {
-                  date: moment().format("YYYY-MM-DD"),
+                  date: moment().format('YYYY-MM-DD'),
                   original: null,
                   events: [],
                   year: moment().year(),
                   month: moment().month() + 1,
                   day: moment().date(),
                   times: []
-                }
+                };
               }
             })
             .catch((reason) => {

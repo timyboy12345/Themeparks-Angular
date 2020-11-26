@@ -8,7 +8,7 @@ import {Poi} from '../../../_interfaces/poi.interface';
 })
 export class ShowListComponent implements OnInit {
   @Input() shows?: Poi[];
-  @Input() url: string = "{SHOW_ID}"
+  @Input() url = '{SHOW_ID}';
 
   constructor() { }
 

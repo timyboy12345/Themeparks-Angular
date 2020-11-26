@@ -33,17 +33,17 @@ export class RestaurantsComponent implements OnInit {
     return areas;
   }
 
-  public get selectedRestaurants() {
+  public get selectedRestaurants(): Poi[] | null {
     if (!this.restaurants) {
       return null;
     }
 
     return this.restaurants.filter(restaurant => {
-      if (this.restaurantArea && restaurant.area != this.restaurantArea) {
+      if (this.restaurantArea && restaurant.area !== this.restaurantArea) {
         return;
       }
 
-      if (this.openingTimes == 'open_today' && (!restaurant.openingTimes || restaurant.openingTimes.length == 0)) {
+      if (this.openingTimes === 'open_today' && (!restaurant.openingTimes || restaurant.openingTimes.length === 0)) {
         return;
       }
 
@@ -62,13 +62,15 @@ export class RestaurantsComponent implements OnInit {
 
     this.parksService.findPark(parkId as string).then(park => {
       this.park = park;
-      this.titleService.setTitle("Alle restaurants");
+      this.titleService.setTitle('Alle restaurants');
     });
 
     this.parksService.getParkService(parkId as string).then(parkService => {
       this.parkService = parkService;
 
-      const promise = parkService.supportsRestaurantOpeningTimes ? parkService.getRestaurantsWithOpeningTimes() : parkService.getRestaurants();
+      const promise = parkService.supportsRestaurantOpeningTimes
+        ? parkService.getRestaurantsWithOpeningTimes()
+        : parkService.getRestaurants();
 
       promise
         .then((pois) => {
@@ -80,7 +82,7 @@ export class RestaurantsComponent implements OnInit {
     });
   }
 
-  public saveDisplayType($event: any) {
+  public saveDisplayType($event: any): void {
     this.preferenceService.listType($event);
   }
 }

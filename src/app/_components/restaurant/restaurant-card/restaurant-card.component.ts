@@ -8,8 +8,8 @@ import {Poi} from '../../../_interfaces/poi.interface';
 })
 export class RestaurantCardComponent implements OnInit {
   @Input() restaurant?: Poi;
-  @Input() showOpeningTimes: boolean = true;
-  @Input() showArea: boolean = true;
+  @Input() showOpeningTimes = true;
+  @Input() showArea = true;
 
   constructor() { }
 

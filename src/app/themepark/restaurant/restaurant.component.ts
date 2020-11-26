@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Themepark} from '../../_interfaces/themepark.interface';
 import {Poi, PoiCategory} from '../../_interfaces/poi.interface';
 import {ThemeparkService} from '../../_services/themepark.service';
@@ -33,11 +33,13 @@ export class RestaurantComponent implements OnInit {
     this.parksService.getParkService(parkId as string).then(value => {
       this.parkService = value;
 
-      const promise = this.parkService.supportsRestaurantOpeningTimes ? this.parkService.getRestaurantsWithOpeningTimes() : this.parkService.getRestaurants();
+      const promise = this.parkService.supportsRestaurantOpeningTimes
+        ? this.parkService.getRestaurantsWithOpeningTimes()
+        : this.parkService.getRestaurants();
 
       promise.then()
         .then((pois) => {
-          this.restaurant = pois.filter(r => r.id == restaurantId)[0];
+          this.restaurant = pois.filter(r => r.id === restaurantId)[0];
           this.titleService.setTitle(`${this.restaurant.title} - ${this.park?.name}`);
         })
         .catch(reason => {
