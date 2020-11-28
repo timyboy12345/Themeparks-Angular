@@ -1,5 +1,5 @@
 export interface EftelingPoi {
-  id: string,
+  id: string;
   fields: {
     category: string,
     hide_in_app: boolean,
@@ -35,5 +35,5 @@ export interface EftelingPoi {
     image_detailview3?: string,
     image_detailview4?: string,
     name_in_context?: string,
-  }
+  };
 }

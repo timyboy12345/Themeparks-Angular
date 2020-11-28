@@ -1,0 +1,32 @@
+<div *ngIf="restaurant" [routerLink]="restaurant.id"
+     class="cursor-pointer m-4 h-72 relative flex flex-col rounded shadow hover:shadow-2xl transition-all duration-100 overflow-hidden">
+  <div *ngIf="restaurant.image_url" class="h-72 overflow-hidden">
+    <img class="bg-gray-300 w-full h-full object-center object-cover" [lazyLoad]="restaurant.image_url">
+  </div>
+
+  <div *ngIf="showOpeningTimes && restaurant.openingTimes" class="absolute bg-white shadow left-4 top-4 rounded py-1 px-2 text-sm text-gray-900">
+          <span class="flex flex-row" *ngIf="restaurant.openingTimes.length > 0">
+            {{ restaurant.openingTimes[0].openTime }} - {{ restaurant.openingTimes[0].closeTime }}
+          </span>
+
+    <span class="text-gray-600 dark:text-gray-500" *ngIf="restaurant.openingTimes.length == 0">
+            Geen openingstijden <span class="lg:hidden">bekend</span>
+          </span>
+  </div>
+
+  <div *ngIf="showArea && restaurant.area" class="absolute shadow right-4 top-4 rounded py-1 px-2 text-sm text-white bg-indigo-700">
+    {{ restaurant.area }}
+  </div>
+
+  <div class="absolute w-full bottom-0">
+    <div class="p-4 bg-white rounded m-4 shadow m-4">
+      <h2 class="text-indigo-800 font-bold">{{ restaurant.title }}</h2>
+
+      <div *ngIf="restaurant.minSizeEscort">Minimaal met begeleiding: {{ restaurant.minSizeEscort }} cm</div>
+      <div *ngIf="restaurant.minSize">Zonder begeleiding: {{ restaurant.minSize }} cm</div>
+      <div *ngIf="restaurant.maxSize">Maximaal: {{ restaurant.minSize }} cm</div>
+
+      <div>{{ restaurant.area }}</div>
+    </div>
+  </div>
+</div>

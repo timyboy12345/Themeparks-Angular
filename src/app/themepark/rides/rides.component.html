@@ -1,39 +1,33 @@
 <app-button link="../" *ngIf="park" buttonText="Terug naar {{ park.name }}"></app-button>
 
-<app-card *ngIf="rides && rides.length > 0 && parkService && (parkService.supportsRideAreas)" cardTitle="Filteren">
-  <div class="flex flex-col" *ngIf="parkService.supportsRideAreas">
+<app-card *ngIf="rides && rides.length > 0" cardTitle="Filteren">
+  <div class="flex flex-col mb-2" *ngIf="parkService && parkService.supportsRideAreas">
     <label for="rideArea" class="mb-1">Themagebied</label>
-    <select class="border-indigo-700 border rounded bg-white" id="rideArea" [(ngModel)]="rideArea">
+    <select class="appearance-none outline-none focus:ring-3 ring-indigo-700 ring-opacity-40 border-gray-300 border rounded bg-white text-gray-900" id="rideArea" [(ngModel)]="rideArea">
       <option value="">Alle themagebieden</option>
       <option *ngFor="let area of areas" [value]="area">{{ area }}</option>
     </select>
   </div>
+
+  <div class="flex flex-col">
+    <label for="displayType" class="mb-1">Weergave</label>
+    <select (ngModelChange)="saveDisplayType($event)" class="appearance-none outline-none focus:ring-3 ring-indigo-700 ring-opacity-40 border-gray-300 border rounded bg-white text-gray-900" id="displayType" [(ngModel)]="displayType">
+      <option value="cards">Kaarten</option>
+      <option value="list">Lijst</option>
+    </select>
+  </div>
 </app-card>
 
-<div *ngIf="rides && rides.length > 0; else ridesLoading" class="flex flex-row flex-wrap -mx-4">
-  <div *ngFor="let ride of selectedRides" class="md:w-1/2 lg:w-1/3">
-    <div [routerLink]="ride.id" class="cursor-pointer m-4 h-72 relative flex flex-col rounded shadow hover:shadow-2xl transition-all duration-100 overflow-hidden">
-      <div *ngIf="ride.image_url" class="h-72 overflow-hidden">
-        <img class="w-full h-full object-center object-cover" [lazyLoad]="ride.image_url">
-      </div>
-
-      <div *ngIf="ride.area" class="absolute right-4 top-4 rounded py-1 px-2 text-sm text-white bg-indigo-700">
-        {{ ride.area }}
-      </div>
-
-      <div class="absolute w-full bottom-0">
-        <div class="p-4 bg-white rounded m-4 shadow m-4">
-          <h2 (click)="call(ride)" class="text-indigo-800 font-bold">{{ ride.title }}</h2>
-
-          <div *ngIf="ride.minSizeEscort">Minimaal met begeleiding: {{ ride.minSizeEscort }} cm</div>
-          <div *ngIf="ride.minSize">Zonder begeleiding: {{ ride.minSize }} cm</div>
-          <div *ngIf="ride.maxSize">Maximaal: {{ ride.minSize }} cm</div>
-
-          <div>{{ ride.area }}</div>
-        </div>
-      </div>
+<div *ngIf="rides && rides.length > 0; else ridesLoading">
+  <div *ngIf="displayType === 'cards'" class="flex flex-col md:flex-row flex-wrap -mx-4">
+    <div *ngFor="let ride of selectedRides" class="md:w-1/2 lg:w-1/3">
+      <app-ride-card [ride]="ride"></app-ride-card>
     </div>
   </div>
+
+  <app-card *ngIf="displayType === 'list' && selectedRides" padding="p-0" cardClasses="flex flex-col my-4">
+    <app-ride-list [rides]="selectedRides"></app-ride-list>
+  </app-card>
 </div>
 
 <ng-template #ridesLoading>

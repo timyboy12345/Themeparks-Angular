@@ -1,44 +1,110 @@
 <nav
-  class="top-0 w-full z-50 p-4 text-center bg-indigo-900 dark:bg-indigo-900 text-white mb-4 lg:mb-8 shadow-lg flex flex-row justify-between items-center">
+  class="fixed top-0 w-full z-50 p-4 text-center bg-indigo-900 dark:bg-indigo-900 text-white mb-4 lg:mb-8 shadow-lg flex flex-row justify-between items-center">
   <div class="text-lg font-bold flex flex-row items-start">
-    <div class="mr-1 cursor-pointer" routerLink="/">Themeparks</div>
-  </div>
+    <div class="mr-1 cursor-pointer outline-none" (click)="menuOpen = false" routerLink="/home">Themeparks</div>
 
-  <div class="w-6 h-6 ml-auto cursor-pointer" (click)="menuOpen = true">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <span class="text-xs font-light transform -translate-y-0.5 opacity-50">
+      {{ version }}
+    </span>
+  </div>
+  <div (click)="menuOpen = !menuOpen"
+       class="cursor-pointer ml-2 w-8 h-8 rounded-full flex flex-row items-center justify-center">
+    <svg *ngIf="!menuOpen" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+         stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+    </svg>
+
+    <svg *ngIf="menuOpen" class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+         stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
     </svg>
   </div>
 </nav>
+
+<div class="" style="height: 64px;"></div>
 
 <div class="m-4 lg:m-8 xl:my-12 lg:max-w-4xl lg:mx-auto">
   <router-outlet></router-outlet>
 </div>
 
-<div class="fixed w-full h-full text-gray-900 flex flex-col w-full left-0 top-0 z-10" *ngIf="menuOpen">
+<div class="fixed w-full h-full text-gray-900 flex flex-col w-full left-0 top-0 z-10 block" [@inOutAnimation]
+     *ngIf="menuOpen">
   <div class="bg-opacity-80 bg-gray-700 dark:bg-gray-900 w-full h-full left-0 top-0 absolute"
        (click)="menuOpen = false"></div>
 
-  <div class="flex flex-col mt-20 bg-white shadow m-4 overflow-hidden rounded z-50 lg:w-full lg:max-w-3xl lg:mx-auto">
-    <div (click)="menuOpen = false"
-         class="border-b hover:bg-gray-100 duration-100 transition-colors border-gray-100 p-4 flex flex-row items-center cursor-pointer"
-         routerLink="/home">
-      <svg class="w-5 h-5 mr-2 text-indigo-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-           stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-      </svg>
-      <div class="text-gray-900">Home</div>
+  <div class="mt-20 flex flex-col z-50 lg:w-full lg:max-w-3xl lg:mx-auto">
+    <div class="flex flex-col bg-white shadow m-4 overflow-hidden rounded">
+      <div (click)="menuOpen = false"
+           class="border-b hover:bg-gray-100 duration-100 transition-colors border-gray-100 p-4 flex flex-row items-center cursor-pointer"
+           routerLink="/home">
+        <svg class="w-6 h-6 mr-2 text-indigo-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+             stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+        </svg>
+        <div class="text-gray-900">Home</div>
+      </div>
+      <div (click)="menuOpen = false"
+           class="border-b hover:bg-gray-100 duration-100 transition-colors border-gray-100 p-4 flex flex-row items-center cursor-pointer"
+           routerLink="/parks">
+        <svg class="w-6 h-6 mr-2 text-indigo-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+             stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+        </svg>
+        <div class="text-gray-900">Alle parken</div>
+      </div>
     </div>
-    <div (click)="menuOpen = false"
-         class="border-b hover:bg-gray-100 duration-100 transition-colors border-gray-100 p-4 flex flex-row items-center cursor-pointer"
-         routerLink="/parks">
-      <svg class="w-5 h-5 mr-2 text-indigo-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-           stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-      </svg>
-      <div class="text-gray-900">Alle parken</div>
+
+    <div class="flex flex-col mt-2 bg-white shadow m-4 overflow-hidden rounded z-50 lg:w-full lg:max-w-3xl lg:mx-auto">
+      <div *ngIf="authService.isLoggedIn && authService.user">
+        <div class="flex flex-col p-4 border-b border-gray-100">
+          <div class="text-gray-400 mb-1 text-xs">Ingelogd als</div>
+          <div class="text-indigo-800 font-bold">{{ authService.user.name }}</div>
+          <div class="text-gray-600 text-sm">{{ authService.user.email }}</div>
+        </div>
+      </div>
+
+      <div (click)="menuOpen = false" routerLink="/auth/user" *ngIf="authService.isLoggedIn"
+           class="border-b hover:bg-gray-100 duration-100 transition-colors border-gray-100 p-4 flex flex-row items-center cursor-pointer">
+        <svg class="w-6 h-6 mr-2 text-indigo-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+             stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <div class="text-gray-900">Account</div>
+      </div>
+
+      <div (click)="login()" *ngIf="!authService.isLoggedIn"
+           class="border-b hover:bg-gray-100 duration-100 transition-colors border-gray-100 p-4 flex flex-row items-center cursor-pointer">
+        <svg class="w-6 h-6 mr-2 text-indigo-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+             stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+        </svg>
+        <div class="text-gray-900">Inloggen</div>
+      </div>
+
+      <div (click)="logout()" *ngIf="authService.isLoggedIn"
+           class="border-b hover:bg-gray-100 duration-100 transition-colors border-gray-100 p-4 flex flex-row items-center cursor-pointer">
+        <svg class="w-6 h-6 mr-2 text-indigo-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+             stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+        </svg>
+        <div class="text-gray-900">Uitloggen</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="fixed left-0 bottom-0 w-full">
+  <div *ngFor="let message of messageService.messages">
+    <div class="mb-4 mx-4 transition-opacity duration-200 {{ message.classes }}">
+      <div class="bg-white p-4 rounded shadow flex flex-col">
+        <h3 class="text-indigo-800 font-bold">{{ message.header }}</h3>
+        <p class="text-sm">{{ message.content }}</p>
+      </div>
     </div>
   </div>
 </div>

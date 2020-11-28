@@ -2,11 +2,15 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RidesComponent} from './rides/rides.component';
 import {HomeComponent} from './home/home.component';
-import {RouterModule, Routes} from "@angular/router";
-import {ComponentsModule} from "../_components/components.module";
-import {LazyLoadImageModule} from "ng-lazyload-image";
-import {FormsModule} from "@angular/forms";
+import {RouterModule, Routes} from '@angular/router';
+import {ComponentsModule} from '../_components/components.module';
+import {LazyLoadImageModule} from 'ng-lazyload-image';
+import {FormsModule} from '@angular/forms';
 import { RideComponent } from './ride/ride.component';
+import { ShowsComponent } from './shows/shows.component';
+import { ShowComponent } from './show/show.component';
+import { RestaurantComponent } from './restaurant/restaurant.component';
+import { RestaurantsComponent } from './restaurants/restaurants.component';
 
 const routes: Routes = [{
   path: '',
@@ -17,13 +21,29 @@ const routes: Routes = [{
 }, {
   path: 'rides/:ride_id',
   component: RideComponent
-}]
+}, {
+  path: 'shows',
+  component: ShowsComponent
+}, {
+  path: 'shows/:show_id',
+  component: ShowComponent
+}, {
+  path: 'restaurants',
+  component: RestaurantsComponent
+}, {
+  path: 'restaurants/:restaurant_id',
+  component: RestaurantComponent
+}];
 
 @NgModule({
   declarations: [
     RidesComponent,
     HomeComponent,
-    RideComponent
+    RideComponent,
+    ShowsComponent,
+    ShowComponent,
+    RestaurantComponent,
+    RestaurantsComponent
   ],
   imports: [
     CommonModule,

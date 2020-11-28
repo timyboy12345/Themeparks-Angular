@@ -4,9 +4,11 @@ import {NgModule} from '@angular/core';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {LazyLoadImageModule} from 'ng-lazyload-image';
-import {ComponentsModule} from "./_components/components.module";
+import {ComponentsModule} from './_components/components.module';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AuthInterceptor} from './_guards/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -18,9 +20,14 @@ import {ComponentsModule} from "./_components/components.module";
     AppRoutingModule,
     HttpClientModule,
     LazyLoadImageModule,
-    ComponentsModule
+    ComponentsModule,
+    BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true,
+  }],
   exports: [],
   bootstrap: [AppComponent]
 })

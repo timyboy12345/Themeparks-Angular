@@ -1,8 +1,7 @@
 module.exports = {
   purge: [
     './src/app/**/*.ts',
-    './src/app/**/*.html',
-    './src/app/*.html'
+    './src/**/*.html',
   ],
   presets: [],
   darkMode: 'media', // or 'media' or 'class'
@@ -598,6 +597,7 @@ module.exports = {
       0: '0',
       1: '1px',
       2: '2px',
+      3: '3px',
       4: '4px',
       8: '8px',
     },

@@ -7,10 +7,10 @@
     "build": "ng build",
     "build:prod": "npm run tailwind:prod && ng build --prod",
     "test": "ng test",
-    "lint": "ng lint",
+    "lint": "tslint -p tsconfig.json -c tslint.json 'src/**/*.ts'",
     "e2e": "ng e2e",
-    "tailwind:dev": "npx tailwindcss@2.0.0-alpha.11 build -c tailwindcss-config.js style.scss -o ./src/tailwind.css",
-    "tailwind:prod": "NODE_ENV=production npx tailwindcss@2.0.0-alpha.11 build -c tailwindcss-config.js style.scss -o ./src/tailwind.css"
+    "tailwind:dev": "npx tailwindcss@2.0.0-alpha.11 build style.scss -c tailwindcss-config.js -o ./src/tailwind.css",
+    "tailwind:prod": "NODE_ENV=production npx tailwindcss@2.0.0-alpha.11 build style.scss -c tailwindcss-config.js -o ./src/tailwind.css"
   },
   "private": true,
   "dependencies": {
@@ -22,6 +22,9 @@
     "@angular/platform-browser": "~11.0.0",
     "@angular/platform-browser-dynamic": "~11.0.0",
     "@angular/router": "~11.0.0",
+    "@types/leaflet": "^1.5.19",
+    "leaflet": "^1.7.1",
+    "moment": "^2.29.1",
     "ng-lazyload-image": "^9.1.0",
     "rxjs": "~6.6.0",
     "themeparks": "^5.1.44",

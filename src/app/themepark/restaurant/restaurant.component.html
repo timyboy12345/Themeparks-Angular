@@ -1,0 +1,67 @@
+<div *ngIf="restaurant && restaurant.id != ''; else showLoading" class="flex flex-col">
+  <div class="h-72 relative flex flex-col rounded shadow overflow-hidden">
+    <div *ngIf="restaurant.image_url" class="h-72 overflow-hidden">
+      <img class="w-full h-full object-center object-cover" [lazyLoad]="restaurant.image_url">
+    </div>
+
+    <div *ngIf="restaurant.area" class="absolute right-4 top-4 rounded py-1 px-2 text-sm text-white bg-indigo-700">
+      {{ restaurant.area }}
+    </div>
+
+    <div class="absolute w-full bottom-0">
+      <div class="p-4 bg-white rounded m-4 shadow m-4">
+        <h2 class="text-indigo-800 font-bold">{{ restaurant.title }}</h2>
+
+        <div *ngIf="restaurant.minSizeEscort">Minimaal met begeleiding: {{ restaurant.minSizeEscort }} cm</div>
+        <div *ngIf="restaurant.minSize">Zonder begeleiding: {{ restaurant.minSize }} cm</div>
+        <div *ngIf="restaurant.maxSize">Maximaal: {{ restaurant.minSize }} cm</div>
+
+        <div>{{ restaurant.area }}</div>
+      </div>
+    </div>
+  </div>
+
+  <app-button link="../" buttonText="Terug naar alle restaurants" margin="my-4"></app-button>
+
+  <app-card titleMargin="mb-1" *ngIf="restaurant.description" class="mb-4" cardTitle="Omschrijving">
+    <p [innerHTML]="restaurant.description"></p>
+  </app-card>
+
+  <app-card *ngIf="parkService && parkService.supportsRestaurantOpeningTimes && restaurant.openingTimes && restaurant.openingTimes.length > 0" cardTitle="Openingstijden" padding="p-0" cardClasses="flex flex-col mb-4">
+    <div *ngFor="let openingTime of restaurant.openingTimes; let last = last;" [ngClass]="{'border-b': !last}"
+         class="border-gray-100 dark:border-gray-700 p-3 flex flex-row items-center">
+
+      <div class="flex-grow flex flex-row justify-between" [ngClass]="{'opacity-20': openingTime.isPassed ? openingTime.isPassed : false }">
+        <div class="">Op {{ openingTime.date }} geopend van {{ openingTime.openTime }} - {{ openingTime.closeTime }}</div>
+        <div class="text-sm text-gray-600 dark:text-gray-500" *ngIf="openingTime.comments">{{ openingTime.comments }}</div>
+      </div>
+    </div>
+  </app-card>
+
+  <div class="flex flex-row flex-wrap my-4 -mx-2" *ngIf="restaurant.images">
+    <div *ngFor="let img of restaurant.images" class="overflow-hidden w-1/2 lg:w-1/3">
+      <div class="m-2 rounded bg-white shadow overflow-hidden h-40">
+        <img class="w-full h-full object-cover object-center" [src]="img" alt="Image of {{ restaurant.title }}">
+      </div>
+    </div>
+  </div>
+
+  <app-map *ngIf="restaurant.entrance && restaurant.entrance.world" [zoom]="18" [lat]="restaurant.entrance.world.lat"
+           [lng]="restaurant.entrance.world.lng"></app-map>
+</div>
+
+<ng-template #showLoading>
+  <div class="progress-materializecss">
+    <div class="indeterminate"></div>
+  </div>
+
+  <app-card>
+    <h2 class="text-indigo-800 text-lg">Dit restaurant wordt geladen...</h2>
+    <p class="text-gray-600">Voordat je dit hebt gelezen zie je hier alle informatie over deze restaurant.</p>
+
+    <h3 *ngIf="park" class="text-indigo-800 mt-4">{{ park.name }}</h3>
+    <p *ngIf="park" class="text-gray-600 text-sm">
+      {{ park.description }}
+    </p>
+  </app-card>
+</ng-template>

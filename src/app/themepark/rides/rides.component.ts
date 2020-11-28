@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {ThemeparksService} from "../../_services/themeparks.service";
-import {ActivatedRoute} from "@angular/router";
-import {Themepark} from "../../_interfaces/themepark.interface";
-import {Poi, PoiCategory} from "../../_interfaces/poi.interface";
-import {ThemeparkService} from "../../_services/themepark.service";
+import {ThemeparksService} from '../../_services/themeparks.service';
+import {ActivatedRoute} from '@angular/router';
+import {Themepark} from '../../_interfaces/themepark.interface';
+import {Poi, PoiCategory} from '../../_interfaces/poi.interface';
+import {ThemeparkService} from '../../_services/themepark.service';
+import {PreferenceService} from '../../_services/preference.service';
+import {TitleService} from '../../_services/title.service';
 
 @Component({
   selector: 'app-rides',
@@ -15,7 +17,8 @@ export class RidesComponent implements OnInit {
   public rides?: Poi[];
 
   public parkService?: ThemeparkService;
-  public rideArea: string = "";
+  public rideArea = '';
+  public displayType: 'cards' | 'list' = this.preferenceService.listType();
 
   public get areas(): string[] {
     const areas: string[] = [];
@@ -24,42 +27,57 @@ export class RidesComponent implements OnInit {
         if (r.area && !areas.includes(r.area)) {
           areas.push(r.area);
         }
-      })
+      });
     }
     return areas;
   }
 
-  public get selectedRides() {
-    if (!this.rides) return null;
+  public get selectedRides(): Poi[] | null {
+    if (!this.rides) {
+      return null;
+    }
 
     return this.rides.filter(ride => {
-      if (this.rideArea && ride.area != this.rideArea) return;
+      if (this.rideArea && ride.area !== this.rideArea) {
+        return;
+      }
 
       return ride;
     });
   }
 
   constructor(public parksService: ThemeparksService,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private preferenceService: PreferenceService,
+              private titleService: TitleService) {
   }
 
   ngOnInit(): void {
-    const parkId = this.activatedRoute.snapshot.paramMap.get("park_id");
+    const parkId = this.activatedRoute.snapshot.paramMap.get('park_id');
 
-    this.parksService.findPark(<string>parkId).then(park => {
+    this.parksService.findPark(parkId as string).then(park => {
       this.park = park;
-    })
+      this.titleService.setTitle('Alle attracties');
+    });
 
-    this.parksService.getParkService(<string>parkId).then(value => {
+    this.parksService.getParkService(parkId as string).then(value => {
       this.parkService = value;
 
-      this.parkService.getPois().then((rides) => {
-        this.rides = rides.filter(ride => ride.category == PoiCategory.ATTRACTION);
-      })
+      const promise = this.parkService.supportsWaitingTimes
+        ? this.parkService.getPoisWithWaitingTimes()
+        : this.parkService.getPois();
+
+      promise
+        .then((rides) => {
+          this.rides = rides.filter(ride => ride.category === PoiCategory.ATTRACTION);
+        })
+        .catch(reason => {
+          this.rides = [];
+        });
     });
   }
 
-  public call(ride: Poi) {
-    console.log(ride);
+  public saveDisplayType($event: any): void {
+    this.preferenceService.listType($event);
   }
 }
