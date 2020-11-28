@@ -41,6 +41,9 @@
       </div>
     </div>
   </div>
+
+  <app-map *ngIf="show.entrance && show.entrance.world" [zoom]="18" [lat]="show.entrance.world.lat"
+           [lng]="show.entrance.world.lng"></app-map>
 </div>
 
 <ng-template #showLoading>

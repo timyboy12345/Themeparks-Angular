@@ -58,7 +58,9 @@ export class EftelingService extends ThemeparkService {
       country,
       enabled: true,
       image_url: 'https://www.efteling.com/nl/-/media/images/wereld-vol-wonderen/1600x900-en-toen-winter-efteling.jpg?h=900&w=1600&focuspoint=-0.01%2c-0.19&hash=CD8DA332297BA0BF60CE9780C38A94A8',
-      options: this.supports()
+      options: this.supports(),
+      lat: 51.650654,
+      lng: 5.049746,
     };
   }
 

@@ -11,4 +11,6 @@ export interface Themepark {
   service?: ThemeparkService;
   enabled: boolean;
   options?: ThemeparkOptions;
+  lat?: number;
+  lng?: number;
 }

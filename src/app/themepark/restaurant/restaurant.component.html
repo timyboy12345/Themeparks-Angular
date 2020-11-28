@@ -45,6 +45,9 @@
       </div>
     </div>
   </div>
+
+  <app-map *ngIf="restaurant.entrance && restaurant.entrance.world" [zoom]="18" [lat]="restaurant.entrance.world.lat"
+           [lng]="restaurant.entrance.world.lng"></app-map>
 </div>
 
 <ng-template #showLoading>

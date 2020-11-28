@@ -97,3 +97,5 @@
     </div>
   </div>
 </div>
+
+<app-map *ngIf="park && park.lat && park.lng" [lat]="park.lat" [lng]="park.lng" [zoom]="13"></app-map>

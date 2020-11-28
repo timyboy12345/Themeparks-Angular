@@ -42,6 +42,7 @@ export class RideComponent implements OnInit {
         .then((rides) => {
           this.ride = rides.filter(ride => ride.id === rideId)[0];
           this.titleService.setTitle(`${this.ride.title} - ${this.park?.name}`);
+          console.log(this.ride);
         })
         .catch(reason => {
           console.error(reason);

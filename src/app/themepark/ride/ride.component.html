@@ -29,7 +29,7 @@
   </div>
 
   <app-card *ngIf="(parkService && parkService.supportsWaitingTimes) && ride.waitingTimes"
-       cardClasses="mt-4 flex flex-row justify-between">
+            cardClasses="mt-4 flex flex-row justify-between">
     <div class="font-bold text-indigo-800 dark:text-indigo-200">{{ ride.waitingTimes.state }} </div>
     <div class="" *ngIf="ride.waitingTimes.state == 'Open'">{{ ride.waitingTimes.wait }} min</div>
   </app-card>
@@ -47,6 +47,12 @@
       </div>
     </div>
   </div>
+
+  <app-map *ngIf="ride.entrance && ride.entrance.world" [zoom]="18" [lat]="ride.entrance.world.lat"
+           [lng]="ride.entrance.world.lng"></app-map>
+
+  <a *ngIf="ride.website_url" [href]="ride.website_url" target="_blank"
+     class="my-4 bg-indigo-700 text-white hover:bg-indigo-800 transition duration-100 rounded px-4 py-2 text-center">Open website</a>
 </div>
 
 <ng-template #rideLoading>

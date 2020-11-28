@@ -2,6 +2,9 @@
 
 @import "tailwind.css";
 
+/* You can add global styles to this file, and also import other style files */
+@import "~leaflet/dist/leaflet.css";
+
 $colors: (
   primary: #4338ca
 );

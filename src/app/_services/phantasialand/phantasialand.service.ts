@@ -103,7 +103,9 @@ export class PhantasialandService extends ThemeparkService {
           category,
           original_category: poi.category,
           area: poi.area,
-          original: poi
+          original: poi,
+          entrance: poi.entrance,
+          website_url: poi.weblink ? 'https://www.phantasialand.de' + poi.weblink.en : undefined
         };
 
         return p;

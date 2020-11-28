@@ -15,7 +15,7 @@
     <div class="flex-grow flex flex-row md:flex-col justify-between">
       <div class="text-indigo-800 dark:text-indigo-200 font-bold cursor-pointer" [routerLink]="['/park', park.id]">{{ park.name }}</div>
 
-      <div class="h-6 w-6 transition duration-100" [ngClass]="{'bg-indigo-200 rounded': isFavorite(park.id), 'bg-indigo-600 rounded-full': !isFavorite(park.id)}" (click)="toggleFavorite(park.id)"></div>
+      <div class="h-6 w-6 transition duration-100 cursor-pointer" [ngClass]="{'bg-indigo-600 rounded-sm': isFavorite(park.id), 'bg-indigo-200 rounded-full': !isFavorite(park.id)}" (click)="toggleFavorite(park.id)"></div>
     </div>
   </div>
 </app-card>

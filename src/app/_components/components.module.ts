@@ -11,6 +11,7 @@ import { RestaurantListComponent } from './restaurant/restaurant-list/restaurant
 import { RestaurantCardComponent } from './restaurant/restaurant-card/restaurant-card.component';
 import { ShowListComponent } from './show/show-list/show-list.component';
 import { ShowCardComponent } from './show/show-card/show-card.component';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ShowCardComponent } from './show/show-card/show-card.component';
     RestaurantListComponent,
     RestaurantCardComponent,
     ShowListComponent,
-    ShowCardComponent
+    ShowCardComponent,
+    MapComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +40,8 @@ import { ShowCardComponent } from './show/show-card/show-card.component';
     RestaurantListComponent,
     RestaurantCardComponent,
     ShowListComponent,
-    ShowCardComponent
+    ShowCardComponent,
+    MapComponent
   ]
 })
 export class ComponentsModule {
